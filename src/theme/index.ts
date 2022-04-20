@@ -6,6 +6,24 @@ import bbTypography from './bbTypography';
 const theme = createTheme({
   palette,
   typography: bbTypography,
+  overrides: {
+    MuiDataGrid: {
+      root: {
+        borderColor: palette.primary.dark,
+        '& .MuiDataGrid-main': {
+          '& .MuiDataGrid-columnsContainer': {
+            borderColor: palette.primary.dark,
+            '& .MuiDataGrid-columnSeparator': {
+              color: palette.primary.dark,
+            },
+          },
+          '& .MuiDataGrid-cell': {
+            borderColor: palette.primary.dark,
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;
