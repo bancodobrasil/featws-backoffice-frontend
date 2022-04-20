@@ -7,9 +7,8 @@ import {
   Route,
 } from "react-router-dom";
 import theme from '../../theme';
-import Main from '../Main';
-
 import Style from './Style';
+import { Main } from '../../pages/Main';
 import { CreateRuleSheet, EditRuleSheet, ListRuleSheet, ShowRuleSheet } from '../../pages/RuleSheet';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
