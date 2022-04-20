@@ -6,6 +6,9 @@ const Style = makeStyles(theme => ({
     paddingTop: 16,
     paddingBottom: 16,
   },
+  title: {
+    textAlign: "center",
+  },
 }));
 
 export default Style;
