@@ -6,6 +6,12 @@ const Style = makeStyles(theme => ({
     paddingTop: 16,
     paddingBottom: 16,
   },
+  dataGrid: {
+    marginTop: 16,
+    '& .MuiDataGrid-main .MuiDataGrid-cell:focus-within': {
+      outline: 'none',
+    },
+  },
 }));
 
 export default Style;
