@@ -1,10 +1,16 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline, Box, Container } from '@material-ui/core';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 import theme from '../../theme';
 import Main from '../Main';
 
 import Style from './Style';
+import { CreateRuleSheet, EditRuleSheet, ListRuleSheet, ShowRuleSheet } from '../../pages/RuleSheet';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
@@ -21,7 +27,17 @@ const App = () => {
         <Box className={classes.base}>
           <Container maxWidth="xl" className={classes.main} disableGutters>
             <Box className={classes.mainContent}>
-              <Main />
+              <Router>
+                <Routes>
+                  <Route index element={<Main />} />
+                  <Route path="rulesheets">
+                    <Route index element={<ListRuleSheet />} />
+                    <Route path="create" element={<CreateRuleSheet />} />
+                    <Route path=":id" element={<ShowRuleSheet />} />
+                    <Route path="edit/:id" element={<EditRuleSheet />} />
+                  </Route>
+                </Routes>
+              </Router>
             </Box>
           </Container>
         </Box>
