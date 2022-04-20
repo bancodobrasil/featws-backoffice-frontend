@@ -33,8 +33,8 @@ const App = () => {
                   <Route path="rulesheets">
                     <Route index element={<ListRuleSheet />} />
                     <Route path="create" element={<CreateRuleSheet />} />
-                    <Route path=":id" element={<ShowRuleSheet />} />
                     <Route path="edit/:id" element={<EditRuleSheet />} />
+                    <Route path=":id" element={<ShowRuleSheet />} />
                   </Route>
                 </Routes>
               </Router>

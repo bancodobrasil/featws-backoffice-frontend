@@ -1,19 +1,65 @@
 import React from 'react';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, IconButton } from '@material-ui/core';
 import Style from './Style';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
+import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
+import EditIcon from '@material-ui/icons/EditOutlined';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
 
-const columns = [
+const columns: GridColDef[] = [
   {
     field: 'id',
     headerName: 'ID',
-    width: 90,
+    minWidth: 90,
   },
   {
     field: 'name',
     headerName: 'Name',
-    width: 150,
+    minWidth: 150,
+  },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    minWidth: 150,
+    sortable: false,
+    filterable: false,
+    disableColumnMenu: true,
+    align: 'center',
+    renderCell: params => {
+      const navigate = useNavigate();
+
+      return (
+        <div>
+          {/* Show Button */}
+          <IconButton
+            onClick={() => {
+              navigate(params.id.toString());
+            }}
+          >
+            <VisibilityIcon color="primary" fontSize="small" />
+          </IconButton>
+
+          {/* Edit Button */}
+          <IconButton
+            onClick={() => {
+              navigate(`edit/${params.id}`);
+            }}
+          >
+            <EditIcon color="primary" fontSize="small" />
+          </IconButton>
+
+          {/* Delete Button */}
+          <IconButton
+            onClick={() => {
+              confirm('Confirm delete Rule Sheet?');
+            }}
+          >
+            <DeleteIcon color="error" fontSize="small" />
+          </IconButton>
+        </div>
+      );
+    },
   },
 ];
 
@@ -23,7 +69,7 @@ const rows = [
 ];
 
 export const ListRuleSheet = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const classes = Style();
 
@@ -47,6 +93,7 @@ export const ListRuleSheet = () => {
         columns={columns}
         pageSize={10}
         autoHeight
+        disableSelectionOnClick
       />
     </Box>
   );
