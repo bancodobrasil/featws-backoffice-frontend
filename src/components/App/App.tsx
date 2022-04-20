@@ -1,15 +1,16 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline, Box, Container } from '@material-ui/core';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import theme from '../../theme';
 import Style from './Style';
 import { Main } from '../../pages/Main';
-import { CreateRuleSheet, EditRuleSheet, ListRuleSheet, ShowRuleSheet } from '../../pages/RuleSheet';
+import {
+  CreateRuleSheet,
+  EditRuleSheet,
+  ListRuleSheet,
+  ShowRuleSheet,
+} from '../../pages/RuleSheet';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
