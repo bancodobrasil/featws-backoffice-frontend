@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import Style from './Style';
 import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   {
@@ -22,17 +23,29 @@ const rows = [
 ];
 
 export const ListRuleSheet = () => {
+  let navigate = useNavigate();
+
   const classes = Style();
+
+  const handleButtonCreateOnClick = () => {
+    navigate('create');
+  };
 
   return (
     <Box className={classes.root}>
-      <h1>Rule Sheets</h1>
+      <div className={classes.headingContainer}>
+        <h1>Rule Sheets</h1>
+        <div className={classes.headingButtonsContainer}>
+          <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
+            Create Rule Sheet
+          </Button>
+        </div>
+      </div>
       <DataGrid
         className={classes.dataGrid}
         rows={rows}
         columns={columns}
         pageSize={10}
-        disableSelectionOnClick
         autoHeight
       />
     </Box>
