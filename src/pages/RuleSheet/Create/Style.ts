@@ -10,6 +10,7 @@ const Style = makeStyles(theme => ({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
+    marginBottom: 16,
   },
   headingButtonsContainer: {
     flex: 1,
@@ -26,7 +27,7 @@ const Style = makeStyles(theme => ({
   },
   actionButtonsContainer: {
     marginTop: 16,
-  }
+  },
 }));
 
 export default Style;

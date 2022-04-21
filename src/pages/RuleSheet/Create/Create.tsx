@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Divider, Paper, TextField } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate } from 'react-router-dom';
-import ListIcon from '@material-ui/icons/List';
+import ListButton from '../../../components/Buttons/ListButton';
 
 export const CreateRuleSheet = () => {
   const navigate = useNavigate();
@@ -11,10 +11,6 @@ export const CreateRuleSheet = () => {
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   const classes = Style();
-
-  const handleButtonListOnClick = () => {
-    navigate('../');
-  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +32,7 @@ export const CreateRuleSheet = () => {
       <div className={classes.headingContainer}>
         <h1>Create Rule Sheet</h1>
         <div className={classes.headingButtonsContainer}>
-          <Button variant="contained" onClick={handleButtonListOnClick}>
-            <ListIcon />
-            <span style={{ marginLeft: 4 }}>Rule Sheets</span>
-          </Button>
+          <ListButton label="Rule Sheets" />
         </div>
       </div>
       <Paper elevation={1}>
