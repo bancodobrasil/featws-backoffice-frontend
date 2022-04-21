@@ -18,8 +18,10 @@ const Style = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  dataGrid: {
+  dataGridContainer: {
     marginTop: 16,
+  },
+  dataGrid: {
     '& .MuiDataGrid-main .MuiDataGrid-cell:focus-within': {
       outline: 'none',
     },

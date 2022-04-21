@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, IconButton } from '@material-ui/core';
+import { Box, Button, IconButton, Paper } from '@material-ui/core';
 import Style from './Style';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -87,14 +87,16 @@ export const ListRuleSheet = () => {
           </Button>
         </div>
       </div>
-      <DataGrid
-        className={classes.dataGrid}
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        autoHeight
-        disableSelectionOnClick
-      />
+      <Paper className={classes.dataGridContainer} elevation={0}>
+        <DataGrid
+          className={classes.dataGrid}
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          autoHeight
+          disableSelectionOnClick
+        />
+      </Paper>
     </Box>
   );
 };
