@@ -12,6 +12,7 @@ import {
   ShowRuleSheet,
 } from '../../pages/RuleSheet';
 import { isAuthenticated } from '../../providers/Auth';
+import RequireAuth from '../Auth/RequireAuth';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
@@ -25,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('auth-token', 'test');
-    localStorage.setItem('auth-permissions', JSON.stringify(['user', 'admin']));
+    localStorage.setItem('auth-permissions', JSON.stringify(['user']));
   }, []);
 
   const renderAuthInfo = () => {
@@ -49,10 +50,38 @@ const App = () => {
                 <Routes>
                   <Route index element={<Main />} />
                   <Route path="rulesheets">
-                    <Route index element={<ListRuleSheet />} />
-                    <Route path="create" element={<CreateRuleSheet />} />
-                    <Route path="edit/:id" element={<EditRuleSheet />} />
-                    <Route path=":id" element={<ShowRuleSheet />} />
+                    <Route
+                      index
+                      element={
+                        <RequireAuth>
+                          <ListRuleSheet />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="create"
+                      element={
+                        <RequireAuth permissions={['admin']}>
+                          <CreateRuleSheet />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="edit/:id"
+                      element={
+                        <RequireAuth permissions={['admin']}>
+                          <EditRuleSheet />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path=":id"
+                      element={
+                        <RequireAuth>
+                          <ShowRuleSheet />
+                        </RequireAuth>
+                      }
+                    />
                   </Route>
                 </Routes>
               </Router>
