@@ -8,6 +8,7 @@ import { red } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { IRuleSheet } from '../../../interfaces';
+import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 
 const DeleteButton = withStyles(theme => ({
   root: {
@@ -78,25 +79,27 @@ export const ShowRuleSheet = () => {
           <span className={classes.fieldLabel}>ID:</span>
           <span className={classes.fieldValue}>{record?.id}</span>
         </div>
-        <div className={classes.field}> 
+        <div className={classes.field}>
           <span className={classes.fieldLabel}>Name:</span>
           <span className={classes.fieldValue}>{record?.name}</span>
         </div>
-        <Divider />
-        <div className={classes.actionButtonsContainer}>
-          <Button variant="contained" color="primary" onClick={handleEditButtonOnClick}>
-            <EditIcon fontSize="small" />
-            <span style={{ marginLeft: 4 }}>Edit</span>
-          </Button>
-          <DeleteButton
-            variant="contained"
-            style={{ marginLeft: 8 }}
-            onClick={handleDeleteButtonOnClick}
-          >
-            <DeleteIcon fontSize="small" />
-            <span style={{ marginLeft: 4 }}>Delete</span>
-          </DeleteButton>
-        </div>
+        <AuthorizedComponent permissions={['admin']}>
+          <div>
+            <Divider className={classes.actionButtonsDivider} />
+            <Button variant="contained" color="primary" onClick={handleEditButtonOnClick}>
+              <EditIcon fontSize="small" />
+              <span style={{ marginLeft: 4 }}>Edit</span>
+            </Button>
+            <DeleteButton
+              variant="contained"
+              style={{ marginLeft: 8 }}
+              onClick={handleDeleteButtonOnClick}
+            >
+              <DeleteIcon fontSize="small" />
+              <span style={{ marginLeft: 4 }}>Delete</span>
+            </DeleteButton>
+          </div>
+        </AuthorizedComponent>
       </Paper>
     );
   };

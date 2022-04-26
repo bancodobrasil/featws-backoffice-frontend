@@ -31,8 +31,8 @@ const Style = makeStyles(theme => ({
   fieldValue: {
     marginLeft: 8,
   },
-  actionButtonsContainer: {
-    marginTop: 16,
+  actionButtonsDivider: {
+    marginBottom: 16,
   },
   loadingRecord: {
     display: 'flex',

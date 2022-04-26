@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 
 const columns: GridColDef[] = [
   {
@@ -25,7 +26,6 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
-    align: 'center',
     renderCell: params => {
       const navigate = useNavigate();
 
@@ -41,22 +41,26 @@ const columns: GridColDef[] = [
           </IconButton>
 
           {/* Edit Button */}
-          <IconButton
-            onClick={() => {
-              navigate(`edit/${params.id}`);
-            }}
-          >
-            <EditIcon color="primary" fontSize="small" />
-          </IconButton>
+          <AuthorizedComponent permissions={['admin']}>
+            <IconButton
+              onClick={() => {
+                navigate(`edit/${params.id}`);
+              }}
+            >
+              <EditIcon color="primary" fontSize="small" />
+            </IconButton>
+          </AuthorizedComponent>
 
           {/* Delete Button */}
-          <IconButton
-            onClick={() => {
-              confirm('Confirm delete Rule Sheet?');
-            }}
-          >
-            <DeleteIcon color="error" fontSize="small" />
-          </IconButton>
+          <AuthorizedComponent permissions={['admin']}>
+            <IconButton
+              onClick={() => {
+                confirm('Confirm delete Rule Sheet?');
+              }}
+            >
+              <DeleteIcon color="error" fontSize="small" />
+            </IconButton>
+          </AuthorizedComponent>
         </div>
       );
     },
@@ -82,9 +86,11 @@ export const ListRuleSheet = () => {
       <div className={classes.headingContainer}>
         <h1>Rule Sheets</h1>
         <div className={classes.headingButtonsContainer}>
-          <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
-            Create Rule Sheet
-          </Button>
+          <AuthorizedComponent permissions={["admin"]}>
+            <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
+              Create Rule Sheet
+            </Button>
+          </AuthorizedComponent>
         </div>
       </div>
       <Paper className={classes.dataGridContainer} elevation={0}>
