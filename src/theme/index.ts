@@ -19,6 +19,7 @@ const theme = createTheme({
           },
           '& .MuiDataGrid-cell': {
             borderColor: palette.primary.dark,
+            cursor: 'pointer',
           },
         },
       },

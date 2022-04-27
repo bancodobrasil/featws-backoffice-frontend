@@ -22,8 +22,15 @@ const Style = makeStyles(theme => ({
     marginTop: 16,
   },
   dataGrid: {
-    '& .MuiDataGrid-main .MuiDataGrid-cell:focus-within': {
-      outline: 'none',
+    '& .MuiDataGrid-main': {
+      '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
+        '& .MuiDataGrid-columnSeparator': {
+          display: 'none',
+        },
+      },
+      '&  .MuiDataGrid-cell:focus-within': {
+        outline: 'none',
+      },
     },
   },
 }));

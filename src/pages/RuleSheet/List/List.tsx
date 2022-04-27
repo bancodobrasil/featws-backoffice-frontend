@@ -3,73 +3,65 @@ import { Box, Button, IconButton, Paper } from '@material-ui/core';
 import Style from './Style';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
-import EditIcon from '@material-ui/icons/EditOutlined';
-import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 
 const columns: GridColDef[] = [
   {
-    field: 'id',
-    headerName: 'ID',
-    minWidth: 90,
+    field: 'name',
+    headerName: 'NOME DA FOLHA',
+    minWidth: 300,
   },
   {
-    field: 'name',
-    headerName: 'Name',
+    field: 'responsible',
+    headerName: 'RESPONSÁVEL',
+    minWidth: 200,
+  },
+  {
+    field: 'code',
+    headerName: 'CÓDIGO',
     minWidth: 150,
   },
   {
-    field: 'actions',
-    headerName: 'Actions',
+    field: 'updatedAt',
+    headerName: 'ÚLTIMA ATUALIZAÇÃO',
+    minWidth: 220,
+  },
+  {
+    field: 'updatedAt',
+    headerName: 'ÚLTIMA ATUALIZAÇÃO',
+    minWidth: 220,
+  },
+  {
+    field: '',
+    headerName: '',
     minWidth: 150,
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
+    align: 'right',
+    flex: 1,
     renderCell: params => {
-      const navigate = useNavigate();
-
       return (
-        <div>
-          {/* Show Button */}
-          <IconButton
-            onClick={() => {
-              navigate(params.id.toString());
-            }}
-          >
-            <VisibilityIcon color="primary" fontSize="small" />
-          </IconButton>
-
-          {/* Edit Button */}
-          <AuthorizedComponent permissions={['admin']}>
-            <IconButton
-              onClick={() => {
-                navigate(`edit/${params.id}`);
-              }}
-            >
-              <EditIcon color="primary" fontSize="small" />
-            </IconButton>
-          </AuthorizedComponent>
-
-          {/* Delete Button */}
-          <AuthorizedComponent permissions={['admin']}>
-            <IconButton
-              onClick={() => {
-                confirm('Confirm delete Rule Sheet?');
-              }}
-            >
-              <DeleteIcon color="error" fontSize="small" />
-            </IconButton>
-          </AuthorizedComponent>
-        </div>
+        <IconButton>
+          <ArrowForwardIosRoundedIcon fontSize="small" />
+        </IconButton>
       );
     },
-  },
+  }
 ];
 
 const rows = [
-  { id: 1, name: 'apw' },
-  { id: 2, name: 'test' },
+  { id: 1, name: 'Internet APF', responsible: 'Onboarding BB', code: '12345678', updatedAt: '20/01/2022' },
+  { id: 2, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: '23456781', updatedAt: '20/01/2022' },
+  { id: 3, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 4, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 5, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 6, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 7, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 8, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 9, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 10, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
 ];
 
 export const ListRuleSheet = () => {
@@ -84,11 +76,11 @@ export const ListRuleSheet = () => {
   return (
     <Box className={classes.root}>
       <div className={classes.headingContainer}>
-        <h1>Rule Sheets</h1>
+        <h1>Folhas de Regra</h1>
         <div className={classes.headingButtonsContainer}>
           <AuthorizedComponent permissions={["admin"]}>
-            <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
-              Create Rule Sheet
+            <Button variant="contained" color="secondary" onClick={handleButtonCreateOnClick}>
+              Nova Folha de Regras
             </Button>
           </AuthorizedComponent>
         </div>
