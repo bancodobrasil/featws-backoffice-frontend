@@ -29,6 +29,7 @@ const Style = makeStyles(theme => ({
     paddingLeft: 19,
   },
   gridRight: {
+    paddingLeft: 19,
     paddingRight: 9,
   },
   chipSlug: {
