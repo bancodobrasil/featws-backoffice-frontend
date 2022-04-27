@@ -11,7 +11,6 @@ import {
   ListRuleSheet,
   ShowRuleSheet,
 } from '../../pages/RuleSheet';
-import { isAuthenticated } from '../../providers/Auth';
 import RequireAuth from '../Auth/RequireAuth';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
@@ -26,17 +25,8 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('auth-token', 'test');
-    localStorage.setItem('auth-permissions', JSON.stringify(['user']));
+    localStorage.setItem('auth-permissions', JSON.stringify(['user', 'admin']));
   }, []);
-
-  const renderAuthInfo = () => {
-    return (
-      <div>
-        <p>Is Authenticated: {isAuthenticated() ? 'true' : 'false'}</p>
-        <p>Permissions: {localStorage.getItem('auth-permissions')}</p>
-      </div>
-    );
-  };
 
   return (
     <StylesProvider generateClassName={generateClassName}>
@@ -45,7 +35,6 @@ const App = () => {
         <Box className={classes.base}>
           <Container maxWidth="xl" className={classes.main} disableGutters>
             <Box className={classes.mainContent}>
-              {renderAuthInfo()}
               <Router>
                 <Routes>
                   <Route index element={<Main />} />
