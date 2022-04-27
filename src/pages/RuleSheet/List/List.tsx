@@ -28,11 +28,6 @@ const columns: GridColDef[] = [
     minWidth: 220,
   },
   {
-    field: 'updatedAt',
-    headerName: 'ÚLTIMA ATUALIZAÇÃO',
-    minWidth: 220,
-  },
-  {
     field: '',
     headerName: '',
     minWidth: 150,
@@ -42,8 +37,14 @@ const columns: GridColDef[] = [
     align: 'right',
     flex: 1,
     renderCell: params => {
+      const navigate = useNavigate();
+
+      const onArrowIconClick = () => {
+        navigate(params.id.toString());
+      };
+
       return (
-        <IconButton>
+        <IconButton onClick={onArrowIconClick}>
           <ArrowForwardIosRoundedIcon fontSize="small" />
         </IconButton>
       );

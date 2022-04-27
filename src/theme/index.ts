@@ -9,17 +9,20 @@ const theme = createTheme({
   overrides: {
     MuiDataGrid: {
       root: {
-        borderColor: palette.primary.dark,
+        border: 'none',
         '& .MuiDataGrid-main': {
           '& .MuiDataGrid-columnsContainer': {
-            borderColor: palette.primary.dark,
+            borderBottom: '1px solid #E0E0E0;',
+            backgroundColor: '#F4F4F8',
+            '& .MuiDataGrid-columnHeaderTitle': {
+              color: 'black',
+            },
             '& .MuiDataGrid-columnSeparator': {
-              color: palette.primary.dark,
+              display: 'none',
             },
           },
           '& .MuiDataGrid-cell': {
-            borderColor: palette.primary.dark,
-            cursor: 'pointer',
+            borderColor: '#E0E0E0;',
           },
         },
       },
