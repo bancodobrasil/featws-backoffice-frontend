@@ -63,14 +63,16 @@ const App = () => {
                         </RequireAuth>
                       }
                     />
-                    <Route
-                      path=":id"
-                      element={
-                        <RequireAuth>
-                          <ShowRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
+                    <Route path=":id">
+                      <Route
+                        index
+                        element={
+                          <RequireAuth>
+                            <ShowRuleSheet />
+                          </RequireAuth>
+                        }
+                      />
+                    </Route>
                   </Route>
                 </Routes>
               </Router>

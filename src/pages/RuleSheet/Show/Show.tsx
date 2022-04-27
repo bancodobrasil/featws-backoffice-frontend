@@ -1,24 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Divider, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Divider, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
-import ListButton from '../../../components/Buttons/ListButton';
-import { withStyles } from '@material-ui/styles';
-import { red } from '@material-ui/core/colors';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 
-const DeleteButton = withStyles(theme => ({
-  root: {
-    color: theme.palette.getContrastText(red[500]),
-    backgroundColor: red[500],
-    '&:hover': {
-      backgroundColor: red[700],
+const columns: GridColDef[] = [
+  {
+    field: 'title',
+    headerName: 'TÍTULO',
+    minWidth: 200,
+  },
+  {
+    field: 'date',
+    headerName: 'DATA',
+    minWidth: 150,
+  },
+  {
+    field: 'author',
+    headerName: 'AUTOR',
+    minWidth: 200,
+  },
+  {
+    field: 'status',
+    headerName: 'STATUS',
+    minWidth: 300,
+  },
+  {
+    field: '',
+    headerName: '',
+    minWidth: 150,
+    sortable: false,
+    filterable: false,
+    disableColumnMenu: true,
+    align: 'right',
+    flex: 1,
+    renderCell: params => {
+      const navigate = useNavigate();
+
+      const onArrowIconClick = () => {
+        navigate(params.id.toString());
+      };
+
+      return (
+        <IconButton onClick={onArrowIconClick}>
+          <ArrowForwardIosRoundedIcon fontSize="small" />
+        </IconButton>
+      );
     },
   },
-}))(Button);
+];
 
 export const ShowRuleSheet = () => {
   const navigate = useNavigate();
@@ -42,7 +75,79 @@ export const ShowRuleSheet = () => {
       }, 2000);
     });
     // Remove the next line when the request is implemented.
-    setRecord({ id, name: 'apw' });
+    setRecord({
+      id,
+      name: 'Internet APF',
+      slug: 'internet-apf',
+      description:
+        'É uma plataforma de onboarding para não correntistas e correntistas PF/PJ e GOV. \nO objetivo é que cada cliente acesse uma página que reflita, de maneira personalizada, os seus interesses e serviços do Banco do Brasil',
+      code: '12345678',
+      rules: [
+        {
+          id: '1',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '2',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '3',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '4',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '5',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '6',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '7',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '8',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+        {
+          id: '9',
+          title: 'Alteração no Bundle',
+          date: '02/02/2022',
+          author: 'C1313233 Rhuan Queiroz',
+          status: 'Deferida',
+        },
+      ],
+    });
     setLoadingRecord(false);
   };
 
@@ -50,16 +155,12 @@ export const ShowRuleSheet = () => {
     fetchRecord();
   }, []);
 
-  const handleEditButtonOnClick = () => {
-    navigate(`/rulesheets/edit/${id}`);
-  };
-
-  const handleDeleteButtonOnClick = () => {
-    const confirmed = confirm('Confirm delete Rule Sheet?');
-    if (confirmed) {
-      // TODO: Implement API request.
-      navigate('..');
-    }
+  const renderDescription = () => {
+    return record?.description.split('\n').map((line, index) => (
+      <p key={index} className={classes.description}>
+        {line}
+      </p>
+    ));
   };
 
   const renderLoadingRecord = () => {
@@ -72,47 +173,47 @@ export const ShowRuleSheet = () => {
     );
   };
 
-  const renderFields = () => {
-    return (
-      <Paper elevation={1} className={classes.fieldsContainer}>
-        <div className={classes.field}>
-          <span className={classes.fieldLabel}>ID:</span>
-          <span className={classes.fieldValue}>{record?.id}</span>
-        </div>
-        <div className={classes.field}>
-          <span className={classes.fieldLabel}>Name:</span>
-          <span className={classes.fieldValue}>{record?.name}</span>
-        </div>
-        <AuthorizedComponent permissions={['admin']}>
-          <div>
-            <Divider className={classes.actionButtonsDivider} />
-            <Button variant="contained" color="primary" onClick={handleEditButtonOnClick}>
-              <EditIcon fontSize="small" />
-              <span style={{ marginLeft: 4 }}>Edit</span>
-            </Button>
-            <DeleteButton
-              variant="contained"
-              style={{ marginLeft: 8 }}
-              onClick={handleDeleteButtonOnClick}
-            >
-              <DeleteIcon fontSize="small" />
-              <span style={{ marginLeft: 4 }}>Delete</span>
-            </DeleteButton>
-          </div>
-        </AuthorizedComponent>
-      </Paper>
-    );
-  };
+  if (loadingRecord) {
+    return renderLoadingRecord();
+  }
 
   return (
     <Box className={classes.root}>
-      <div className={classes.headingContainer}>
-        <h1>Edit Rule Sheet</h1>
-        <div className={classes.headingButtonsContainer}>
-          <ListButton label="Rule Sheets" />
+      <Paper elevation={1}>
+        <div className={classes.headingContainer}>
+          <h1>{record?.name}</h1>
+          <div className={classes.headingButtonsContainer}>
+            <AuthorizedComponent permissions={['admin']}>
+              <Button variant="contained" color="secondary">
+                Criar nova Regra
+              </Button>
+            </AuthorizedComponent>
+          </div>
         </div>
-      </div>
-      {loadingRecord ? renderLoadingRecord() : renderFields()}
+        <Divider />
+        <Grid container className={classes.gridContainer}>
+          <Grid item xs={3} className={classes.gridLeft}>
+            <Chip size="small" className={classes.chipSlug} label={record?.slug} />
+            <div className={classes.descriptionContainer}>{renderDescription()}</div>
+            <div className={classes.code}>Código da folha: {record?.code}</div>
+            <div className={classes.rulesTotal}>Total de regras: 24</div>
+            <Button variant="contained" color="primary" className={classes.deferRuleButton}>
+              Deferir uma Regra
+            </Button>
+          </Grid>
+          <Grid item xs={9} className={classes.gridRight}>
+            <h2 className={classes.rulesHeading}>Regras</h2>
+            <DataGrid
+              className={classes.dataGrid}
+              rows={record?.rules || []}
+              columns={columns}
+              pageSize={10}
+              autoHeight
+              disableSelectionOnClick
+            />
+          </Grid>
+        </Grid>
+      </Paper>
     </Box>
   );
 };

@@ -10,33 +10,66 @@ const Style = makeStyles(theme => ({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    marginBottom: 16,
+    padding: 16,
   },
   headingButtonsContainer: {
     flex: 1,
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  fieldsContainer: {
-    padding: 16,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  field: {
-    marginBottom: 16,
-  },
-  fieldLabel: {
-    fontWeight: 700,
-  },
-  fieldValue: {
-    marginLeft: 8,
-  },
-  actionButtonsDivider: {
-    marginBottom: 16,
-  },
   loadingRecord: {
+    marginTop: 24,
     display: 'flex',
     justifyContent: 'center',
+  },
+  gridContainer: {
+    marginTop: 20,
+  },
+  gridLeft: {
+    paddingLeft: 19,
+  },
+  gridRight: {
+    paddingRight: 9,
+  },
+  chipSlug: {
+    backgroundColor: '#F4F5F7',
+    color: '#346AFF',
+  },
+  descriptionContainer: {
+    marginTop: 28,
+    marginBottom: 24,
+  },
+  description: {
+    margin: 0,
+    color: '#6C7077',
+  },
+  code: {
+    color: '#6C7077',
+    fontWeight: 700,
+  },
+  rulesTotal: {
+    color: '#6C7077',
+    fontWeight: 700,
+    marginBottom: 24,
+  },
+  deferRuleButton: {
+    marginBottom: 20,
+  },
+  rulesHeading: {
+    margin: 0,
+  },
+  dataGrid: {
+    marginTop: 16,
+    '& .MuiDataGrid-main': {
+      '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
+        '& .MuiDataGrid-columnSeparator': {
+          display: 'none',
+        },
+      },
+      '&  .MuiDataGrid-cell:focus-within': {
+        outline: 'none',
+      },
+    },
   },
 }));
 
