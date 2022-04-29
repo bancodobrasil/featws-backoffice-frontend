@@ -65,7 +65,13 @@ export const ShowRuleSheet = () => {
   const [record, setRecord] = useState<IRuleSheet | undefined>();
   const [loadingRecord, setLoadingRecord] = useState<boolean>(false);
 
+  const [pageSize, setPageSize] = useState<number>(10);
+
   const classes = Style();
+
+  const onPageSizeChangeHandler = (newPageSize: number) => {
+    setPageSize(newPageSize);
+  };
 
   const fetchRecord = async () => {
     if (loadingRecord) {
@@ -210,7 +216,9 @@ export const ShowRuleSheet = () => {
             className={classes.dataGrid}
             rows={record?.rules || []}
             columns={columns}
-            pageSize={10}
+            pageSize={pageSize}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
+            onPageSizeChange={onPageSizeChangeHandler}
             autoHeight
             disableSelectionOnClick
           />
