@@ -12,6 +12,12 @@ const Style = makeStyles(theme => ({
     alignItems: 'center',
     padding: 16,
   },
+  h1: {
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '24px',
+    letterSpacing: '0.18px',
+  },
   headingButtonsContainer: {
     flex: 1,
     display: 'flex',
@@ -29,12 +35,17 @@ const Style = makeStyles(theme => ({
     paddingLeft: 19,
   },
   gridRight: {
-    paddingLeft: 19,
+    paddingLeft: 81,
     paddingRight: 9,
   },
   chipSlug: {
-    backgroundColor: '#F4F5F7',
-    color: '#346AFF',
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '20px',
+    letterSpacing: '0.25px',
+    width: 104,
+    height: 32,
   },
   descriptionContainer: {
     marginTop: 28,
@@ -42,22 +53,29 @@ const Style = makeStyles(theme => ({
   },
   description: {
     margin: 0,
-    color: '#6C7077',
+    color: '#444444',
+    fontSize: '18px',
+    lineHeight: '25.2px',
   },
   code: {
-    color: '#6C7077',
     fontWeight: 700,
+    fontSize: '14px',
   },
   rulesTotal: {
-    color: '#6C7077',
     fontWeight: 700,
+    fontSize: '14px',
     marginBottom: 24,
   },
   deferRuleButton: {
     marginBottom: 20,
+    width: '100%',
   },
   rulesHeading: {
     margin: 0,
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '24px',
+    letterSpacing: '0.18px',
   },
   dataGrid: {
     marginTop: 16,

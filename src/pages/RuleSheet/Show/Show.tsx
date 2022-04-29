@@ -1,55 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Chip, Divider, Grid, IconButton, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Grid, Typography } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 
 const columns: GridColDef[] = [
   {
     field: 'title',
-    headerName: 'TÍTULO',
+    headerName: 'Título',
     minWidth: 200,
   },
   {
     field: 'date',
-    headerName: 'DATA',
+    headerName: 'Data',
     minWidth: 150,
   },
   {
     field: 'author',
-    headerName: 'AUTOR',
-    minWidth: 200,
+    headerName: 'Autor',
+    minWidth: 250,
   },
   {
     field: 'status',
-    headerName: 'STATUS',
-    minWidth: 300,
-  },
-  {
-    field: '',
-    headerName: '',
-    minWidth: 150,
-    sortable: false,
-    filterable: false,
-    disableColumnMenu: true,
-    align: 'right',
-    flex: 1,
-    renderCell: params => {
-      const navigate = useNavigate();
-
-      const onArrowIconClick = () => {
-        navigate(params.id.toString());
-      };
-
-      return (
-        <IconButton onClick={onArrowIconClick}>
-          <ArrowForwardIosRoundedIcon fontSize="small" />
-        </IconButton>
-      );
-    },
+    headerName: 'Status',
+    minWidth: 250,
   },
 ];
 
@@ -179,41 +155,38 @@ export const ShowRuleSheet = () => {
 
   return (
     <Box className={classes.root}>
-      <Paper elevation={1}>
-        <div className={classes.headingContainer}>
-          <h1>{record?.name}</h1>
-          <div className={classes.headingButtonsContainer}>
-            <AuthorizedComponent permissions={['admin']}>
-              <Button variant="contained" color="secondary">
-                Criar nova Regra
-              </Button>
-            </AuthorizedComponent>
-          </div>
-        </div>
-        <Divider />
-        <Grid container className={classes.gridContainer}>
-          <Grid item xs={3} className={classes.gridLeft}>
-            <Chip size="small" className={classes.chipSlug} label={record?.slug} />
-            <div className={classes.descriptionContainer}>{renderDescription()}</div>
-            <div className={classes.code}>Código da folha: {record?.code}</div>
-            <div className={classes.rulesTotal}>Total de regras: 24</div>
-            <Button variant="contained" color="primary" className={classes.deferRuleButton}>
-              Deferir uma Regra
+      <div className={classes.headingContainer}>
+        <h1 className={classes.h1}>{record?.name}</h1>
+        <div className={classes.headingButtonsContainer}>
+          <AuthorizedComponent permissions={['admin']}>
+            <Button variant="contained" color="primary">
+              + Nova Regra
             </Button>
-          </Grid>
-          <Grid item xs={9} className={classes.gridRight}>
-            <h2 className={classes.rulesHeading}>Regras</h2>
-            <DataGrid
-              className={classes.dataGrid}
-              rows={record?.rules || []}
-              columns={columns}
-              pageSize={10}
-              autoHeight
-              disableSelectionOnClick
-            />
-          </Grid>
+          </AuthorizedComponent>
+        </div>
+      </div>
+      <Grid container className={classes.gridContainer}>
+        <Grid item xs={3} className={classes.gridLeft}>
+          <Chip size="small" className={classes.chipSlug} label={record?.slug} />
+          <div className={classes.descriptionContainer}>{renderDescription()}</div>
+          <div className={classes.code}>Código da folha: {record?.code}</div>
+          <div className={classes.rulesTotal}>Total de regras: 24</div>
+          <Button variant="contained" color="secondary" className={classes.deferRuleButton}>
+            Deferir uma Regra
+          </Button>
         </Grid>
-      </Paper>
+        <Grid item xs={9} className={classes.gridRight}>
+          <h2 className={classes.rulesHeading}>Regras</h2>
+          <DataGrid
+            className={classes.dataGrid}
+            rows={record?.rules || []}
+            columns={columns}
+            pageSize={10}
+            autoHeight
+            disableSelectionOnClick
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

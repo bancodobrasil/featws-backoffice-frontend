@@ -5,14 +5,14 @@ const Style = makeStyles(theme => ({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#f3f3f7',
+    backgroundColor: '#FFFFFF',
   },
   base: {
     flex: 1,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#f3f3f7',
+    backgroundColor: '#FFFFFF',
   },
   mainContent: {
     width: '100%',

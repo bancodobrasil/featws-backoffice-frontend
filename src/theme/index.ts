@@ -7,15 +7,29 @@ const theme = createTheme({
   palette,
   typography: bbTypography,
   overrides: {
+    MuiButton: {
+      root: {
+        padding: '12px 27.5px',
+      },
+      label: {
+        fontWeight: 700,
+        fontSize: '14px',
+        lineHeight: '16px',
+        letterSpacing: '1.25px',
+      },
+    },
     MuiDataGrid: {
       root: {
         border: 'none',
         '& .MuiDataGrid-main': {
           '& .MuiDataGrid-columnsContainer': {
-            borderBottom: '1px solid #E0E0E0;',
-            backgroundColor: '#F4F4F8',
+            backgroundColor: 'rgba(0, 0, 0, 0.01)',
+            boxShadow: 'inset 0px -1px 0px #E0E0E0',
             '& .MuiDataGrid-columnHeaderTitle': {
-              color: 'black',
+              color: 'rgba(0, 0, 0, 0.6);',
+              fontWeight: 700,
+              fontSize: '15px',
+              lineHeight: '24px',
             },
             '& .MuiDataGrid-columnSeparator': {
               display: 'none',
@@ -23,6 +37,11 @@ const theme = createTheme({
           },
           '& .MuiDataGrid-cell': {
             borderColor: '#E0E0E0;',
+            color: 'black',
+            fontWeight: 300,
+            fontSize: '16px',
+            lineHeight: '24px',
+            letterSpacing: '0.5px',
           },
         },
       },
