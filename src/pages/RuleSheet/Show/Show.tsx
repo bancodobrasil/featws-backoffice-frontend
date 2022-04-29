@@ -259,7 +259,7 @@ export const ShowRuleSheet = () => {
   return (
     <Box className={classes.root}>
       <div className={classes.breadcrumbsContainer}>
-        <IconButton onClick={onBackClickHandler}>
+        <IconButton onClick={onBackClickHandler} size="small">
           <ArrowBackIcon fontSize="small" color="primary" />
         </IconButton>
         <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>

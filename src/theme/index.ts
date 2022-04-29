@@ -25,14 +25,20 @@ const theme = createTheme({
           '& .MuiDataGrid-columnsContainer': {
             backgroundColor: 'rgba(0, 0, 0, 0.01)',
             boxShadow: 'inset 0px -1px 0px #E0E0E0',
-            '& .MuiDataGrid-columnHeaderTitle': {
-              color: 'rgba(0, 0, 0, 0.6);',
-              fontWeight: 700,
-              fontSize: '15px',
-              lineHeight: '24px',
-            },
-            '& .MuiDataGrid-columnSeparator': {
-              display: 'none',
+            '& .MuiDataGrid-columnHeader': {
+              padding: '0 8px',
+              '& .MuiDataGrid-columnHeaderTitleContainer': {
+                padding: 0,
+                '& .MuiDataGrid-columnHeaderTitle': {
+                  color: 'rgba(0, 0, 0, 0.6);',
+                  fontWeight: 700,
+                  fontSize: '15px',
+                  lineHeight: '24px',
+                },
+                '& .MuiDataGrid-columnSeparator': {
+                  display: 'none',
+                },
+              },
             },
           },
           '& .MuiDataGrid-cell': {
@@ -42,6 +48,7 @@ const theme = createTheme({
             fontSize: '16px',
             lineHeight: '24px',
             letterSpacing: '0.5px',
+            padding: '0 8px',
           },
         },
       },

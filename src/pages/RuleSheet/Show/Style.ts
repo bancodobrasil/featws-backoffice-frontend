@@ -3,17 +3,26 @@ import { makeStyles } from '@material-ui/core/styles';
 const Style = makeStyles(theme => ({
   root: {
     width: '100%',
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: 34,
+    paddingBottom: 34,
   },
   breadcrumbsContainer: {
     display: 'flex',
     alignItems: 'center',
+    position: 'relative',
+    left: '-5px',
+    top: '-5px',
   },
   breadcrumbs: {
     '& .featws-ui-MuiBreadcrumbs-separator': {
       display: 'none',
     },
+    marginLeft: 5,
+    color: '#000000',
+    fontWeight: 300,
+    fontSize: '14px',
+    lineHeight: '24px',
+    letterSpacing: '0.1px',
   },
   breadcrumbsSeparator: {
     color: 'black',
@@ -23,6 +32,7 @@ const Style = makeStyles(theme => ({
       color: '#BFC3CA',
     },
   },
+  breadcrumbItem: {},
   breadcrumbActive: {
     color: '#BFC3CA',
   },
@@ -30,13 +40,14 @@ const Style = makeStyles(theme => ({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    padding: 16,
+    paddingTop: 11,
   },
   h1: {
     fontWeight: 700,
     fontSize: '24px',
     lineHeight: '24px',
     letterSpacing: '0.18px',
+    margin: 0,
   },
   headingButtonsContainer: {
     flex: 1,
@@ -49,14 +60,11 @@ const Style = makeStyles(theme => ({
     justifyContent: 'center',
   },
   gridContainer: {
-    marginTop: 20,
+    marginTop: 26,
   },
-  gridLeft: {
-    paddingLeft: 19,
-  },
+  gridLeft: {},
   gridRight: {
     paddingLeft: 81,
-    paddingRight: 9,
   },
   chipSlug: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
@@ -78,6 +86,7 @@ const Style = makeStyles(theme => ({
   code: {
     fontWeight: 700,
     fontSize: '14px',
+    marginBottom: 8,
   },
   rulesTotal: {
     fontWeight: 700,
