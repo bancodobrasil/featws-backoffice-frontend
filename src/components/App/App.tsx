@@ -12,6 +12,7 @@ import {
   ShowRuleSheet,
 } from '../../pages/RuleSheet';
 import RequireAuth from '../Auth/RequireAuth';
+import "./AppStyles.css";
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
