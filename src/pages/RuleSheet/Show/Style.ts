@@ -6,6 +6,26 @@ const Style = makeStyles(theme => ({
     paddingTop: 16,
     paddingBottom: 16,
   },
+  breadcrumbsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  breadcrumbs: {
+    '& .featws-ui-MuiBreadcrumbs-separator': {
+      display: 'none',
+    },
+  },
+  breadcrumbsSeparator: {
+    color: 'black',
+    marginRight: 8,
+    marginLeft: 8,
+    '&.last': {
+      color: '#BFC3CA',
+    },
+  },
+  breadcrumbActive: {
+    color: '#BFC3CA',
+  },
   headingContainer: {
     flex: 1,
     display: 'flex',
@@ -102,7 +122,7 @@ const Style = makeStyles(theme => ({
     },
   },
   buttonSearch: {
-      width: 169,
+    width: 169,
   },
   chipStatus: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',

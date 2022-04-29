@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
+  Breadcrumbs,
   Button,
   Chip,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
+  Link,
   MenuItem,
   OutlinedInput,
   Select,
@@ -16,6 +19,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Link as RouterLink } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
 const columns: GridColDef[] = [
   {
@@ -94,6 +99,10 @@ export const ShowRuleSheet = () => {
   const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
 
   const classes = Style();
+
+  const onBackClickHandler = () => {
+    navigate('/rulesheets');
+  };
 
   const onStatusChangeHandler = event => {
     setStatus(event.target.value);
@@ -249,6 +258,24 @@ export const ShowRuleSheet = () => {
 
   return (
     <Box className={classes.root}>
+      <div className={classes.breadcrumbsContainer}>
+        <IconButton onClick={onBackClickHandler}>
+          <ArrowBackIcon fontSize="small" color="primary" />
+        </IconButton>
+        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Link color="textPrimary" component={RouterLink} to="/">
+            FeatWS
+          </Link>
+          <span className={classes.breadcrumbsSeparator}>/</span>
+          <Link color="textPrimary" component={RouterLink} to="/rulesheets">
+            Folhas de Regra
+          </Link>
+          <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+          <Typography component="span" className={classes.breadcrumbActive}>
+            {record?.name}
+          </Typography>
+        </Breadcrumbs>
+      </div>
       <div className={classes.headingContainer}>
         <h1 className={classes.h1}>{record?.name}</h1>
         <div className={classes.headingButtonsContainer}>
