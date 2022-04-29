@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IRuleSheet } from '../../../interfaces';
+import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
@@ -86,6 +86,7 @@ export const ShowRuleSheet = () => {
 
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
+  const [rules, setRules] = useState<IRule[]>([]);
 
   const statusInputLabel = useRef<HTMLLabelElement>();
   const authorInputLabel = useRef<HTMLLabelElement>();
@@ -100,6 +101,22 @@ export const ShowRuleSheet = () => {
 
   const onAuthorChangeHandler = event => {
     setAuthor(event.target.value);
+  };
+
+  const onSearchClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (!record) {
+      return;
+    }
+    let listRule = record.rules;
+    if (status) {
+      listRule = listRule.filter(rule => rule.status === status);
+    }
+    if (author) {
+      listRule = listRule.filter(rule => rule.author === author);
+    }
+    setRules(listRule);
   };
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
@@ -194,6 +211,13 @@ export const ShowRuleSheet = () => {
     });
     setLoadingRecord(false);
   };
+
+  useEffect(() => {
+    if (!record) {
+      return;
+    }
+    setRules(record.rules);
+  }, [record]);
 
   useEffect(() => {
     setStatusLabelWidth(statusInputLabel.current.offsetWidth);
@@ -302,14 +326,19 @@ export const ShowRuleSheet = () => {
                   })}
                 </Select>
               </FormControl>
-              <Button variant="contained" color="secondary" className={classes.buttonSearch}>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.buttonSearch}
+                onClick={onSearchClickHandler}
+              >
                 Buscar
               </Button>
             </div>
           </div>
           <DataGrid
             className={classes.dataGrid}
-            rows={record?.rules || []}
+            rows={rules}
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
