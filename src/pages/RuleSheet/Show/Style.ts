@@ -44,8 +44,6 @@ const Style = makeStyles(theme => ({
     fontSize: '14px',
     lineHeight: '20px',
     letterSpacing: '0.25px',
-    width: 104,
-    height: 32,
   },
   descriptionContainer: {
     marginTop: 28,
@@ -76,6 +74,16 @@ const Style = makeStyles(theme => ({
     fontSize: '24px',
     lineHeight: '24px',
     letterSpacing: '0.18px',
+  },
+  chipStatus: {
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    fontWeight: 400,
+    fontSize: '14px',
+    lineHeight: '20px',
+    letterSpacing: '0.25px',
+    '& .featws-ui-MuiChip-label': {
+      paddingLeft: 4,
+    },
   },
   dataGrid: {
     marginTop: 16,

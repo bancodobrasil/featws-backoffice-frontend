@@ -26,6 +26,35 @@ const columns: GridColDef[] = [
     field: 'status',
     headerName: 'Status',
     minWidth: 250,
+    renderCell: params => {
+      const classes = Style();
+      const Bullet = ({
+        status,
+      }: {
+        status: string;
+      }) => {
+        let color;
+        switch (status) {
+          case 'Deferida':
+            color = '#16C559';
+            break;
+          case 'Aguardando deferimento':
+            color = '#07B4F2';
+            break;
+          case 'Rascunho':
+            color = '#F97A70';
+            break;
+        }
+        return <div style={{ width: 8, height: 8, borderRadius: 999, marginLeft: 16, backgroundColor: color }} />;
+      };
+      return (
+        <Chip
+          className={classes.chipStatus}
+          avatar={<Bullet status={params.value as string} />}
+          label={params.value}
+        />
+      );
+    },
   },
 ];
 
@@ -71,14 +100,14 @@ export const ShowRuleSheet = () => {
           title: 'Alteração no Bundle',
           date: '02/02/2022',
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: 'Aguardando deferimento',
         },
         {
           id: '3',
           title: 'Alteração no Bundle',
           date: '02/02/2022',
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: 'Rascunho',
         },
         {
           id: '4',
@@ -167,7 +196,7 @@ export const ShowRuleSheet = () => {
       </div>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={3} className={classes.gridLeft}>
-          <Chip size="small" className={classes.chipSlug} label={record?.slug} />
+          <Chip className={classes.chipSlug} label={record?.slug} />
           <div className={classes.descriptionContainer}>{renderDescription()}</div>
           <div className={classes.code}>Código da folha: {record?.code}</div>
           <div className={classes.rulesTotal}>Total de regras: 24</div>
