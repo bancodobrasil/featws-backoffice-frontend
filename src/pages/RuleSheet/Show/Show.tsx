@@ -85,14 +85,21 @@ export const ShowRuleSheet = () => {
   const [pageSize, setPageSize] = useState<number>(10);
 
   const [status, setStatus] = useState<string | undefined>('');
+  const [author, setAuthor] = useState<string | undefined>('');
 
   const statusInputLabel = useRef<HTMLLabelElement>();
+  const authorInputLabel = useRef<HTMLLabelElement>();
   const [statusLabelWidth, setStatusLabelWidth] = React.useState(0);
+  const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
 
   const classes = Style();
 
   const onStatusChangeHandler = event => {
     setStatus(event.target.value);
+  };
+
+  const onAuthorChangeHandler = event => {
+    setAuthor(event.target.value);
   };
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
@@ -190,6 +197,7 @@ export const ShowRuleSheet = () => {
 
   useEffect(() => {
     setStatusLabelWidth(statusInputLabel.current.offsetWidth);
+    setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
     fetchRecord();
   }, []);
 
@@ -243,7 +251,9 @@ export const ShowRuleSheet = () => {
             <h3 className={classes.filtersHeading}>Filtros</h3>
             <div>
               <FormControl variant="outlined" className={classes.filterSelect}>
-                <InputLabel ref={statusInputLabel} id="filter-status-select-input-label">Filtrar por Status</InputLabel>
+                <InputLabel ref={statusInputLabel} id="filter-status-select-input-label">
+                  Filtrar por status
+                </InputLabel>
                 <Select
                   labelId="filter-status-select-label"
                   id="filter-status-select"
@@ -264,6 +274,37 @@ export const ShowRuleSheet = () => {
                   <MenuItem value="Rascunho">Rascunho</MenuItem>
                 </Select>
               </FormControl>
+              <FormControl variant="outlined" className={classes.filterSelect}>
+                <InputLabel ref={authorInputLabel} id="filter-author-select-input-label">
+                  Filtrar por autor
+                </InputLabel>
+                <Select
+                  labelId="filter-author-select-label"
+                  id="filter-author-select"
+                  value={author}
+                  onChange={onAuthorChangeHandler}
+                  label="Autor"
+                  input={
+                    <OutlinedInput
+                      labelWidth={authorLabelWidth}
+                      name="author-input"
+                      id="outlined-author"
+                    />
+                  }
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  {[...new Set(record?.rules.map(rule => rule.author))].map((author, index) => {
+                    return (
+                      <MenuItem key={index} value={author}>
+                        {author}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <Button variant="contained" color="secondary" className={classes.buttonSearch}>
+                Buscar
+              </Button>
             </div>
           </div>
           <DataGrid

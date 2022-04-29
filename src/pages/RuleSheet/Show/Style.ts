@@ -82,6 +82,7 @@ const Style = makeStyles(theme => ({
   },
   filterSelect: {
     minWidth: 320,
+    marginRight: 38,
     '& .featws-ui-MuiFormLabel-root': {
       fontWeight: '600',
       fontSize: '16px',
@@ -99,6 +100,9 @@ const Style = makeStyles(theme => ({
     '& .featws-ui-MuiOutlinedInput-root': {
       height: '40px',
     },
+  },
+  buttonSearch: {
+      width: 169,
   },
   chipStatus: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
