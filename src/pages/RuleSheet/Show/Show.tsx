@@ -1,5 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Chip, Grid, Typography } from '@material-ui/core';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IRuleSheet } from '../../../interfaces';
@@ -28,11 +39,7 @@ const columns: GridColDef[] = [
     minWidth: 250,
     renderCell: params => {
       const classes = Style();
-      const Bullet = ({
-        status,
-      }: {
-        status: string;
-      }) => {
+      const Bullet = ({ status }: { status: string }) => {
         let color;
         switch (status) {
           case 'Deferida':
@@ -45,7 +52,17 @@ const columns: GridColDef[] = [
             color = '#F97A70';
             break;
         }
-        return <div style={{ width: 8, height: 8, borderRadius: 999, marginLeft: 16, backgroundColor: color }} />;
+        return (
+          <div
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              marginLeft: 16,
+              backgroundColor: color,
+            }}
+          />
+        );
       };
       return (
         <Chip
@@ -67,7 +84,16 @@ export const ShowRuleSheet = () => {
 
   const [pageSize, setPageSize] = useState<number>(10);
 
+  const [status, setStatus] = useState<string | undefined>('');
+
+  const statusInputLabel = useRef<HTMLLabelElement>();
+  const [statusLabelWidth, setStatusLabelWidth] = React.useState(0);
+
   const classes = Style();
+
+  const onStatusChangeHandler = event => {
+    setStatus(event.target.value);
+  };
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
     setPageSize(newPageSize);
@@ -163,6 +189,7 @@ export const ShowRuleSheet = () => {
   };
 
   useEffect(() => {
+    setStatusLabelWidth(statusInputLabel.current.offsetWidth);
     fetchRecord();
   }, []);
 
@@ -212,6 +239,33 @@ export const ShowRuleSheet = () => {
         </Grid>
         <Grid item xs={9} className={classes.gridRight}>
           <h2 className={classes.rulesHeading}>Regras</h2>
+          <div>
+            <h3 className={classes.filtersHeading}>Filtros</h3>
+            <div>
+              <FormControl variant="outlined" className={classes.filterSelect}>
+                <InputLabel ref={statusInputLabel} id="filter-status-select-input-label">Filtrar por Status</InputLabel>
+                <Select
+                  labelId="filter-status-select-label"
+                  id="filter-status-select"
+                  value={status}
+                  onChange={onStatusChangeHandler}
+                  label="Status"
+                  input={
+                    <OutlinedInput
+                      labelWidth={statusLabelWidth}
+                      name="status-input"
+                      id="outlined-status"
+                    />
+                  }
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  <MenuItem value="Deferida">Deferida</MenuItem>
+                  <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
+                  <MenuItem value="Rascunho">Rascunho</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
           <DataGrid
             className={classes.dataGrid}
             rows={record?.rules || []}

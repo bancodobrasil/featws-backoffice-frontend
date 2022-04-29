@@ -75,6 +75,31 @@ const Style = makeStyles(theme => ({
     lineHeight: '24px',
     letterSpacing: '0.18px',
   },
+  filtersHeading: {
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+  },
+  filterSelect: {
+    minWidth: 320,
+    '& .featws-ui-MuiFormLabel-root': {
+      fontWeight: '600',
+      fontSize: '16px',
+      letterSpacing: '0.15px',
+      color: 'rgba(0, 0, 0, 0.38)',
+      top: '-9px',
+    },
+    '& .featws-ui-MuiInputLabel-shrink': {
+      color: 'black',
+      top: '0',
+    },
+    '& .featws-ui-MuiSelect-outlined': {
+      padding: '10px 32px 10px 14px',
+    },
+    '& .featws-ui-MuiOutlinedInput-root': {
+      height: '40px',
+    },
+  },
   chipStatus: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     fontWeight: 400,
