@@ -43,7 +43,13 @@ const theme = createTheme(
               backgroundColor: 'rgba(0, 0, 0, 0.01)',
               boxShadow: 'inset 0px -1px 0px #E0E0E0',
               '& .MuiDataGrid-columnHeader': {
-                padding: '0 8px',
+                padding: '0 10px 0 8px',
+                '&:focus': {
+                  outline: 'none',
+                },
+                '&:focus-within': {
+                  outline: 'none',
+                },
                 '& .MuiDataGrid-columnHeaderTitleContainer': {
                   padding: 0,
                   '& .MuiDataGrid-columnHeaderTitle': {
