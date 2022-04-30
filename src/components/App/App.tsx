@@ -4,7 +4,6 @@ import { StylesProvider, createGenerateClassName } from '@material-ui/core/style
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import theme from '../../theme';
 import Style from './Style';
-import { Main } from '../../pages/Main';
 import {
   CreateRuleSheet,
   EditRuleSheet,

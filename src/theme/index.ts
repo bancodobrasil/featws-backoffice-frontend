@@ -1,4 +1,6 @@
 import { createTheme } from '@material-ui/core';
+import { ptBR as dataGridPtBR } from '@mui/x-data-grid';
+import { ptBR } from '@material-ui/core/locale';
 
 import palette from './palette';
 import bbTypography from './bbTypography';
@@ -54,6 +56,6 @@ const theme = createTheme({
       },
     },
   },
-});
+}, dataGridPtBR, ptBR);
 
 export default theme;
