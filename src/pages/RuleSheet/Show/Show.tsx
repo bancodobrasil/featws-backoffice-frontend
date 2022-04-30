@@ -20,7 +20,7 @@ import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const columns: GridColDef[] = [
   {
@@ -267,12 +267,12 @@ export const ShowRuleSheet = () => {
             FeatWS
           </Link>
           <span className={classes.breadcrumbsSeparator}>/</span>
-          <Link color="textPrimary" component={RouterLink} to="/rulesheets">
-            Folhas de Regra
+          <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
+            {record?.name}
           </Link>
           <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
           <Typography component="span" className={classes.breadcrumbActive}>
-            {record?.name}
+            Regras
           </Typography>
         </Breadcrumbs>
       </div>
