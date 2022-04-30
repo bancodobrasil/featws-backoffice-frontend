@@ -10,7 +10,7 @@ export interface IRuleSheet {
 export interface IRule {
   id: string;
   title: string;
-  date: string;
+  date: Date;
   author: string;
   status: "Deferida" | "Aguardando deferimento" | "Rascunho";
 }

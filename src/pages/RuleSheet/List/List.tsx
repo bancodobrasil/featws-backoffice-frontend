@@ -9,22 +9,23 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 const columns: GridColDef[] = [
   {
     field: 'name',
-    headerName: 'NOME DA FOLHA',
+    headerName: 'Nome da Folha',
     minWidth: 300,
   },
   {
     field: 'responsible',
-    headerName: 'RESPONSÁVEL',
+    headerName: 'Responsável',
     minWidth: 200,
   },
   {
     field: 'code',
-    headerName: 'CÓDIGO',
+    headerName: 'Código',
     minWidth: 150,
   },
   {
     field: 'updatedAt',
-    headerName: 'ÚLTIMA ATUALIZAÇÃO',
+    type: 'date',
+    headerName: 'Última atualização',
     minWidth: 220,
   },
   {
@@ -53,16 +54,16 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, name: 'Internet APF', responsible: 'Onboarding BB', code: '12345678', updatedAt: '20/01/2022' },
-  { id: 2, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: '23456781', updatedAt: '20/01/2022' },
-  { id: 3, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 4, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 5, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 6, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 7, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 8, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 9, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
-  { id: 10, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: '20/01/2022' },
+  { id: 1, name: 'Internet APF', responsible: 'Onboarding BB', code: '12345678', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 2, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: '23456781', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 3, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 4, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 5, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 6, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 7, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 8, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 9, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
+  { id: 10, name: 'EBB Minha Página', responsible: 'Onboarding BB', code: 'Conteúdo', updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500) },
 ];
 
 export const ListRuleSheet = () => {
