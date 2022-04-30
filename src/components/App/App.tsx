@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider, CssBaseline, Box, Container } from '@material-ui/core';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import theme from '../../theme';
 import Style from './Style';
 import { Main } from '../../pages/Main';
@@ -12,7 +12,7 @@ import {
   ShowRuleSheet,
 } from '../../pages/RuleSheet';
 import RequireAuth from '../Auth/RequireAuth';
-import "./AppStyles.css";
+import './AppStyles.css';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
@@ -38,7 +38,7 @@ const App = () => {
             <Box className={classes.mainContent}>
               <Router>
                 <Routes>
-                  <Route index element={<Main />} />
+                  <Route index element={<Navigate to="/rulesheets" replace />} />
                   <Route path="rulesheets">
                     <Route
                       index

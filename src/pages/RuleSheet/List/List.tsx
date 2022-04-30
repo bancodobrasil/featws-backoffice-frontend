@@ -80,7 +80,7 @@ export const ListRuleSheet = () => {
         <h1>Folhas de Regra</h1>
         <div className={classes.headingButtonsContainer}>
           <AuthorizedComponent permissions={["admin"]}>
-            <Button variant="contained" color="secondary" onClick={handleButtonCreateOnClick}>
+            <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
               Nova Folha de Regras
             </Button>
           </AuthorizedComponent>
