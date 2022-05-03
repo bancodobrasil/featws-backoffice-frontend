@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider, CssBaseline, Box, Container } from '@material-ui/core';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import theme from '../../theme';
 import Style from './Style';
-import { Main } from '../../pages/Main';
 import {
   CreateRuleSheet,
   EditRuleSheet,
   ListRuleSheet,
   ShowRuleSheet,
 } from '../../pages/RuleSheet';
-import { isAuthenticated } from '../../providers/Auth';
 import RequireAuth from '../Auth/RequireAuth';
+import './AppStyles.css';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
@@ -26,17 +25,8 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('auth-token', 'test');
-    localStorage.setItem('auth-permissions', JSON.stringify(['user']));
+    localStorage.setItem('auth-permissions', JSON.stringify(['user', 'admin']));
   }, []);
-
-  const renderAuthInfo = () => {
-    return (
-      <div>
-        <p>Is Authenticated: {isAuthenticated() ? 'true' : 'false'}</p>
-        <p>Permissions: {localStorage.getItem('auth-permissions')}</p>
-      </div>
-    );
-  };
 
   return (
     <StylesProvider generateClassName={generateClassName}>
@@ -45,10 +35,9 @@ const App = () => {
         <Box className={classes.base}>
           <Container maxWidth="xl" className={classes.main} disableGutters>
             <Box className={classes.mainContent}>
-              {renderAuthInfo()}
               <Router>
                 <Routes>
-                  <Route index element={<Main />} />
+                  <Route index element={<Navigate to="/rulesheets" replace />} />
                   <Route path="rulesheets">
                     <Route
                       index
@@ -74,14 +63,16 @@ const App = () => {
                         </RequireAuth>
                       }
                     />
-                    <Route
-                      path=":id"
-                      element={
-                        <RequireAuth>
-                          <ShowRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
+                    <Route path=":id">
+                      <Route
+                        index
+                        element={
+                          <RequireAuth>
+                            <ShowRuleSheet />
+                          </RequireAuth>
+                        }
+                      />
+                    </Route>
                   </Route>
                 </Routes>
               </Router>

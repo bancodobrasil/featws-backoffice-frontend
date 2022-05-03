@@ -4,7 +4,7 @@ import palette from './palette';
 export default {
   h1: {
     color: palette.text.primary,
-    fontFamily: 'BancoDoBrasil Titulos',
+    fontFamily: '"IBM Plex Sans"',
     fontSize: '35px',
     letterSpacing: '-0.24px',
     lineHeight: '40px',
@@ -12,7 +12,7 @@ export default {
   },
   h2: {
     color: palette.text.primary,
-    fontFamily: 'BancoDoBrasil Titulos',
+    fontFamily: '"IBM Plex Sans"',
     fontWeight: 500,
     fontSize: '29px',
     letterSpacing: '-0.24px',
@@ -20,7 +20,7 @@ export default {
   },
   h3: {
     color: palette.text.primary,
-    fontFamily: 'BancoDoBrasil Titulos',
+    fontFamily: '"IBM Plex Sans"',
     fontWeight: 700,
     fontSize: '24px',
     letterSpacing: '-0.06px',
@@ -28,7 +28,7 @@ export default {
   },
   h4: {
     color: palette.text.primary,
-    fontFamily: 'BancoDoBrasil Titulos',
+    fontFamily: '"IBM Plex Sans"',
     fontWeight: 500,
     fontSize: '20px',
     letterSpacing: '-0.06px',
@@ -75,7 +75,7 @@ export default {
   },
   button: {
     color: palette.text.primary,
-    fontFamily: 'BancoDoBrasil Textos',
+    fontFamily: '"IBM Plex Sans"',
     fontSize: '14px',
     fontWeight: 500,
   },
@@ -92,5 +92,5 @@ export default {
     letterSpacing: '0.33px',
     lineHeight: '13px',
   },
-  fontFamily: ['"BancoDoBrasil Textos"', 'Arial', 'sans-serif'].join(','),
+  fontFamily: ['"IBM Plex Sans"', 'Arial', 'sans-serif'].join(','),
 };

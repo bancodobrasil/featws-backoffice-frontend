@@ -3,24 +3,22 @@ import { colors } from '@material-ui/core';
 
 const white = '#FFFFFF';
 const black = '#000000';
-const blue = '#2957FF';
-const darkBlue = '#005AA5';
-const yellow = '#FFF000';
+const greySecondary = '#C2C2C2';
 
 export default {
   black,
   white,
   primary: {
     contrastText: white,
-    dark: darkBlue,
-    main: blue,
-    light: colors.blue[100],
+    dark: '#403939',
+    main: black,
+    light: '#393434',
   },
   secondary: {
-    contrastText: darkBlue,
-    dark: colors.yellow[700],
-    main: yellow,
-    light: colors.yellow[300],
+    contrastText: black,
+    dark: '#A9A9A9',
+    main: greySecondary,
+    light: '#C2C2C2',
   },
   success: {
     contrastText: white,
@@ -47,7 +45,7 @@ export default {
     light: colors.red[400],
   },
   text: {
-    primary: colors.blueGrey[900],
+    primary: black,
     secondary: colors.blueGrey[600],
     link: colors.blue[600],
   },
