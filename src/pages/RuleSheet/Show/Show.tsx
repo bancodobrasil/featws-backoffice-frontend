@@ -206,6 +206,10 @@ export const ShowRuleSheet = () => {
   };
 
   useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  useEffect(() => {
     if (!record) {
       return;
     }
@@ -213,10 +217,13 @@ export const ShowRuleSheet = () => {
   }, [record]);
 
   useEffect(() => {
-    setStatusLabelWidth(statusInputLabel.current.offsetWidth);
-    setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    fetchRecord();
-  }, [statusInputLabel, authorInputLabel]);
+    if (statusInputLabel.current) {
+      setStatusLabelWidth(statusInputLabel.current.offsetWidth);
+    }
+    if (authorInputLabel.current) {
+      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
+    }
+  }, [statusInputLabel.current, authorInputLabel.current]);
 
   const renderDescription = () => {
     return record?.description.split('\n').map((line, index) => (
