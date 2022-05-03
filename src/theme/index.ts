@@ -14,8 +14,16 @@ const ptBRMuiTablePaginationOverride = {
 
 const ptBRMuiDataGridOverride = {
   localeText: {
-    ...(ptBRDataGrid as { props: { MuiDataGrid: Pick<GridOptions, 'localeText'> } }).props.MuiDataGrid.localeText,
+    ...(ptBRDataGrid as { props: { MuiDataGrid: Pick<GridOptions, 'localeText'> } }).props
+      .MuiDataGrid.localeText,
     MuiTablePagination: ptBRMuiTablePaginationOverride,
+    footerRowSelected: (count: number) => {
+      if (count === 1) {
+        return '1 item selecionado';
+      } else if (count > 1) {
+        return `${count} itens selecionados`;
+      }
+    },
   },
 };
 
