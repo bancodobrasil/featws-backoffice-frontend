@@ -39,12 +39,16 @@ export const DeferRules = () => {
       action();
       return;
     }
+    if (currentScreen === EnumDeferRulesScreens.CONFIRMATION) {
+      setCurrentScreen(EnumDeferRulesScreens.LIST);
+      return;
+    }
     navigate(`/rulesheets/${id}`);
   };
 
   const _onBackClickHandler = () => {
     onBackClickHandler();
-  }
+  };
 
   const fetchRecord = async () => {
     if (loadingRecord) {
