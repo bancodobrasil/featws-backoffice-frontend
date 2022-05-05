@@ -3,30 +3,88 @@ import { makeStyles } from '@material-ui/core/styles';
 const Style = makeStyles(theme => ({
   root: {
     width: '100%',
+    height: '100%',
     paddingTop: 16,
     paddingBottom: 16,
   },
-  headingContainer: {
-    flex: 1,
+  breadcrumbsContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: 16,
+    position: 'relative',
+    left: '-5px',
+    top: '-5px',
   },
-  headingButtonsContainer: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
+  breadcrumbs: {
+    '& .featws-ui-MuiBreadcrumbs-separator': {
+      display: 'none',
+    },
+    marginLeft: 5,
+    color: '#000000',
+    fontWeight: 300,
+    fontSize: '14px',
+    lineHeight: '24px',
+    letterSpacing: '0.1px',
+  },
+  breadcrumbsSeparator: {
+    color: 'black',
+    marginRight: 8,
+    marginLeft: 8,
+    '&.last': {
+      color: '#BFC3CA',
+    },
+  },
+  breadcrumbItem: {},
+  breadcrumbActive: {
+    color: '#BFC3CA',
+  },
+  gridContainer: {
+    paddingTop: 11,
+    height: '100%',
+    '& .featws-ui-MuiPaper-root': {
+      height: '90%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+  h1: {
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '24px',
+    letterSpacing: '0.18px',
+    margin: 0,
+    padding: 16,
   },
   form: {
-    padding: 16,
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },
   inputContainer: {
-    marginBottom: 16,
+    marginTop: 25,
+    marginLeft: 16,
+    marginRight: 16,
+    '& .featws-ui-MuiInputLabel-shrink': {
+      fontSize: 16,
+    }
+  },
+  actionContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  actionDividerContainer: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'flex-end',
+    '& .featws-ui-MuiDivider-root': {
+      flex: 1,
+    },
   },
   actionButtonsContainer: {
-    marginTop: 16,
+    margin: 16,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
 }));
 

@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { Box, Button, Divider, Paper, TextField } from '@material-ui/core';
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import Style from './Style';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import ListButton from '../../../components/Buttons/ListButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 export const CreateRuleSheet = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>('');
+  const [slug, setSlug] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   const classes = Style();
+
+  const onBackClickHandler = () => {
+    navigate('/');
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,34 +48,97 @@ export const CreateRuleSheet = () => {
 
   return (
     <Box className={classes.root}>
-      <div className={classes.headingContainer}>
-        <h1>Create Rule Sheet</h1>
-        <div className={classes.headingButtonsContainer}>
-          <ListButton label="Rule Sheets" />
-        </div>
+      <div className={classes.breadcrumbsContainer}>
+        <IconButton onClick={onBackClickHandler} size="small">
+          <ArrowBackIcon fontSize="small" color="primary" />
+        </IconButton>
+        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Link color="textPrimary" component={RouterLink} to="/">
+            FeatWS
+          </Link>
+          <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+          <Typography component="span" className={classes.breadcrumbActive}>
+            Deferimento
+          </Typography>
+        </Breadcrumbs>
       </div>
-      <Paper elevation={1}>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
-          <div className={classes.inputContainer}>
-            <TextField
-              id="name"
-              label="Name"
-              variant="outlined"
-              required
-              value={name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-          <Divider />
-          <div className={classes.actionButtonsContainer}>
-            <Button variant="contained" color="primary" type="submit" disabled={loadingSubmit}>
-              Create
-            </Button>
-          </div>
-        </form>
-      </Paper>
+      <Grid container className={classes.gridContainer}>
+        <Grid xs={5}>
+          <Paper elevation={1}>
+            <h1 className={classes.h1}>Criar Nova Folha de Regras</h1>
+            <Divider />
+            <form className={classes.form} onSubmit={handleFormSubmit}>
+              <div className={classes.inputContainer}>
+                <TextField
+                  id="name"
+                  label="Nome da Folha de Regras"
+                  placeholder="Defina um nome"
+                  fullWidth
+                  required
+                  value={name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setName(e.target.value);
+                    setSlug(e.target.value.toLowerCase().split(' ').join('-'));
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
+              <div className={classes.inputContainer}>
+                <TextField
+                  id="slug"
+                  label="Slug da Folha de Regras"
+                  placeholder="slug-da-folha-de-regras"
+                  fullWidth
+                  required
+                  value={slug}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSlug(e.target.value.toLowerCase().split(' ').join('-'));
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
+              <div className={classes.inputContainer}>
+                <TextField
+                  id="description"
+                  label="Descrição (opcional)"
+                  placeholder="Digite sua descrição..."
+                  fullWidth
+                  helperText={`${500 - description.length} caracteres restantes`}
+                  multiline
+                  rows={3}
+                  value={description}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setDescription(e.target.value);
+                  }}
+                  inputProps={{ maxLength: 500 }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
+              <div className={classes.actionContainer}>
+                <div className={classes.actionDividerContainer}>
+                  <Divider />
+                </div>
+                <div className={classes.actionButtonsContainer}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={loadingSubmit}
+                  >
+                    Create
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
