@@ -234,6 +234,7 @@ export const DeferRulesList = ({
           autoHeight
           checkboxSelection
           disableSelectionOnClick
+          selectionModel={listSelectionId}
           onSelectionModelChange={onSelectionModelChangeHandler}
         />
         <Divider className={classes.divider} />
