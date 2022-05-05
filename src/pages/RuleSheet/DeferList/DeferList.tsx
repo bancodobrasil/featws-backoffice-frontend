@@ -265,7 +265,7 @@ export const DeferRulesList = () => {
       return;
     }
     return (
-      <div className={classes.filtersContainer}>
+      <div>
         <FormControl variant="outlined" className={classes.filterSelect}>
           <InputLabel ref={codeInputLabel} id="filter-code-select-input-label">
             Filtrar por código
@@ -353,32 +353,30 @@ export const DeferRulesList = () => {
       <div className={classes.headingContainer}>
         <h1 className={classes.h1}>Quais regras você quer deferir?</h1>
       </div>
-      <Grid container className={classes.gridContainer}>
-        <Grid item xs={8} className={classes.gridLeft}>
-          {renderFilterSearch()}
-          <DataGrid
-            className={classes.dataGrid}
-            rows={rules}
-            columns={columns}
-            pageSize={pageSize}
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
-            onPageSizeChange={onPageSizeChangeHandler}
-            autoHeight
-            checkboxSelection
-            disableSelectionOnClick
-            onSelectionModelChange={onSelectionModelChangeHandler}
-          />
-          <Divider className={classes.divider} />
-          <div className={classes.containerActionButtons}>
-            <Button variant="contained" color="secondary">
-              Voltar
-            </Button>
-            <Button variant="contained" color="primary" className={classes.buttonAdvance}>
-              Avançar
-            </Button>
-          </div>
-        </Grid>
-      </Grid>
+      <div className={classes.mainContainer}>
+        {renderFilterSearch()}
+        <DataGrid
+          className={classes.dataGrid}
+          rows={rules}
+          columns={columns}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          onPageSizeChange={onPageSizeChangeHandler}
+          autoHeight
+          checkboxSelection
+          disableSelectionOnClick
+          onSelectionModelChange={onSelectionModelChangeHandler}
+        />
+        <Divider className={classes.divider} />
+        <div className={classes.containerActionButtons}>
+          <Button variant="contained" color="secondary">
+            Voltar
+          </Button>
+          <Button variant="contained" color="primary" className={classes.buttonAdvance}>
+            Avançar
+          </Button>
+        </div>
+      </div>
     </Box>
   );
 };

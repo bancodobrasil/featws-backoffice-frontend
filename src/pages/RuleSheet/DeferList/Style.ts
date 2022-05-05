@@ -54,10 +54,9 @@ const Style = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  gridContainer: {
+  mainContainer: {
     marginTop: 26,
   },
-  gridLeft: {},
   chipSlug: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     fontWeight: 500,
@@ -65,16 +64,13 @@ const Style = makeStyles(theme => ({
     lineHeight: '20px',
     letterSpacing: '0.25px',
   },
-  filtersContainer: {
-    display: 'flex',
-  },
   filtersHeading: {
     fontWeight: 600,
     fontSize: '16px',
     lineHeight: '24px',
   },
   filterSelect: {
-    flex: 1,
+    minWidth: 320,
     marginRight: 38,
     '& .featws-ui-MuiFormLabel-root': {
       fontWeight: '600',
