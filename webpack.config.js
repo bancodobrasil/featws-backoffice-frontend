@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 const { ModuleFederationPlugin } = require('webpack').container;
-const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 const deps = require('./package.json').dependencies;
 
@@ -10,7 +9,7 @@ module.exports = {
   mode: 'development',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'dist'),
     },
     port: 9030,
     host: '0.0.0.0',
@@ -101,7 +100,6 @@ module.exports = {
             loader: 'css-loader',
             options: {
               sourceMap: true,
-              url: false,
             },
           },
         ],
@@ -109,11 +107,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyPlugin({
-      patterns: [
-        path.resolve(__dirname, "public"),
-      ],
-    }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify({
         ...process.env,
