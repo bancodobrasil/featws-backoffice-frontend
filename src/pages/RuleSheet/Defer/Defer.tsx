@@ -5,7 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { DeferRulesList } from './screens';
+import { DeferRulesConfirmation, DeferRulesList } from './screens';
+
+export enum EnumDeferRulesScreens {
+  LIST = 'LIST',
+  CONFIRMATION = 'CONFIRMATION',
+}
 
 export const DeferRules = () => {
   const navigate = useNavigate();
@@ -13,6 +18,10 @@ export const DeferRules = () => {
 
   const [record, setRecord] = useState<IRuleSheet | undefined>();
   const [loadingRecord, setLoadingRecord] = useState<boolean>(false);
+
+  const [currentScreen, setCurrentScreen] = useState<EnumDeferRulesScreens>(
+    EnumDeferRulesScreens.LIST,
+  );
 
   const [pageSize, setPageSize] = useState<number>(10);
 
@@ -25,9 +34,17 @@ export const DeferRules = () => {
 
   const classes = Style();
 
-  const onBackClickHandler = () => {
+  const onBackClickHandler = (action?: () => void) => {
+    if (action) {
+      action();
+      return;
+    }
     navigate(`/rulesheets/${id}`);
   };
+
+  const _onBackClickHandler = () => {
+    onBackClickHandler();
+  }
 
   const fetchRecord = async () => {
     if (loadingRecord) {
@@ -157,10 +174,42 @@ export const DeferRules = () => {
     return renderLoadingRecord();
   }
 
+  const renderCurrentScreen = () => {
+    if (currentScreen === EnumDeferRulesScreens.LIST) {
+      return (
+        <DeferRulesList
+          record={record}
+          pageSize={pageSize}
+          listSelectionId={listSelectionId}
+          code={code}
+          author={author}
+          rules={rules}
+          isFiltering={isFiltering}
+          setPageSize={setPageSize}
+          setListSelectionId={setListSelectionId}
+          setCode={setCode}
+          setAuthor={setAuthor}
+          setRules={setRules}
+          setIsFiltering={setIsFiltering}
+          onBackClickHandler={onBackClickHandler}
+          setCurrentScreen={setCurrentScreen}
+        />
+      );
+    }
+    return (
+      <DeferRulesConfirmation
+        rulesheet={record}
+        rules={rules.filter(rule => listSelectionId.includes(rule.id))}
+        onBackClickHandler={onBackClickHandler}
+        setCurrentScreen={setCurrentScreen}
+      />
+    );
+  };
+
   return (
     <Box className={classes.root}>
       <div className={classes.breadcrumbsContainer}>
-        <IconButton onClick={onBackClickHandler} size="small">
+        <IconButton onClick={_onBackClickHandler} size="small">
           <ArrowBackIcon fontSize="small" color="primary" />
         </IconButton>
         <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -177,22 +226,7 @@ export const DeferRules = () => {
           </Typography>
         </Breadcrumbs>
       </div>
-      <DeferRulesList
-        record={record}
-        pageSize={pageSize}
-        listSelectionId={listSelectionId}
-        code={code}
-        author={author}
-        rules={rules}
-        isFiltering={isFiltering}
-        setPageSize={setPageSize}
-        setListSelectionId={setListSelectionId}
-        setCode={setCode}
-        setAuthor={setAuthor}
-        setRules={setRules}
-        setIsFiltering={setIsFiltering}
-        onBackClickHandler={onBackClickHandler}
-      />
+      {renderCurrentScreen()}
     </Box>
   );
 };

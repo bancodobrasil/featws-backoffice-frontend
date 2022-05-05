@@ -12,6 +12,7 @@ import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import React, { useEffect, useRef, useState } from 'react';
 import StatusBullet from '../../../../../components/StatusBullet';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
+import { EnumDeferRulesScreens } from '../../Defer';
 import Style from './Style';
 
 const columns: GridColDef[] = [
@@ -65,7 +66,8 @@ export interface IDeferRulesListProps {
   setAuthor: (author: string) => void;
   setRules: (rules: IRule[]) => void;
   setIsFiltering: (isFiltering: boolean) => void;
-  onBackClickHandler: () => void;
+  onBackClickHandler: (action?: () => void) => void;
+  setCurrentScreen: (currentScreen: EnumDeferRulesScreens) => void;
 }
 
 export const DeferRulesList = ({
@@ -83,6 +85,7 @@ export const DeferRulesList = ({
   setRules,
   setIsFiltering,
   onBackClickHandler,
+  setCurrentScreen,
 }: IDeferRulesListProps) => {
   const codeInputLabel = useRef<HTMLLabelElement>();
   const authorInputLabel = useRef<HTMLLabelElement>();
@@ -90,6 +93,14 @@ export const DeferRulesList = ({
   const [authorLabelWidth, setAuthorLabelWidth] = useState<number>(0);
 
   const classes = Style();
+
+  const _onBackClickHandler = () => {
+    onBackClickHandler();
+  }
+
+  const onAdvanceClickHandler = () => {
+    setCurrentScreen(EnumDeferRulesScreens.CONFIRMATION);
+  }
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
     setPageSize(newPageSize);
@@ -227,7 +238,7 @@ export const DeferRulesList = ({
         />
         <Divider className={classes.divider} />
         <div className={classes.containerActionButtons}>
-          <Button variant="contained" color="secondary" onClick={onBackClickHandler}>
+          <Button variant="contained" color="secondary" onClick={_onBackClickHandler}>
             Voltar
           </Button>
           <Button
@@ -235,6 +246,7 @@ export const DeferRulesList = ({
             color="primary"
             className={classes.buttonAdvance}
             disabled={listSelectionId?.length <= 0}
+            onClick={onAdvanceClickHandler}
           >
             Avançar
           </Button>
