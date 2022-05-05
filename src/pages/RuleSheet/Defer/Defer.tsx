@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Breadcrumbs, IconButton, Link, Typography } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,6 +6,8 @@ import { IRule, IRuleSheet } from '../../../interfaces';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import './Styles.css';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -32,7 +34,14 @@ export const DeferRules = () => {
   const [rules, setRules] = useState<IRule[]>([]);
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
+  const screenNode = useRef<any>();
+
   const classes = Style();
+
+  const scrollTop = () => {
+    // Workaround for window.scrollTo(0, 0); to work. It is not working with the inherited CSS from APW (body height 100%).
+    Array.from(document.getElementsByClassName('apw-root-jss1'))[0].scrollTo(0, 0);
+  };
 
   const onBackClickHandler = (action?: () => void) => {
     if (action) {
@@ -164,11 +173,6 @@ export const DeferRules = () => {
     setRules(record.rules);
   }, [record]);
 
-  useEffect(() => {
-    // Workaround for window.scrollTo(0, 0); to work. It is not working with the inherited CSS from APW (body height 100%).
-    Array.from(document.getElementsByClassName('apw-root-jss1'))[0].scrollTo(0, 0);
-  }, [currentScreen]);
-
   const renderLoadingRecord = () => {
     return (
       <div className={classes.loadingRecord}>
@@ -217,25 +221,39 @@ export const DeferRules = () => {
 
   return (
     <Box className={classes.root}>
-      <div className={classes.breadcrumbsContainer}>
-        <IconButton onClick={_onBackClickHandler} size="small">
-          <ArrowBackIcon fontSize="small" color="primary" />
-        </IconButton>
-        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-          <Link color="textPrimary" component={RouterLink} to="/">
-            FeatWS
-          </Link>
-          <span className={classes.breadcrumbsSeparator}>/</span>
-          <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
-            {record?.name}
-          </Link>
-          <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
-          <Typography component="span" className={classes.breadcrumbActive}>
-            Deferimento
-          </Typography>
-        </Breadcrumbs>
-      </div>
-      {renderCurrentScreen()}
+      <SwitchTransition>
+        <CSSTransition
+          key={currentScreen}
+          nodeRef={screenNode}
+          timeout={1000}
+          classNames="fade-and-slide"
+          onExited={scrollTop}
+        >
+          <div ref={screenNode}>
+            <div className="transition-root">
+              <div className={classes.breadcrumbsContainer}>
+                <IconButton onClick={_onBackClickHandler} size="small">
+                  <ArrowBackIcon fontSize="small" color="primary" />
+                </IconButton>
+                <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+                  <Link color="textPrimary" component={RouterLink} to="/">
+                    FeatWS
+                  </Link>
+                  <span className={classes.breadcrumbsSeparator}>/</span>
+                  <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
+                    {record?.name}
+                  </Link>
+                  <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+                  <Typography component="span" className={classes.breadcrumbActive}>
+                    Deferimento
+                  </Typography>
+                </Breadcrumbs>
+              </div>
+              {renderCurrentScreen()}
+            </div>
+          </div>
+        </CSSTransition>
+      </SwitchTransition>
     </Box>
   );
 };
