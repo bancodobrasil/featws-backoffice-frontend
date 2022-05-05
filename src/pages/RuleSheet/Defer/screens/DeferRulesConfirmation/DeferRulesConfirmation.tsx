@@ -1,5 +1,16 @@
-import { Button, Divider, Grid, Paper } from '@material-ui/core';
-import React from 'react';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+} from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
+import React, { useState } from 'react';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
 import Style from './Style';
@@ -17,6 +28,8 @@ export const DeferRulesConfirmation = ({
   setCurrentScreen,
   onBackClickHandler,
 }: IDeferRulesConfirmationProps) => {
+  const [isDialogConfirmationOpen, setIsDialogConfirmationOpen] = useState<boolean>(false);
+
   const classes = Style();
 
   const onBackAction = () => {
@@ -25,6 +38,24 @@ export const DeferRulesConfirmation = ({
 
   const _onBackClickHandler = () => {
     onBackClickHandler(onBackAction);
+  };
+
+  const handleOpenConfirmationDialog = () => {
+    setIsDialogConfirmationOpen(true);
+  };
+
+  const deferRules = () => {
+    // TODO: Implement API request for defer rules
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    setIsDialogConfirmationOpen(false);
+    // TODO: Implement condition to open the time confirmation dialog
+    deferRules();
+  };
+
+  const handleConfirmationOk = () => {
+    handleCloseConfirmationDialog();
   };
 
   const renderRulesList = () => {
@@ -80,13 +111,48 @@ export const DeferRulesConfirmation = ({
               <Button variant="contained" color="secondary" onClick={_onBackClickHandler}>
                 Voltar
               </Button>
-              <Button variant="contained" color="primary" className={classes.buttonDefer}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.buttonDefer}
+                onClick={handleOpenConfirmationDialog}
+              >
                 Deferir {rules.length <= 1 ? 'Regra' : 'Regras'}
               </Button>
             </div>
           </Paper>
         </Grid>
       </Grid>
+      <Dialog
+        onClose={handleCloseConfirmationDialog}
+        aria-labelledby="confirmation-dialog-title"
+        open={isDialogConfirmationOpen}
+        className={classes.dialog}
+      >
+        <div id="confirmation-dialog-title" className={classes.dialogTitle}>
+          <h3>Você tem certeza que quer deferir essa regra?</h3>
+          <IconButton size="small" onClick={handleCloseConfirmationDialog}>
+            <CancelIcon fontSize="small" />
+          </IconButton>
+        </div>
+        <div className={classes.dialogContent}>
+          Atenção, após confirmar, a regra será aplicada! Após ser deferida, você poderá deletar a
+          regra se quiser.
+        </div>
+        <div className={classes.dialogActions}>
+          <Button
+            autoFocus
+            onClick={handleCloseConfirmationDialog}
+            color="secondary"
+            variant="contained"
+          >
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmationOk} color="primary" variant="contained" className={classes.dialogButtonConfirm}>
+            Confirmar Deferimento
+          </Button>
+        </div>
+      </Dialog>
     </div>
   );
 };

@@ -53,6 +53,33 @@ const Style = makeStyles(theme => ({
   buttonDefer: {
     marginLeft: 16,
   },
+  dialog: {
+    '& .featws-ui-MuiDialog-paper': {
+      padding: 16,
+    },
+  },
+  dialogTitle: {
+    display: 'flex',
+    alignItems: 'center',
+    '& h3': {
+      flex: 1,
+      margin: 0,
+      fontWeight: 700,
+      fontSize: 22,
+    },
+  },
+  dialogContent: {
+    marginTop: 16,
+    marginBottom: 32,
+    fontSize: 16,
+  },
+  dialogActions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  dialogButtonConfirm: {
+    marginLeft: 16,
+  },
 }));
 
 export default Style;
