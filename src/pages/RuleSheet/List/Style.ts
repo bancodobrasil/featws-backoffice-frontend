@@ -28,8 +28,11 @@ const Style = makeStyles(theme => ({
           display: 'none',
         },
       },
-      '&  .MuiDataGrid-cell:focus-within': {
-        outline: 'none',
+      '& .MuiDataGrid-cell': {
+        cursor: 'pointer',
+        '&:focus-within': {
+          outline: 'none',
+        },
       },
     },
   },
