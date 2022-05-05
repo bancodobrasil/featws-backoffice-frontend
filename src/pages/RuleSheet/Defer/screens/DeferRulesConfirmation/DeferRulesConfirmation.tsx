@@ -57,8 +57,8 @@ export const DeferRulesConfirmation = ({
 
   const handleConfirmationOk = () => {
     handleCloseConfirmationDialog();
-    // TODO: Implement condition to open the time confirmation dialog
-    if (true) {
+    // TODO: Implement condition to open the time confirmation dialog, and verify with the team if it really will be used
+    if (false) {
       handleOpenTimeDialog();
       return;
     }
