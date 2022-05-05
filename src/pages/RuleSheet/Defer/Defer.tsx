@@ -60,7 +60,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-export const DeferRulesList = () => {
+export const DeferRules = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -84,7 +84,7 @@ export const DeferRulesList = () => {
   const classes = Style();
 
   const onBackClickHandler = () => {
-    navigate('/rulesheets');
+    navigate(`/rulesheets/${id}`);
   };
 
   const onCodeChangeHandler = event => {
@@ -369,10 +369,10 @@ export const DeferRulesList = () => {
         />
         <Divider className={classes.divider} />
         <div className={classes.containerActionButtons}>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={onBackClickHandler}>
             Voltar
           </Button>
-          <Button variant="contained" color="primary" className={classes.buttonAdvance}>
+          <Button variant="contained" color="primary" className={classes.buttonAdvance} disabled={listSelectionId?.length <= 0}>
             Avançar
           </Button>
         </div>
