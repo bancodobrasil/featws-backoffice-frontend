@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  Divider,
-  Grid,
-  IconButton,
-  Paper,
-} from '@material-ui/core';
+import { Button, Dialog, Divider, Grid, IconButton, Paper } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import React, { useState } from 'react';
 import { IRule, IRuleSheet } from '../../../../../interfaces';

@@ -164,6 +164,11 @@ export const DeferRules = () => {
     setRules(record.rules);
   }, [record]);
 
+  useEffect(() => {
+    // Workaround for window.scrollTo(0, 0); to work. It is not working with the inherited CSS from APW (body height 100%).
+    Array.from(document.getElementsByClassName('apw-root-jss1'))[0].scrollTo(0, 0);
+  }, [currentScreen]);
+
   const renderLoadingRecord = () => {
     return (
       <div className={classes.loadingRecord}>

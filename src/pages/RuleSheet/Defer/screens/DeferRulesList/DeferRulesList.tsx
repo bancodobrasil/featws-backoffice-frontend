@@ -96,11 +96,11 @@ export const DeferRulesList = ({
 
   const _onBackClickHandler = () => {
     onBackClickHandler();
-  }
+  };
 
   const onAdvanceClickHandler = () => {
     setCurrentScreen(EnumDeferRulesScreens.CONFIRMATION);
-  }
+  };
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
     setPageSize(newPageSize);
