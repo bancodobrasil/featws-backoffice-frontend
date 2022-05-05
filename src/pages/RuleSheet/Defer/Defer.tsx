@@ -1,64 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Chip,
-  Divider,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  Link,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Box, Breadcrumbs, IconButton, Link, Typography } from '@material-ui/core';
 import Style from './Style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IRule, IRuleSheet } from '../../../interfaces';
-import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import StatusBullet from '../../../components/StatusBullet';
-
-const columns: GridColDef[] = [
-  {
-    field: 'title',
-    headerName: 'Título',
-    minWidth: 200,
-  },
-  {
-    field: 'date',
-    headerName: 'Data',
-    minWidth: 150,
-    type: 'date',
-  },
-  {
-    field: 'author',
-    headerName: 'Autor',
-    minWidth: 250,
-    sortable: false,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    minWidth: 230,
-    sortable: false,
-    renderCell: params => {
-      const classes = Style();
-
-      return (
-        <Chip
-          className={classes.chipStatus}
-          avatar={<StatusBullet status={params.value as string} />}
-          label={params.value}
-        />
-      );
-    },
-  },
-];
+import { DeferRulesList } from './screens';
 
 export const DeferRules = () => {
   const navigate = useNavigate();
@@ -76,51 +23,10 @@ export const DeferRules = () => {
   const [rules, setRules] = useState<IRule[]>([]);
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
-  const codeInputLabel = useRef<HTMLLabelElement>();
-  const authorInputLabel = useRef<HTMLLabelElement>();
-  const [codeLabelWidth, setCodeLabelWidth] = React.useState(0);
-  const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
-
   const classes = Style();
 
   const onBackClickHandler = () => {
     navigate(`/rulesheets/${id}`);
-  };
-
-  const onCodeChangeHandler = event => {
-    setCode(event.target.value);
-  };
-
-  const onAuthorChangeHandler = event => {
-    setAuthor(event.target.value);
-  };
-
-  const onSearchClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-    if (!record) {
-      return;
-    }
-    let _isFiltering = false;
-    let listRule = record.rules;
-    if (code) {
-      listRule = listRule.filter(rule => rule.id === code);
-      _isFiltering = true;
-    }
-    if (author) {
-      listRule = listRule.filter(rule => rule.author === author);
-      _isFiltering = true;
-    }
-    setIsFiltering(_isFiltering);
-    setRules(listRule);
-  };
-
-  const onPageSizeChangeHandler = (newPageSize: number) => {
-    setPageSize(newPageSize);
-  };
-
-  const onSelectionModelChangeHandler = (selectionModel: GridSelectionModel, details: any) => {
-    setListSelectionId(selectionModel as string[]);
   };
 
   const fetchRecord = async () => {
@@ -237,15 +143,6 @@ export const DeferRules = () => {
     setRules(record.rules);
   }, [record]);
 
-  useEffect(() => {
-    if (codeInputLabel.current) {
-      setCodeLabelWidth(codeInputLabel.current.offsetWidth);
-    }
-    if (authorInputLabel.current) {
-      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    }
-  }, [codeInputLabel.current, authorInputLabel.current]);
-
   const renderLoadingRecord = () => {
     return (
       <div className={classes.loadingRecord}>
@@ -259,76 +156,6 @@ export const DeferRules = () => {
   if (loadingRecord) {
     return renderLoadingRecord();
   }
-
-  const renderFilterSearch = () => {
-    if (!isFiltering && rules.length <= 10) {
-      return;
-    }
-    return (
-      <div>
-        <FormControl variant="outlined" className={classes.filterSelect}>
-          <InputLabel ref={codeInputLabel} id="filter-code-select-input-label">
-            Filtrar por código
-          </InputLabel>
-          <Select
-            labelId="filter-code-select-label"
-            id="filter-code-select"
-            value={code}
-            onChange={onCodeChangeHandler}
-            label="Código"
-            input={
-              <OutlinedInput labelWidth={codeLabelWidth} name="code-input" id="outlined-code" />
-            }
-          >
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => {
-              return (
-                <MenuItem key={index} value={id}>
-                  {id}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl variant="outlined" className={classes.filterSelect}>
-          <InputLabel ref={authorInputLabel} id="filter-author-select-input-label">
-            Filtrar por autor
-          </InputLabel>
-          <Select
-            labelId="filter-author-select-label"
-            id="filter-author-select"
-            onChange={onAuthorChangeHandler}
-            value={author}
-            label="Autor"
-            input={
-              <OutlinedInput
-                labelWidth={authorLabelWidth}
-                name="author-input"
-                id="outlined-author"
-              />
-            }
-          >
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.author))].map((author, index) => {
-              return (
-                <MenuItem key={index} value={author}>
-                  {author}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.buttonSearch}
-          onClick={onSearchClickHandler}
-        >
-          Buscar
-        </Button>
-      </div>
-    );
-  };
 
   return (
     <Box className={classes.root}>
@@ -350,33 +177,22 @@ export const DeferRules = () => {
           </Typography>
         </Breadcrumbs>
       </div>
-      <div className={classes.headingContainer}>
-        <h1 className={classes.h1}>Quais regras você quer deferir?</h1>
-      </div>
-      <div className={classes.mainContainer}>
-        {renderFilterSearch()}
-        <DataGrid
-          className={classes.dataGrid}
-          rows={rules}
-          columns={columns}
-          pageSize={pageSize}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          onPageSizeChange={onPageSizeChangeHandler}
-          autoHeight
-          checkboxSelection
-          disableSelectionOnClick
-          onSelectionModelChange={onSelectionModelChangeHandler}
-        />
-        <Divider className={classes.divider} />
-        <div className={classes.containerActionButtons}>
-          <Button variant="contained" color="secondary" onClick={onBackClickHandler}>
-            Voltar
-          </Button>
-          <Button variant="contained" color="primary" className={classes.buttonAdvance} disabled={listSelectionId?.length <= 0}>
-            Avançar
-          </Button>
-        </div>
-      </div>
+      <DeferRulesList
+        record={record}
+        pageSize={pageSize}
+        listSelectionId={listSelectionId}
+        code={code}
+        author={author}
+        rules={rules}
+        isFiltering={isFiltering}
+        setPageSize={setPageSize}
+        setListSelectionId={setListSelectionId}
+        setCode={setCode}
+        setAuthor={setAuthor}
+        setRules={setRules}
+        setIsFiltering={setIsFiltering}
+        onBackClickHandler={onBackClickHandler}
+      />
     </Box>
   );
 };
