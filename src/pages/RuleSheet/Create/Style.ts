@@ -65,7 +65,7 @@ const Style = makeStyles(theme => ({
     marginRight: 16,
     '& .featws-ui-MuiInputLabel-shrink': {
       fontSize: 16,
-    }
+    },
   },
   actionContainer: {
     flex: 1,
@@ -85,6 +85,9 @@ const Style = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  buttonSubmit: {
+    marginLeft: 16,
   },
 }));
 

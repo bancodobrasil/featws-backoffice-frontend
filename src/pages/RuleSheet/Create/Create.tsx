@@ -127,11 +127,20 @@ export const CreateRuleSheet = () => {
                 <div className={classes.actionButtonsContainer}>
                   <Button
                     variant="contained"
+                    color="secondary"
+                    disabled={loadingSubmit}
+                    onClick={onBackClickHandler}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="contained"
                     color="primary"
                     type="submit"
                     disabled={loadingSubmit}
+                    className={classes.buttonSubmit}
                   >
-                    Create
+                    Criar Folha de Regras
                   </Button>
                 </div>
               </div>
