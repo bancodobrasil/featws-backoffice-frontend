@@ -77,8 +77,19 @@ export const CreateRuleSheet = () => {
                   required
                   value={name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setName(e.target.value);
-                    setSlug(e.target.value.toLowerCase().split(' ').join('-'));
+                    const { value } = e.target;
+                    setName(value);
+                    setSlug(
+                      value
+                        .toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9 ]/g, '')
+                        .trim()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/[\s_-]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                    );
                   }}
                   InputLabelProps={{
                     shrink: true,
