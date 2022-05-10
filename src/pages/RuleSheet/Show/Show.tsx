@@ -21,6 +21,7 @@ import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import StatusBullet from '../../../components/StatusBullet';
 
 const columns: GridColDef[] = [
   {
@@ -47,35 +48,11 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: params => {
       const classes = Style();
-      const Bullet = ({ status }: { status: string }) => {
-        let color;
-        switch (status) {
-          case 'Deferida':
-            color = '#16C559';
-            break;
-          case 'Aguardando deferimento':
-            color = '#07B4F2';
-            break;
-          case 'Rascunho':
-            color = '#F97A70';
-            break;
-        }
-        return (
-          <div
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: 999,
-              marginLeft: 16,
-              backgroundColor: color,
-            }}
-          />
-        );
-      };
+
       return (
         <Chip
           className={classes.chipStatus}
-          avatar={<Bullet status={params.value as string} />}
+          avatar={<StatusBullet status={params.value as string} />}
           label={params.value}
         />
       );
@@ -102,6 +79,10 @@ export const ShowRuleSheet = () => {
   const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
 
   const classes = Style();
+
+  const onDeferRuleClickHandler = () => {
+    navigate(`/rulesheets/${id}/defer`);
+  }
 
   const onBackClickHandler = () => {
     navigate('/rulesheets');
@@ -225,6 +206,10 @@ export const ShowRuleSheet = () => {
   };
 
   useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  useEffect(() => {
     if (!record) {
       return;
     }
@@ -232,10 +217,13 @@ export const ShowRuleSheet = () => {
   }, [record]);
 
   useEffect(() => {
-    setStatusLabelWidth(statusInputLabel.current.offsetWidth);
-    setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    fetchRecord();
-  }, []);
+    if (statusInputLabel.current) {
+      setStatusLabelWidth(statusInputLabel.current.offsetWidth);
+    }
+    if (authorInputLabel.current) {
+      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
+    }
+  }, [statusInputLabel.current, authorInputLabel.current]);
 
   const renderDescription = () => {
     return record?.description.split('\n').map((line, index) => (
@@ -295,9 +283,11 @@ export const ShowRuleSheet = () => {
           <div className={classes.descriptionContainer}>{renderDescription()}</div>
           <div className={classes.code}>Código da folha: {record?.code}</div>
           <div className={classes.rulesTotal}>Total de regras: 24</div>
-          <Button variant="contained" color="secondary" className={classes.deferRuleButton}>
-            Deferir uma Regra
-          </Button>
+          <AuthorizedComponent permissions={['admin']}>
+            <Button variant="contained" color="secondary" className={classes.deferRuleButton} onClick={onDeferRuleClickHandler}>
+              Deferir uma Regra
+            </Button>
+          </AuthorizedComponent>
         </Grid>
         <Grid item xs={9} className={classes.gridRight}>
           <h2 className={classes.rulesHeading}>Regras</h2>

@@ -6,6 +6,7 @@ import theme from '../../theme';
 import Style from './Style';
 import {
   CreateRuleSheet,
+  DeferRules,
   EditRuleSheet,
   ListRuleSheet,
   ShowRuleSheet,
@@ -69,6 +70,14 @@ const App = () => {
                         element={
                           <RequireAuth>
                             <ShowRuleSheet />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path="defer"
+                        element={
+                          <RequireAuth permissions={['admin']}>
+                            <DeferRules />
                           </RequireAuth>
                         }
                       />
