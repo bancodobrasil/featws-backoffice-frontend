@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   Breadcrumbs,
@@ -14,11 +14,13 @@ import {
 import Style from './Style';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-import ListButton from '../../../components/Buttons/ListButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 
 export const CreateRuleSheet = () => {
   const navigate = useNavigate();
+
+  const { dispatch } = useContext(NotificationContext);
 
   const [name, setName] = useState<string>('');
   const [slug, setSlug] = useState<string>('');
@@ -37,13 +39,49 @@ export const CreateRuleSheet = () => {
     setLoadingSubmit(true);
     // TODO: Implement the API request.
     // The Promise below simulates the loading time of the request, remove it when you implement the request itself.
-    await new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-    setLoadingSubmit(false);
-    navigate('../');
+    try {
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          // const error = { status: 500, message: 'Internal Server Error' };
+          // console.error(error.message, error);
+          // reject(error);
+          resolve();
+        }, 2000);
+      });
+      dispatch({
+        type: ActionTypes.OPEN_NOTIFICATION,
+        message: 'Folha de Regras criada com sucesso!',
+      });
+      navigate('../');
+    } catch (error) {
+      if (error.status) {
+        const title = `Erro (status code: ${error.status})`;
+        if (error.status === 500) {
+          dispatch({
+            type: ActionTypes.OPEN_NOTIFICATION,
+            title,
+            message:
+              'Ocorreu uma falha interna no nosso servidor, por favor tente novamente mais tarde.',
+            alertProps: { severity: 'error' },
+          });
+          return;
+        }
+        dispatch({
+          type: ActionTypes.OPEN_NOTIFICATION,
+          title,
+          message:
+            'Erro ao criar Folha de Regra. Se o problema persistir, entre em contato com um administrador do sistema.',
+          alertProps: { severity: 'error' },
+        });
+      }
+      dispatch({
+        type: ActionTypes.OPEN_NOTIFICATION,
+        message: 'Erro ao criar Folha de Regra.',
+        alertProps: { severity: 'error' },
+      });
+    } finally {
+      setLoadingSubmit(false);
+    }
   };
 
   return (
@@ -88,7 +126,7 @@ export const CreateRuleSheet = () => {
                         .trim()
                         .replace(/[^\w\s-]/g, '')
                         .replace(/[\s_-]+/g, '-')
-                        .replace(/^-+|-+$/g, '')
+                        .replace(/^-+|-+$/g, ''),
                     );
                   }}
                   InputLabelProps={{

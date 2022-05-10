@@ -4,6 +4,14 @@ import { ptBR } from '@material-ui/core/locale';
 
 import palette from './palette';
 import bbTypography from './bbTypography';
+import { AlertClassKey, AlertTitleClassKey } from '@material-ui/lab';
+
+declare module '@material-ui/core/styles/overrides' {
+  export interface ComponentNameToClassKey {
+    MuiAlert: AlertClassKey;
+    MuiAlertTitle: AlertTitleClassKey;
+  }
+}
 
 const ptBRMuiTablePaginationOverride = {
   ...ptBR.props.MuiTablePagination,
@@ -42,6 +50,17 @@ const theme = createTheme(
           lineHeight: '16px',
           letterSpacing: '1.25px',
         },
+      },
+      MuiAlert: {
+        message: {
+          color: palette.text.primary,
+          fontSize: 16,
+        },
+      },
+      MuiAlertTitle: {
+        root: {
+          fontSize: 16,
+        }
       },
       MuiDataGrid: {
         root: {
