@@ -13,6 +13,7 @@ import {
 } from '../../pages/RuleSheet';
 import RequireAuth from '../Auth/RequireAuth';
 import './AppStyles.css';
+import { NotificationProvider } from '../../contexts/NotificationContext';
 
 // INFO Mude a seed de acordo com o nome do seu projeto!
 const generateClassName = createGenerateClassName({
@@ -37,53 +38,55 @@ const App = () => {
           <Container maxWidth="xl" className={classes.main} disableGutters>
             <Box className={classes.mainContent}>
               <Router>
-                <Routes>
-                  <Route index element={<Navigate to="/rulesheets" replace />} />
-                  <Route path="rulesheets">
-                    <Route
-                      index
-                      element={
-                        <RequireAuth>
-                          <ListRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
-                    <Route
-                      path="create"
-                      element={
-                        <RequireAuth permissions={['admin']}>
-                          <CreateRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
-                    <Route
-                      path="edit/:id"
-                      element={
-                        <RequireAuth permissions={['admin']}>
-                          <EditRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
-                    <Route path=":id">
+                <NotificationProvider>
+                  <Routes>
+                    <Route index element={<Navigate to="/rulesheets" replace />} />
+                    <Route path="rulesheets">
                       <Route
                         index
                         element={
                           <RequireAuth>
-                            <ShowRuleSheet />
+                            <ListRuleSheet />
                           </RequireAuth>
                         }
                       />
                       <Route
-                        path="defer"
+                        path="create"
                         element={
                           <RequireAuth permissions={['admin']}>
-                            <DeferRules />
+                            <CreateRuleSheet />
                           </RequireAuth>
                         }
                       />
+                      <Route
+                        path="edit/:id"
+                        element={
+                          <RequireAuth permissions={['admin']}>
+                            <EditRuleSheet />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route path=":id">
+                        <Route
+                          index
+                          element={
+                            <RequireAuth>
+                              <ShowRuleSheet />
+                            </RequireAuth>
+                          }
+                        />
+                        <Route
+                          path="defer"
+                          element={
+                            <RequireAuth permissions={['admin']}>
+                              <DeferRules />
+                            </RequireAuth>
+                          }
+                        />
+                      </Route>
                     </Route>
-                  </Route>
-                </Routes>
+                  </Routes>
+                </NotificationProvider>
               </Router>
             </Box>
           </Container>
