@@ -17,14 +17,24 @@ import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 
+const NAME_MIN_LENGTH = 3;
+const NAME_MAX_LENGTH = 30;
+const SLUG_MIN_LENGTH = 3;
+const SLUG_MAX_LENGTH = 30;
+
 export const CreateRuleSheet = () => {
   const navigate = useNavigate();
 
   const { dispatch } = useContext(NotificationContext);
 
   const [name, setName] = useState<string>('');
+  const [nameError, setNameError] = useState<string>('');
+
   const [slug, setSlug] = useState<string>('');
+  const [slugError, setSlugError] = useState<string>('');
+
   const [description, setDescription] = useState<string>('');
+
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   const classes = Style();
@@ -36,6 +46,25 @@ export const CreateRuleSheet = () => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    let _nameError = '';
+    let _slugError = '';
+    if (name.length < NAME_MIN_LENGTH) {
+      _nameError = `Nome deve ter no mínimo ${NAME_MIN_LENGTH} caracteres.`;
+    } else if (name.length > NAME_MAX_LENGTH) {
+      _nameError = `Nome deve ter no máximo ${NAME_MAX_LENGTH} caracteres.`;
+    }
+    if (slug.length < SLUG_MIN_LENGTH) {
+      _slugError = `Slug deve ter no mínimo ${SLUG_MIN_LENGTH} caracteres.`;
+    } else if (slug.length > SLUG_MAX_LENGTH) {
+      _slugError = `Slug deve ter no máximo ${SLUG_MAX_LENGTH} caracteres.`;
+    }
+    if (!!_nameError || !!_slugError) {
+      setNameError(_nameError);
+      setSlugError(_slugError);
+      return;
+    }
+
     setLoadingSubmit(true);
     // TODO: Implement the API request.
     // The Promise below simulates the loading time of the request, remove it when you implement the request itself.
@@ -116,6 +145,8 @@ export const CreateRuleSheet = () => {
                   value={name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const { value } = e.target;
+                    setNameError('');
+                    setSlugError('');
                     setName(value);
                     setSlug(
                       value
@@ -129,9 +160,14 @@ export const CreateRuleSheet = () => {
                         .trim(),
                     );
                   }}
+                  inputProps={{
+                    maxLength: NAME_MAX_LENGTH,
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={!!nameError}
+                  helperText={nameError}
                 />
               </div>
               <div className={classes.inputContainer}>
@@ -143,6 +179,7 @@ export const CreateRuleSheet = () => {
                   required
                   value={slug}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSlugError('');
                     setSlug(
                       e.target.value
                         .toLowerCase()
@@ -155,9 +192,14 @@ export const CreateRuleSheet = () => {
                         .trim(),
                     );
                   }}
+                  inputProps={{
+                    maxLength: SLUG_MAX_LENGTH,
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={!!slugError}
+                  helperText={slugError}
                 />
               </div>
               <div className={classes.inputContainer}>
