@@ -244,7 +244,9 @@ export const DeferRulesConfirmation = ({
       <Grid container>
         <Grid xs={4}>
           <Paper className={classes.paper}>
-            <h1 className={classes.h1}>Confirme as informações da regra</h1>
+            <h1 className={classes.h1}>
+              Confirme as informações {rules.length === 1 ? 'da regra' : 'das regras'}
+            </h1>
             <Divider />
             {renderRulesList()}
             <Divider />
