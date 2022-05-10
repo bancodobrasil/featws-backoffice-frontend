@@ -2,17 +2,21 @@ import React, { createContext, useEffect, useReducer } from 'react';
 import { Alert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { Snackbar, SnackbarCloseReason, SnackbarProps } from '@material-ui/core';
 
+type SnackbarOnClose = (
+  event: React.SyntheticEvent<any, Event>,
+  reason: SnackbarCloseReason,
+) => void;
+
+type AlertOnClose = (event: React.SyntheticEvent<any, Event>) => void;
+
 type State = {
   isOpen: boolean;
   title?: string | JSX.Element;
   message: string | JSX.Element;
   snackbarProps: Omit<SnackbarProps, 'children' | 'open'>;
-  defaultSnackbarOnClose: (
-    event: React.SyntheticEvent<any, Event>,
-    reason: SnackbarCloseReason,
-  ) => void;
+  defaultSnackbarOnClose: SnackbarOnClose;
   alertProps: Omit<AlertProps, 'children'>;
-  defaultAlertOnClose: (event: React.SyntheticEvent<any, Event>) => void;
+  defaultAlertOnClose: AlertOnClose;
 };
 
 enum ActionTypes {
@@ -24,11 +28,8 @@ enum ActionTypes {
 type Action =
   | {
       type: ActionTypes.SET_DEFAULT_ON_CLOSE;
-      snackbarOnClose: (
-        event: React.SyntheticEvent<any, Event>,
-        reason: SnackbarCloseReason,
-      ) => void;
-      alertOnClose: (event: React.SyntheticEvent<any, Event>) => void;
+      snackbarOnClose: SnackbarOnClose;
+      alertOnClose: AlertOnClose;
     }
   | {
       type: ActionTypes.OPEN_NOTIFICATION;
@@ -41,11 +42,11 @@ type Action =
       type: ActionTypes.CLOSE_NOTIFICATION;
     };
 
-const defaultSnackbarProps: AlertProps = {};
+const defaultSnackbarProps: SnackbarProps = {};
 const defaultAlertProps: AlertProps = {
   variant: 'filled',
 };
-const initialState = {
+const initialState: State = {
   isOpen: false,
   title: undefined,
   message: '',
@@ -84,13 +85,13 @@ const reducer = (state: State, action: Action): State => {
           ...defaultAlertProps,
           onClose: state.defaultAlertOnClose,
         },
+        defaultSnackbarOnClose: state.defaultSnackbarOnClose,
+        defaultAlertOnClose: state.defaultAlertOnClose,
       };
     case ActionTypes.CLOSE_NOTIFICATION:
       return {
         ...state,
         isOpen: false,
-        defaultSnackbarOnClose: state.defaultSnackbarOnClose,
-        defaultAlertOnClose: state.defaultAlertOnClose,
       };
     default:
       throw new Error(`NotificationContext: Action not found`);
@@ -103,6 +104,7 @@ type Props = {};
 const NotificationProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Snackbar default close handler
   const onSnackbarCloseHandler = (
     event: React.SyntheticEvent<any, Event>,
     reason: SnackbarCloseReason,
@@ -112,10 +114,11 @@ const NotificationProvider: React.FC<Props> = ({ children }) => {
     }
     dispatch({ type: ActionTypes.CLOSE_NOTIFICATION });
   };
+  // Alert default close handler
   const onAlertCloseHandler = (event: React.SyntheticEvent<any, Event>) => {
     dispatch({ type: ActionTypes.CLOSE_NOTIFICATION });
   };
-
+  // Set the default handlers in the Context's state
   useEffect(() => {
     dispatch({
       type: ActionTypes.SET_DEFAULT_ON_CLOSE,
