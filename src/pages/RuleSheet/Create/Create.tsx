@@ -120,13 +120,13 @@ export const CreateRuleSheet = () => {
                     setSlug(
                       value
                         .toLowerCase()
-                        .normalize('NFD')
+                        .normalize('NFKD')
                         .replace(/[\u0300-\u036f]/g, '')
                         .replace(/[^a-zA-Z0-9 ]/g, '')
-                        .trim()
                         .replace(/[^\w\s-]/g, '')
                         .replace(/[\s_-]+/g, '-')
-                        .replace(/^-+|-+$/g, ''),
+                        .replace(/^-+|-+$/g, '')
+                        .trim(),
                     );
                   }}
                   InputLabelProps={{
@@ -143,7 +143,17 @@ export const CreateRuleSheet = () => {
                   required
                   value={slug}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setSlug(e.target.value.toLowerCase().split(' ').join('-'));
+                    setSlug(
+                      e.target.value
+                        .toLowerCase()
+                        .normalize('NFKD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9\-]/g, '')
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/[\s_-]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                        .trim(),
+                    );
                   }}
                   InputLabelProps={{
                     shrink: true,
