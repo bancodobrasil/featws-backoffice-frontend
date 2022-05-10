@@ -1,6 +1,8 @@
-import { Button, Dialog, Divider, Grid, IconButton, Paper } from '@material-ui/core';
+import { Button, Dialog, Divider, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
 import Style from './Style';
@@ -18,8 +20,14 @@ export const DeferRulesConfirmation = ({
   setCurrentScreen,
   onBackClickHandler,
 }: IDeferRulesConfirmationProps) => {
+  const navigate = useNavigate();
+
+  const { dispatch } = useContext(NotificationContext);
+
   const [isDialogConfirmationOpen, setIsDialogConfirmationOpen] = useState<boolean>(false);
   const [isDialogTimeOpen, setIsDialogTimeOpen] = useState<boolean>(false);
+
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   const classes = Style();
 
@@ -59,8 +67,52 @@ export const DeferRulesConfirmation = ({
     deferRules();
   };
 
-  const deferRules = () => {
+  const deferRules = async () => {
+    setLoadingSubmit(true);
     // TODO: Implement API request for defer rules
+    try {
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          // const error = { status: 500, message: 'Internal Server Error' };
+          // console.error(error.message, error);
+          // reject(error);
+          resolve();
+        }, 2000);
+      });
+      dispatch({
+        type: ActionTypes.OPEN_NOTIFICATION,
+        message: `${rules.length === 1 ? 'Regra deferida' : 'Regras deferidas'} com sucesso!`,
+      });
+      navigate('../');
+    } catch (error) {
+      if (error.status) {
+        const title = `Erro (status code: ${error.status})`;
+        if (error.status === 500) {
+          dispatch({
+            type: ActionTypes.OPEN_NOTIFICATION,
+            title,
+            message:
+              'Ocorreu uma falha interna no nosso servidor, por favor tente novamente mais tarde.',
+            alertProps: { severity: 'error' },
+          });
+          return;
+        }
+        dispatch({
+          type: ActionTypes.OPEN_NOTIFICATION,
+          title,
+          message:
+            'Erro ao deferir Regra. Se o problema persistir, entre em contato com um administrador do sistema.',
+          alertProps: { severity: 'error' },
+        });
+      }
+      dispatch({
+        type: ActionTypes.OPEN_NOTIFICATION,
+        message: 'Erro ao deferir Regra.',
+        alertProps: { severity: 'error' },
+      });
+    } finally {
+      setLoadingSubmit(false);
+    }
   };
 
   const renderRulesList = () => {
@@ -176,6 +228,16 @@ export const DeferRulesConfirmation = ({
       </Dialog>
     );
   };
+
+  if (loadingSubmit) {
+    return (
+      <div className={classes.loadingSubmit}>
+        <Typography variant="h2" component="p">
+          Carregando deferimento de {rules.length === 1 ? 'Regra' : 'Regras'}...
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <div>
