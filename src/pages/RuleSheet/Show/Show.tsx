@@ -237,7 +237,7 @@ export const ShowRuleSheet = () => {
     return (
       <div className={classes.loadingRecord}>
         <Typography variant="h2" component="p">
-          Loading...
+          Carregando Folha de Regras...
         </Typography>
       </div>
     );
