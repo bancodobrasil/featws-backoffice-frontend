@@ -80,6 +80,11 @@ const Style = makeStyles(theme => ({
   dialogButtonConfirm: {
     marginLeft: 16,
   },
+  loadingSubmit: {
+    marginTop: 24,
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 export default Style;

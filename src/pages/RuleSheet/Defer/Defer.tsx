@@ -177,7 +177,7 @@ export const DeferRules = () => {
     return (
       <div className={classes.loadingRecord}>
         <Typography variant="h2" component="p">
-          Loading...
+          Carregando lista de Regras...
         </Typography>
       </div>
     );
