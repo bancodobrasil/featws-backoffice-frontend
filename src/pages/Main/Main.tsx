@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Divider } from '@material-ui/core';
-import Style from './Style';
 import { Link } from 'react-router-dom';
+import Style from './Style';
 
 export const Main = () => {
-  useEffect(() => {}, []);
-
   const classes = Style();
 
   return (

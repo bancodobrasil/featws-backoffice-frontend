@@ -12,5 +12,5 @@ export interface IRule {
   title: string;
   date: Date;
   author: string;
-  status: "Deferida" | "Aguardando deferimento" | "Rascunho";
+  status: 'Deferida' | 'Aguardando deferimento' | 'Rascunho';
 }

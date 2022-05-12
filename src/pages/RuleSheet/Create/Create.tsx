@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useContext, useState } from 'react';
 import {
   Box,
@@ -11,10 +12,9 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import Style from './Style';
-import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Style from './Style';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 
 const NAME_MIN_LENGTH = 3;
@@ -123,7 +123,7 @@ export const CreateRuleSheet = () => {
           <Link color="textPrimary" component={RouterLink} to="/">
             FeatWS
           </Link>
-          <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+          <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
           <Typography component="span" className={classes.breadcrumbActive}>
             Deferimento
           </Typography>
@@ -185,7 +185,7 @@ export const CreateRuleSheet = () => {
                         .toLowerCase()
                         .normalize('NFKD')
                         .replace(/[\u0300-\u036f]/g, '')
-                        .replace(/[^a-zA-Z0-9\-]/g, '')
+                        .replace(/[^a-zA-Z0-9-]/g, '')
                         .replace(/[^\w\s-]/g, '')
                         .replace(/[\s_-]+/g, '-')
                         .replace(/^-+|-+$/g, '')

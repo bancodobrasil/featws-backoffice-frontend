@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
-export const isAuthenticated = () => {
-  return localStorage.getItem('auth-token') ? true : false;
-};
+export const isAuthenticated = () => !!localStorage.getItem('auth-token');
 
 export const hasPermissions = (permissions: string[]) => {
   const storedPermissions = localStorage.getItem('auth-permissions');

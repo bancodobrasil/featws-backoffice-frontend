@@ -7,7 +7,7 @@ const Style = makeStyles(theme => ({
     paddingBottom: 16,
   },
   title: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
 

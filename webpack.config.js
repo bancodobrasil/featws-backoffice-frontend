@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 const { ModuleFederationPlugin } = require('webpack').container;

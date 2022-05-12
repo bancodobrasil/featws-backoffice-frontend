@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Button, Divider, Paper, TextField, Typography } from '@material-ui/core';
-import Style from './Style';
 import { useNavigate } from 'react-router-dom';
+import Style from './Style';
 import ListButton from '../../../components/Buttons/ListButton';
 
 export const EditRuleSheet = () => {
@@ -13,7 +13,7 @@ export const EditRuleSheet = () => {
 
   const classes = Style();
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     if (loadingRecord) {
       return;
     }
@@ -28,11 +28,13 @@ export const EditRuleSheet = () => {
     // Remove the next line when the request is implemented.
     setName('apw');
     setLoadingRecord(false);
-  };
+  }, [loadingRecord]);
 
   useEffect(() => {
-    fetchRecord();
-  }, []);
+    if (!name) {
+      fetchRecord();
+    }
+  }, [name, fetchRecord]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,42 +51,38 @@ export const EditRuleSheet = () => {
     navigate('../');
   };
 
-  const renderLoadingRecord = () => {
-    return (
-      <div className={classes.loadingRecord}>
-        <Typography variant="h2" component="p">
-          Carregando Folha de Regra...
-        </Typography>
-      </div>
-    );
-  };
+  const renderLoadingRecord = () => (
+    <div className={classes.loadingRecord}>
+      <Typography variant="h2" component="p">
+        Carregando Folha de Regra...
+      </Typography>
+    </div>
+  );
 
-  const renderForm = () => {
-    return (
-      <Paper elevation={1}>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
-          <div className={classes.inputContainer}>
-            <TextField
-              id="name"
-              label="Name"
-              variant="outlined"
-              required
-              value={name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-          <Divider />
-          <div className={classes.actionButtonsContainer}>
-            <Button variant="contained" color="primary" type="submit" disabled={loadingSubmit}>
-              Edit
-            </Button>
-          </div>
-        </form>
-      </Paper>
-    );
-  };
+  const renderForm = () => (
+    <Paper elevation={1}>
+      <form className={classes.form} onSubmit={handleFormSubmit}>
+        <div className={classes.inputContainer}>
+          <TextField
+            id="name"
+            label="Name"
+            variant="outlined"
+            required
+            value={name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <Divider />
+        <div className={classes.actionButtonsContainer}>
+          <Button variant="contained" color="primary" type="submit" disabled={loadingSubmit}>
+            Edit
+          </Button>
+        </div>
+      </form>
+    </Paper>
+  );
 
   return (
     <Box className={classes.root}>

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable no-console */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Breadcrumbs, IconButton, Link, Typography } from '@material-ui/core';
-import Style from './Style';
-import { useNavigate, useParams } from 'react-router-dom';
-import { IRule, IRuleSheet } from '../../../interfaces';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { DeferRulesConfirmation, DeferRulesList } from './screens';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { IRule, IRuleSheet } from '../../../interfaces';
+import { DeferRulesConfirmation, DeferRulesList } from './screens';
+import Style from './Style';
 import './Styles.css';
 
 export enum EnumDeferRulesScreens {
@@ -34,7 +34,7 @@ export const DeferRules = () => {
   const [rules, setRules] = useState<IRule[]>([]);
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
-  const screenNode = useRef<any>();
+  const screenNode = useRef<HTMLDivElement>();
 
   const classes = Style();
 
@@ -55,11 +55,11 @@ export const DeferRules = () => {
     navigate(`/rulesheets/${id}`);
   };
 
-  const _onBackClickHandler = () => {
+  const onBackClickHandlerOverride = () => {
     onBackClickHandler();
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     if (loadingRecord) {
       return;
     }
@@ -160,28 +160,23 @@ export const DeferRules = () => {
       ],
     });
     setLoadingRecord(false);
-  };
-
-  useEffect(() => {
-    fetchRecord();
-  }, []);
+  }, [id, loadingRecord]);
 
   useEffect(() => {
     if (!record) {
+      fetchRecord();
       return;
     }
     setRules(record.rules);
-  }, [record]);
+  }, [record, fetchRecord]);
 
-  const renderLoadingRecord = () => {
-    return (
-      <div className={classes.loadingRecord}>
-        <Typography variant="h2" component="p">
-          Carregando lista de Regras...
-        </Typography>
-      </div>
-    );
-  };
+  const renderLoadingRecord = () => (
+    <div className={classes.loadingRecord}>
+      <Typography variant="h2" component="p">
+        Carregando lista de Regras...
+      </Typography>
+    </div>
+  );
 
   if (loadingRecord) {
     return renderLoadingRecord();
@@ -232,7 +227,7 @@ export const DeferRules = () => {
           <div ref={screenNode}>
             <div className="transition-root">
               <div className={classes.breadcrumbsContainer}>
-                <IconButton onClick={_onBackClickHandler} size="small">
+                <IconButton onClick={onBackClickHandlerOverride} size="small">
                   <ArrowBackIcon fontSize="small" color="primary" />
                 </IconButton>
                 <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -243,7 +238,7 @@ export const DeferRules = () => {
                   <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
                     {record?.name}
                   </Link>
-                  <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+                  <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
                   <Typography component="span" className={classes.breadcrumbActive}>
                     Deferimento
                   </Typography>

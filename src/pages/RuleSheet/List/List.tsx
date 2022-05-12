@@ -1,59 +1,10 @@
 import React from 'react';
 import { Box, Button, IconButton, Paper } from '@material-ui/core';
-import Style from './Style';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
-
-const columns: GridColDef[] = [
-  {
-    field: 'name',
-    headerName: 'Nome da Folha',
-    minWidth: 300,
-  },
-  {
-    field: 'responsible',
-    headerName: 'Responsável',
-    minWidth: 200,
-  },
-  {
-    field: 'code',
-    headerName: 'Código',
-    minWidth: 150,
-  },
-  {
-    field: 'updatedAt',
-    type: 'date',
-    headerName: 'Última atualização',
-    minWidth: 220,
-  },
-  {
-    field: '',
-    headerName: '',
-    minWidth: 150,
-    sortable: false,
-    filterable: false,
-    disableColumnMenu: true,
-    align: 'right',
-    flex: 1,
-    renderCell: params => {
-      const navigate = useNavigate();
-
-      const onArrowIconClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        e.preventDefault();
-        navigate(params.id.toString());
-      };
-
-      return (
-        <IconButton onClick={onArrowIconClick}>
-          <ArrowForwardIosRoundedIcon fontSize="small" />
-        </IconButton>
-      );
-    },
-  },
-];
+import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
+import Style from './Style';
 
 const rows = [
   {
@@ -132,6 +83,53 @@ export const ListRuleSheet = () => {
   const navigate = useNavigate();
 
   const classes = Style();
+
+  const columns: GridColDef[] = [
+    {
+      field: 'name',
+      headerName: 'Nome da Folha',
+      minWidth: 300,
+    },
+    {
+      field: 'responsible',
+      headerName: 'Responsável',
+      minWidth: 200,
+    },
+    {
+      field: 'code',
+      headerName: 'Código',
+      minWidth: 150,
+    },
+    {
+      field: 'updatedAt',
+      type: 'date',
+      headerName: 'Última atualização',
+      minWidth: 220,
+    },
+    {
+      field: '',
+      headerName: '',
+      minWidth: 150,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      align: 'right',
+      flex: 1,
+      renderCell: params => {
+        const onArrowIconClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation();
+          e.preventDefault();
+          navigate(params.id.toString());
+        };
+
+        return (
+          <IconButton onClick={onArrowIconClick}>
+            <ArrowForwardIosRoundedIcon fontSize="small" />
+          </IconButton>
+        );
+      },
+    },
+  ];
 
   const handleButtonCreateOnClick = () => {
     navigate('create');
