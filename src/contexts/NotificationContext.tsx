@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useEffect, useReducer } from 'react';
 import { Alert, AlertProps, AlertTitle } from '@material-ui/lab';
 import { Snackbar, SnackbarCloseReason, SnackbarProps } from '@material-ui/core';
 
 type SnackbarOnClose = (
-  event: React.SyntheticEvent<any, Event>,
+  event: React.SyntheticEvent<unknown, Event>,
   reason: SnackbarCloseReason,
 ) => void;
 
-type AlertOnClose = (event: React.SyntheticEvent<any, Event>) => void;
+type AlertOnClose = (event: React.SyntheticEvent<unknown, Event>) => void;
 
 type State = {
   isOpen: boolean;
@@ -106,7 +107,7 @@ const NotificationProvider: React.FC<Props> = ({ children }) => {
 
   // Snackbar default close handler
   const onSnackbarCloseHandler = (
-    event: React.SyntheticEvent<any, Event>,
+    event: React.SyntheticEvent<unknown, Event>,
     reason: SnackbarCloseReason,
   ) => {
     if (reason === 'clickaway') {
@@ -115,7 +116,7 @@ const NotificationProvider: React.FC<Props> = ({ children }) => {
     dispatch({ type: ActionTypes.CLOSE_NOTIFICATION });
   };
   // Alert default close handler
-  const onAlertCloseHandler = (event: React.SyntheticEvent<any, Event>) => {
+  const onAlertCloseHandler = (event: React.SyntheticEvent<unknown, Event>) => {
     dispatch({ type: ActionTypes.CLOSE_NOTIFICATION });
   };
   // Set the default handlers in the Context's state

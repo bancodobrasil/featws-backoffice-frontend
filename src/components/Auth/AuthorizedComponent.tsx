@@ -1,4 +1,3 @@
-import React from 'react';
 import { hasPermissions, isAuthenticated } from '../../providers/Auth';
 
 export interface AuthorizedComponentProps {

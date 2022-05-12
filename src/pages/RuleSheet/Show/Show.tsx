@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   Breadcrumbs,
@@ -14,13 +14,12 @@ import {
   Select,
   Typography,
 } from '@material-ui/core';
-import Style from './Style';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Style from './Style';
 import StatusBullet from '../../../components/StatusBullet';
 
 const columns: GridColDef[] = [
@@ -82,7 +81,7 @@ export const ShowRuleSheet = () => {
 
   const onDeferRuleClickHandler = () => {
     navigate(`/rulesheets/${id}/defer`);
-  }
+  };
 
   const onBackClickHandler = () => {
     navigate('/rulesheets');
@@ -116,7 +115,7 @@ export const ShowRuleSheet = () => {
     setPageSize(newPageSize);
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     if (loadingRecord) {
       return;
     }
@@ -203,18 +202,15 @@ export const ShowRuleSheet = () => {
       ],
     });
     setLoadingRecord(false);
-  };
-
-  useEffect(() => {
-    fetchRecord();
-  }, []);
+  }, [id, loadingRecord]);
 
   useEffect(() => {
     if (!record) {
+      fetchRecord();
       return;
     }
     setRules(record.rules);
-  }, [record]);
+  }, [record, fetchRecord]);
 
   useEffect(() => {
     if (statusInputLabel.current) {
@@ -223,25 +219,22 @@ export const ShowRuleSheet = () => {
     if (authorInputLabel.current) {
       setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
     }
-  }, [statusInputLabel.current, authorInputLabel.current]);
+  }, [statusInputLabel, authorInputLabel]);
 
-  const renderDescription = () => {
-    return record?.description.split('\n').map((line, index) => (
+  const renderDescription = () =>
+    record?.description.split('\n').map((line, index) => (
       <p key={index} className={classes.description}>
         {line}
       </p>
     ));
-  };
 
-  const renderLoadingRecord = () => {
-    return (
-      <div className={classes.loadingRecord}>
-        <Typography variant="h2" component="p">
-          Carregando Folha de Regras...
-        </Typography>
-      </div>
-    );
-  };
+  const renderLoadingRecord = () => (
+    <div className={classes.loadingRecord}>
+      <Typography variant="h2" component="p">
+        Carregando Folha de Regras...
+      </Typography>
+    </div>
+  );
 
   if (loadingRecord) {
     return renderLoadingRecord();
@@ -261,7 +254,7 @@ export const ShowRuleSheet = () => {
           <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
             {record?.name}
           </Link>
-          <span className={classes.breadcrumbsSeparator + ' last'}>/</span>
+          <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
           <Typography component="span" className={classes.breadcrumbActive}>
             Regras
           </Typography>
@@ -284,7 +277,12 @@ export const ShowRuleSheet = () => {
           <div className={classes.code}>Código da folha: {record?.code}</div>
           <div className={classes.rulesTotal}>Total de regras: 24</div>
           <AuthorizedComponent permissions={['admin']}>
-            <Button variant="contained" color="secondary" className={classes.deferRuleButton} onClick={onDeferRuleClickHandler}>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.deferRuleButton}
+              onClick={onDeferRuleClickHandler}
+            >
               Deferir uma Regra
             </Button>
           </AuthorizedComponent>
@@ -337,13 +335,11 @@ export const ShowRuleSheet = () => {
                   }
                 >
                   <MenuItem value="">Todos</MenuItem>
-                  {[...new Set(record?.rules.map(rule => rule.author))].map((author, index) => {
-                    return (
-                      <MenuItem key={index} value={author}>
-                        {author}
-                      </MenuItem>
-                    );
-                  })}
+                  {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+                    <MenuItem key={index} value={ruleAuthor}>
+                      {ruleAuthor}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <Button

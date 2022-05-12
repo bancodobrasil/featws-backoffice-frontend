@@ -2,9 +2,9 @@ import { createTheme, LabelDisplayedRowsArgs } from '@material-ui/core';
 import { GridOptions, ptBR as ptBRDataGrid } from '@mui/x-data-grid';
 import { ptBR } from '@material-ui/core/locale';
 
+import { AlertClassKey, AlertTitleClassKey } from '@material-ui/lab';
 import palette from './palette';
 import bbTypography from './bbTypography';
-import { AlertClassKey, AlertTitleClassKey } from '@material-ui/lab';
 
 declare module '@material-ui/core/styles/overrides' {
   export interface ComponentNameToClassKey {
@@ -28,9 +28,11 @@ const ptBRMuiDataGridOverride = {
     footerRowSelected: (count: number) => {
       if (count === 1) {
         return '1 item selecionado';
-      } else if (count > 1) {
+      }
+      if (count > 1) {
         return `${count} itens selecionados`;
       }
+      return '';
     },
   },
 };
@@ -60,7 +62,7 @@ const theme = createTheme(
       MuiAlertTitle: {
         root: {
           fontSize: 16,
-        }
+        },
       },
       MuiDataGrid: {
         root: {

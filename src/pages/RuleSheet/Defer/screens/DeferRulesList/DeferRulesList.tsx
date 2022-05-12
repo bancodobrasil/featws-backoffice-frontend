@@ -94,7 +94,7 @@ export const DeferRulesList = ({
 
   const classes = Style();
 
-  const _onBackClickHandler = () => {
+  const onBackClickHandlerOverride = () => {
     onBackClickHandler();
   };
 
@@ -106,7 +106,7 @@ export const DeferRulesList = ({
     setPageSize(newPageSize);
   };
 
-  const onSelectionModelChangeHandler = (selectionModel: GridSelectionModel, details: any) => {
+  const onSelectionModelChangeHandler = (selectionModel: GridSelectionModel, details: unknown) => {
     setListSelectionId(selectionModel as string[]);
   };
 
@@ -120,17 +120,17 @@ export const DeferRulesList = ({
     if (!record) {
       return;
     }
-    let _isFiltering = false;
+    let filtering = false;
     let listRule = record.rules;
     if (code) {
       listRule = listRule.filter(rule => rule.id === code);
-      _isFiltering = true;
+      filtering = true;
     }
     if (author) {
       listRule = listRule.filter(rule => rule.author === author);
-      _isFiltering = true;
+      filtering = true;
     }
-    setIsFiltering(_isFiltering);
+    setIsFiltering(filtering);
     setRules(listRule);
   };
 
@@ -141,7 +141,7 @@ export const DeferRulesList = ({
     if (authorInputLabel.current) {
       setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
     }
-  }, [codeInputLabel.current, authorInputLabel.current]);
+  }, [codeInputLabel, authorInputLabel]);
 
   const onCodeChangeHandler = event => {
     setCode(event.target.value);
@@ -168,13 +168,11 @@ export const DeferRulesList = ({
             }
           >
             <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => {
-              return (
-                <MenuItem key={index} value={id}>
-                  {id}
-                </MenuItem>
-              );
-            })}
+            {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
+              <MenuItem key={index} value={id}>
+                {id}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl variant="outlined" className={classes.filterSelect}>
@@ -196,13 +194,11 @@ export const DeferRulesList = ({
             }
           >
             <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.author))].map((author, index) => {
-              return (
-                <MenuItem key={index} value={author}>
-                  {author}
-                </MenuItem>
-              );
-            })}
+            {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+              <MenuItem key={index} value={ruleAuthor}>
+                {ruleAuthor}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <Button
@@ -239,7 +235,7 @@ export const DeferRulesList = ({
         />
         <Divider className={classes.divider} />
         <div className={classes.containerActionButtons}>
-          <Button variant="contained" color="secondary" onClick={_onBackClickHandler}>
+          <Button variant="contained" color="secondary" onClick={onBackClickHandlerOverride}>
             Voltar
           </Button>
           <Button
