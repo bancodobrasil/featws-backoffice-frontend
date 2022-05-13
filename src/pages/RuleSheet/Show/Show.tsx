@@ -18,8 +18,8 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
-import Style from './Style';
 import StatusBullet from '../../../components/StatusBullet';
+import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
 
 const columns: GridColDef[] = [
   {
@@ -44,17 +44,22 @@ const columns: GridColDef[] = [
     headerName: 'Status',
     minWidth: 250,
     sortable: false,
-    renderCell: params => {
-      const classes = Style();
-
-      return (
-        <Chip
-          className={classes.chipStatus}
-          avatar={<StatusBullet status={params.value as string} />}
-          label={params.value}
-        />
-      );
-    },
+    renderCell: params => (
+      <Chip
+        sx={{
+          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          fontWeight: 400,
+          fontSize: '14px',
+          lineHeight: '20px',
+          letterSpacing: '0.25px',
+          '& .MuiChip-label': {
+            paddingLeft: '4px',
+          },
+        }}
+        avatar={<StatusBullet status={params.value as string} />}
+        label={params.value}
+      />
+    ),
   },
 ];
 
@@ -70,8 +75,6 @@ export const ShowRuleSheet = () => {
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>([]);
-
-  const classes = Style();
 
   const onDeferRuleClickHandler = () => {
     navigate(`/rulesheets/${id}/defer`);
@@ -208,17 +211,32 @@ export const ShowRuleSheet = () => {
 
   const renderDescription = () =>
     record?.description.split('\n').map((line, index) => (
-      <p key={index} className={classes.description}>
+      <Typography
+        key={index}
+        component="p"
+        sx={{
+          margin: 0,
+          color: '#444444',
+          fontSize: '18px',
+          lineHeight: '25.2px',
+        }}
+      >
         {line}
-      </p>
+      </Typography>
     ));
 
   const renderLoadingRecord = () => (
-    <div className={classes.loadingRecord}>
+    <Box
+      sx={{
+        marginTop: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       <Typography variant="h2" component="p">
         Carregando Folha de Regras...
       </Typography>
-    </div>
+    </Box>
   );
 
   if (loadingRecord) {
@@ -226,58 +244,201 @@ export const ShowRuleSheet = () => {
   }
 
   return (
-    <Box className={classes.root}>
-      <div className={classes.breadcrumbsContainer}>
+    <Box
+      sx={{
+        width: '100%',
+        paddingTop: '34px',
+        paddingBottom: '34px',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          left: '-5px',
+          top: '-5px',
+        }}
+      >
         <IconButton onClick={onBackClickHandler} size="small">
           <ArrowBackIcon fontSize="small" color="primary" />
         </IconButton>
-        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{
+            marginLeft: '5px',
+            color: '#000000',
+            fontWeight: 300,
+            fontSize: '14px',
+            lineHeight: '24px',
+            letterSpacing: '0.1px',
+          }}
+        >
           <Link color="textPrimary" component={RouterLink} to="/">
             FeatWS
           </Link>
-          <span className={classes.breadcrumbsSeparator}>/</span>
+          <BreadcrumbsSeparator />
           <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
             {record?.name}
           </Link>
-          <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
-          <Typography component="span" className={classes.breadcrumbActive}>
+          <BreadcrumbsSeparator last />
+          <Typography
+            component="span"
+            sx={{
+              color: '#BFC3CA',
+            }}
+          >
             Regras
           </Typography>
         </Breadcrumbs>
-      </div>
-      <div className={classes.headingContainer}>
-        <h1 className={classes.h1}>{record?.name}</h1>
-        <div className={classes.headingButtonsContainer}>
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          paddingTop: '11px',
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{
+            fontWeight: 700,
+            fontSize: '24px',
+            lineHeight: '24px',
+            letterSpacing: '0.18px',
+            margin: 0,
+          }}
+        >
+          {record?.name}
+        </Typography>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
           <AuthorizedComponent permissions={['admin']}>
             <Button variant="contained" color="primary">
               + Nova Regra
             </Button>
           </AuthorizedComponent>
-        </div>
-      </div>
-      <Grid container className={classes.gridContainer}>
-        <Grid item xs={3} className={classes.gridLeft}>
-          <Chip className={classes.chipSlug} label={record?.slug} />
-          <div className={classes.descriptionContainer}>{renderDescription()}</div>
-          <div className={classes.code}>Código da folha: {record?.code}</div>
-          <div className={classes.rulesTotal}>Total de regras: 24</div>
+        </Box>
+      </Box>
+      <Grid
+        container
+        sx={{
+          marginTop: '26px',
+        }}
+      >
+        <Grid item xs={3}>
+          <Chip
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+              fontWeight: 500,
+              fontSize: '14px',
+              lineHeight: '20px',
+              letterSpacing: '0.25px',
+            }}
+            label={record?.slug}
+          />
+          <Box
+            sx={{
+              marginTop: '28px',
+              marginBottom: '24px',
+            }}
+          >
+            {renderDescription()}
+          </Box>
+          <Box
+            sx={{
+              fontWeight: 700,
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}
+          >
+            Código da folha: {record?.code}
+          </Box>
+          <Box
+            sx={{
+              fontWeight: 700,
+              fontSize: '14px',
+              marginBottom: '24px',
+            }}
+          >
+            Total de regras: 24
+          </Box>
           <AuthorizedComponent permissions={['admin']}>
             <Button
               variant="contained"
               color="secondary"
-              className={classes.deferRuleButton}
+              sx={{
+                marginBottom: '20px',
+                width: '100%',
+              }}
               onClick={onDeferRuleClickHandler}
             >
               Deferir uma Regra
             </Button>
           </AuthorizedComponent>
         </Grid>
-        <Grid item xs={9} className={classes.gridRight}>
-          <h2 className={classes.rulesHeading}>Regras</h2>
+        <Grid
+          item
+          xs={9}
+          sx={{
+            paddingLeft: '81px',
+          }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              margin: 0,
+              fontWeight: 700,
+              fontSize: '24px',
+              lineHeight: '24px',
+              letterSpacing: '0.18px',
+            }}
+          >
+            Regras
+          </Typography>
           <div>
-            <h3 className={classes.filtersHeading}>Filtros</h3>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 600,
+                fontSize: '16px',
+                lineHeight: '24px',
+                my: '16px',
+              }}
+            >
+              Filtros
+            </Typography>
             <div>
-              <FormControl variant="outlined" className={classes.filterSelect}>
+              <FormControl
+                variant="outlined"
+                sx={{
+                  minWidth: 320,
+                  marginRight: '38px',
+                  '& .MuiFormLabel-root': {
+                    fontWeight: '600',
+                    fontSize: '16px',
+                    letterSpacing: '0.15px',
+                    color: 'rgba(0, 0, 0, 0.38)',
+                    top: '-9px',
+                  },
+                  '& .MuiInputLabel-shrink': {
+                    color: 'black',
+                    top: '0',
+                  },
+                  '& .MuiSelect-outlined': {
+                    padding: '10px 32px 10px 14px',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    height: '40px',
+                  },
+                }}
+              >
                 <InputLabel id="filter-status-select-input-label">Filtrar por status</InputLabel>
                 <Select
                   labelId="filter-status-select-label"
@@ -292,7 +453,30 @@ export const ShowRuleSheet = () => {
                   <MenuItem value="Rascunho">Rascunho</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" className={classes.filterSelect}>
+              <FormControl
+                variant="outlined"
+                sx={{
+                  minWidth: 320,
+                  marginRight: '38px',
+                  '& .MuiFormLabel-root': {
+                    fontWeight: '600',
+                    fontSize: '16px',
+                    letterSpacing: '0.15px',
+                    color: 'rgba(0, 0, 0, 0.38)',
+                    top: '-9px',
+                  },
+                  '& .MuiInputLabel-shrink': {
+                    color: 'black',
+                    top: '0',
+                  },
+                  '& .MuiSelect-outlined': {
+                    padding: '10px 32px 10px 14px',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    height: '40px',
+                  },
+                }}
+              >
                 <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
                 <Select
                   labelId="filter-author-select-label"
@@ -312,7 +496,9 @@ export const ShowRuleSheet = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                className={classes.buttonSearch}
+                sx={{
+                  width: 169,
+                }}
                 onClick={onSearchClickHandler}
               >
                 Buscar
@@ -320,7 +506,19 @@ export const ShowRuleSheet = () => {
             </div>
           </div>
           <DataGrid
-            className={classes.dataGrid}
+            sx={{
+              marginTop: '16px',
+              '& .MuiDataGrid-main': {
+                '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
+                  '& .MuiDataGrid-columnSeparator': {
+                    display: 'none',
+                  },
+                },
+                '&  .MuiDataGrid-cell:focus-within': {
+                  outline: 'none',
+                },
+              },
+            }}
             rows={rules}
             columns={columns}
             pageSize={pageSize}

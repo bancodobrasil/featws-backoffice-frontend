@@ -6,8 +6,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
-import Style from './Style';
 import './Styles.css';
+import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -35,8 +35,6 @@ export const DeferRules = () => {
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
   const screenNode = useRef<HTMLDivElement>();
-
-  const classes = Style();
 
   const scrollTop = () => {
     // Workaround for window.scrollTo(0, 0); to work. It is not working with the inherited CSS from APW (body height 100%).
@@ -171,11 +169,17 @@ export const DeferRules = () => {
   }, [record, fetchRecord]);
 
   const renderLoadingRecord = () => (
-    <div className={classes.loadingRecord}>
+    <Box
+      sx={{
+        marginTop: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       <Typography variant="h2" component="p">
         Carregando lista de Regras...
       </Typography>
-    </div>
+    </Box>
   );
 
   if (loadingRecord) {
@@ -215,7 +219,13 @@ export const DeferRules = () => {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box
+      sx={{
+        width: '100%',
+        paddingTop: '34px',
+        paddingBottom: '34px',
+      }}
+    >
       <SwitchTransition>
         <CSSTransition
           key={currentScreen}
@@ -226,24 +236,47 @@ export const DeferRules = () => {
         >
           <div ref={screenNode}>
             <div className="transition-root">
-              <div className={classes.breadcrumbsContainer}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                  left: '-5px',
+                  top: '-5px',
+                }}
+              >
                 <IconButton onClick={onBackClickHandlerOverride} size="small">
                   <ArrowBackIcon fontSize="small" color="primary" />
                 </IconButton>
-                <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+                <Breadcrumbs
+                  aria-label="breadcrumb"
+                  sx={{
+                    marginLeft: '5px',
+                    color: '#000000',
+                    fontWeight: 300,
+                    fontSize: '14px',
+                    lineHeight: '24px',
+                    letterSpacing: '0.1px',
+                  }}
+                >
                   <Link color="textPrimary" component={RouterLink} to="/">
                     FeatWS
                   </Link>
-                  <span className={classes.breadcrumbsSeparator}>/</span>
+                  <BreadcrumbsSeparator />
                   <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
                     {record?.name}
                   </Link>
-                  <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
-                  <Typography component="span" className={classes.breadcrumbActive}>
+                  <BreadcrumbsSeparator last />
+                  <Typography
+                    component="span"
+                    sx={{
+                      color: '#BFC3CA',
+                    }}
+                  >
                     Deferimento
                   </Typography>
                 </Breadcrumbs>
-              </div>
+              </Box>
               {renderCurrentScreen()}
             </div>
           </div>

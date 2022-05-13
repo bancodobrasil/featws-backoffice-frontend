@@ -9,18 +9,34 @@ import {
   IconButton,
   Link,
   Paper,
+  styled,
   TextField,
   Typography,
 } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Style from './Style';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
+import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
 
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 30;
 const SLUG_MIN_LENGTH = 3;
 const SLUG_MAX_LENGTH = 30;
+
+const Form = styled('form')({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const InputContainer = styled('div')({
+  marginTop: 25,
+  marginLeft: 16,
+  marginRight: 16,
+  '& .MuiInputLabel-shrink': {
+    fontSize: 16,
+  },
+});
 
 export const CreateRuleSheet = () => {
   const navigate = useNavigate();
@@ -36,8 +52,6 @@ export const CreateRuleSheet = () => {
   const [description, setDescription] = useState<string>('');
 
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-
-  const classes = Style();
 
   const onBackClickHandler = () => {
     navigate('/');
@@ -114,28 +128,81 @@ export const CreateRuleSheet = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <div className={classes.breadcrumbsContainer}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        paddingTop: '16px',
+        paddingBottom: '16px',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          left: '-5px',
+          top: '-5px',
+        }}
+      >
         <IconButton onClick={onBackClickHandler} size="small">
           <ArrowBackIcon fontSize="small" color="primary" />
         </IconButton>
-        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{
+            marginLeft: '5px',
+            color: '#000000',
+            fontWeight: 300,
+            fontSize: '14px',
+            lineHeight: '24px',
+            letterSpacing: '0.1px',
+          }}
+        >
           <Link color="textPrimary" component={RouterLink} to="/">
             FeatWS
           </Link>
-          <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
-          <Typography component="span" className={classes.breadcrumbActive}>
+          <BreadcrumbsSeparator last />
+          <Typography
+            component="span"
+            sx={{
+              color: '#BFC3CA',
+            }}
+          >
             Nova Folha de Regras
           </Typography>
         </Breadcrumbs>
-      </div>
-      <Grid container className={classes.gridContainer}>
+      </Box>
+      <Grid
+        container
+        sx={{
+          paddingTop: '11px',
+          height: '100%',
+          '& .featws-ui-MuiPaper-root': {
+            height: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+          },
+        }}
+      >
         <Grid xs={5}>
           <Paper elevation={1}>
-            <h1 className={classes.h1}>Criar Nova Folha de Regras</h1>
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: 700,
+                fontSize: '24px',
+                lineHeight: '24px',
+                letterSpacing: '0.18px',
+                margin: 0,
+                padding: '16px',
+              }}
+            >
+              Criar Nova Folha de Regras
+            </Typography>
             <Divider />
-            <form className={classes.form} onSubmit={handleFormSubmit}>
-              <div className={classes.inputContainer}>
+            <Form onSubmit={handleFormSubmit}>
+              <InputContainer>
                 <TextField
                   id="name"
                   label="Nome da Folha de Regras"
@@ -169,8 +236,8 @@ export const CreateRuleSheet = () => {
                   error={!!nameError}
                   helperText={nameError}
                 />
-              </div>
-              <div className={classes.inputContainer}>
+              </InputContainer>
+              <InputContainer>
                 <TextField
                   id="slug"
                   label="Slug da Folha de Regras"
@@ -201,8 +268,8 @@ export const CreateRuleSheet = () => {
                   error={!!slugError}
                   helperText={slugError}
                 />
-              </div>
-              <div className={classes.inputContainer}>
+              </InputContainer>
+              <InputContainer>
                 <TextField
                   id="description"
                   label="Descrição (opcional)"
@@ -220,12 +287,35 @@ export const CreateRuleSheet = () => {
                     shrink: true,
                   }}
                 />
-              </div>
-              <div className={classes.actionContainer}>
-                <div className={classes.actionDividerContainer}>
+              </InputContainer>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  marginTop: '16px',
+                }}
+              >
+                <Box
+                  sx={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    '& .MuiDivider-root': {
+                      flex: 1,
+                    },
+                  }}
+                >
                   <Divider />
-                </div>
-                <div className={classes.actionButtonsContainer}>
+                </Box>
+                <Box
+                  sx={{
+                    margin: '16px',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                  }}
+                >
                   <Button
                     variant="contained"
                     color="secondary"
@@ -239,13 +329,15 @@ export const CreateRuleSheet = () => {
                     color="primary"
                     type="submit"
                     disabled={loadingSubmit}
-                    className={classes.buttonSubmit}
+                    sx={{
+                      marginLeft: '16px',
+                    }}
                   >
                     Criar Folha de Regras
                   </Button>
-                </div>
-              </div>
-            </form>
+                </Box>
+              </Box>
+            </Form>
           </Paper>
         </Grid>
       </Grid>

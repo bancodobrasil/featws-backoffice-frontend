@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Style from './Style';
 import {
   CreateRuleSheet,
   DeferRules,
@@ -13,8 +12,6 @@ import RequireAuth from '../../Auth/RequireAuth';
 import { NotificationProvider } from '../../../contexts/NotificationContext';
 
 export const AppRoutes = () => {
-  const classes = Style();
-
   /* TODO: Remove Auth testing code below */
 
   useEffect(() => {
@@ -23,9 +20,34 @@ export const AppRoutes = () => {
   }, []);
 
   return (
-    <Box className={classes.base}>
-      <Container maxWidth="xl" className={classes.main} disableGutters>
-        <Box className={classes.mainContent}>
+    <Box
+      sx={{
+        flex: 1,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+      }}
+    >
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'column',
+          backgroundColor: '#FFFFFF',
+        }}
+        disableGutters
+      >
+        <Box
+          sx={{
+            width: '100%',
+            flex: 1,
+            boxSizing: 'border-box',
+            paddingLeft: '32px',
+            paddingRight: '32px',
+          }}
+        >
           <Router>
             <NotificationProvider>
               <Routes>

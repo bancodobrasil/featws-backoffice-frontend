@@ -1,10 +1,19 @@
-import { Button, Chip, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import StatusBullet from '../../../../../components/StatusBullet';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
-import Style from './Style';
 
 const columns: GridColDef[] = [
   {
@@ -29,17 +38,22 @@ const columns: GridColDef[] = [
     headerName: 'Status',
     minWidth: 230,
     sortable: false,
-    renderCell: params => {
-      const classes = Style();
-
-      return (
-        <Chip
-          className={classes.chipStatus}
-          avatar={<StatusBullet status={params.value as string} />}
-          label={params.value}
-        />
-      );
-    },
+    renderCell: params => (
+      <Chip
+        sx={{
+          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          fontWeight: 400,
+          fontSize: '14px',
+          lineHeight: '20px',
+          letterSpacing: '0.25px',
+          '& .MuiChip-label': {
+            paddingLeft: '4px',
+          },
+        }}
+        avatar={<StatusBullet status={params.value as string} />}
+        label={params.value}
+      />
+    ),
   },
 ];
 
@@ -78,8 +92,6 @@ export const DeferRulesList = ({
   onBackClickHandler,
   setCurrentScreen,
 }: IDeferRulesListProps) => {
-  const classes = Style();
-
   const onBackClickHandlerOverride = () => {
     onBackClickHandler();
   };
@@ -129,8 +141,31 @@ export const DeferRulesList = ({
       return;
     }
     return (
-      <div>
-        <FormControl variant="outlined" className={classes.filterSelect}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <FormControl
+          variant="outlined"
+          sx={{
+            minWidth: 320,
+            marginRight: '38px',
+            '& .MuiFormLabel-root': {
+              fontWeight: '600',
+              fontSize: '16px',
+              letterSpacing: '0.15px',
+              color: 'rgba(0, 0, 0, 0.38)',
+              top: '-9px',
+            },
+            '& .MuiInputLabel-shrink': {
+              color: 'black',
+              top: '0',
+            },
+            '& .MuiSelect-outlined': {
+              padding: '10px 32px 10px 14px',
+            },
+            '& .MuiOutlinedInput-root': {
+              height: '40px',
+            },
+          }}
+        >
           <InputLabel id="filter-code-select-input-label">Filtrar por código</InputLabel>
           <Select
             labelId="filter-code-select-label"
@@ -147,7 +182,30 @@ export const DeferRulesList = ({
             ))}
           </Select>
         </FormControl>
-        <FormControl variant="outlined" className={classes.filterSelect}>
+        <FormControl
+          variant="outlined"
+          sx={{
+            minWidth: 320,
+            marginRight: '38px',
+            '& .MuiFormLabel-root': {
+              fontWeight: '600',
+              fontSize: '16px',
+              letterSpacing: '0.15px',
+              color: 'rgba(0, 0, 0, 0.38)',
+              top: '-9px',
+            },
+            '& .MuiInputLabel-shrink': {
+              color: 'black',
+              top: '0',
+            },
+            '& .MuiSelect-outlined': {
+              padding: '10px 32px 10px 14px',
+            },
+            '& .MuiOutlinedInput-root': {
+              height: '40px',
+            },
+          }}
+        >
           <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
           <Select
             labelId="filter-author-select-label"
@@ -167,24 +225,60 @@ export const DeferRulesList = ({
         <Button
           variant="contained"
           color="secondary"
-          className={classes.buttonSearch}
+          sx={{
+            width: 169,
+          }}
           onClick={onSearchClickHandler}
         >
           Buscar
         </Button>
-      </div>
+      </Box>
     );
   };
 
   return (
     <div>
-      <div className={classes.headingContainer}>
-        <h1 className={classes.h1}>Quais regras você quer deferir?</h1>
-      </div>
-      <div className={classes.mainContainer}>
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          paddingTop: '11px',
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{
+            fontWeight: 700,
+            fontSize: '24px',
+            lineHeight: '24px',
+            letterSpacing: '0.18px',
+            margin: 0,
+          }}
+        >
+          Quais regras você quer deferir?
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '26px',
+        }}
+      >
         {renderFilterSearch()}
         <DataGrid
-          className={classes.dataGrid}
+          sx={{
+            marginTop: '16px',
+            '& .MuiDataGrid-main': {
+              '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
+                '& .MuiDataGrid-columnSeparator': {
+                  display: 'none',
+                },
+              },
+              '&  .MuiDataGrid-cell:focus-within': {
+                outline: 'none',
+              },
+            },
+          }}
           rows={rules}
           columns={columns}
           pageSize={pageSize}
@@ -196,22 +290,34 @@ export const DeferRulesList = ({
           selectionModel={listSelectionId}
           onSelectionModelChange={onSelectionModelChangeHandler}
         />
-        <Divider className={classes.divider} />
-        <div className={classes.containerActionButtons}>
+        <Divider
+          sx={{
+            marginTop: '19px',
+          }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '16px',
+          }}
+        >
           <Button variant="contained" color="secondary" onClick={onBackClickHandlerOverride}>
             Voltar
           </Button>
           <Button
             variant="contained"
             color="primary"
-            className={classes.buttonAdvance}
+            sx={{
+              marginLeft: '16px',
+            }}
             disabled={listSelectionId?.length <= 0}
             onClick={onAdvanceClickHandler}
           >
             Avançar
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </div>
   );
 };
