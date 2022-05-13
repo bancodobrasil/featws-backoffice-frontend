@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import React from 'react';
+import { FilterSelect } from '../../../../../components/FilterSelect';
 import StatusBullet from '../../../../../components/StatusBullet';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
@@ -142,86 +143,32 @@ export const DeferRulesList = ({
     }
     return (
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <FormControl
-          variant="outlined"
-          sx={{
-            minWidth: 320,
-            marginRight: '38px',
-            '& .MuiFormLabel-root': {
-              fontWeight: '600',
-              fontSize: '16px',
-              letterSpacing: '0.15px',
-              color: 'rgba(0, 0, 0, 0.38)',
-              top: '-9px',
-            },
-            '& .MuiInputLabel-shrink': {
-              color: 'black',
-              top: '0',
-            },
-            '& .MuiSelect-outlined': {
-              padding: '10px 32px 10px 14px',
-            },
-            '& .MuiOutlinedInput-root': {
-              height: '40px',
-            },
-          }}
+        <FilterSelect
+          id="filter-code-select"
+          label="Filtrar por código"
+          value={code}
+          onChange={onCodeChangeHandler}
         >
-          <InputLabel id="filter-code-select-input-label">Filtrar por código</InputLabel>
-          <Select
-            labelId="filter-code-select-label"
-            id="filter-code-select"
-            value={code}
-            onChange={onCodeChangeHandler}
-            label="Código"
-          >
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
-              <MenuItem key={index} value={id}>
-                {id}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          sx={{
-            minWidth: 320,
-            marginRight: '38px',
-            '& .MuiFormLabel-root': {
-              fontWeight: '600',
-              fontSize: '16px',
-              letterSpacing: '0.15px',
-              color: 'rgba(0, 0, 0, 0.38)',
-              top: '-9px',
-            },
-            '& .MuiInputLabel-shrink': {
-              color: 'black',
-              top: '0',
-            },
-            '& .MuiSelect-outlined': {
-              padding: '10px 32px 10px 14px',
-            },
-            '& .MuiOutlinedInput-root': {
-              height: '40px',
-            },
-          }}
+          <MenuItem value="">Todos</MenuItem>
+          {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
+            <MenuItem key={index} value={id}>
+              {id}
+            </MenuItem>
+          ))}
+        </FilterSelect>
+        <FilterSelect
+          id="filter-author-select"
+          label="Filtrar por autor"
+          value={author}
+          onChange={onAuthorChangeHandler}
         >
-          <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
-          <Select
-            labelId="filter-author-select-label"
-            id="filter-author-select"
-            onChange={onAuthorChangeHandler}
-            value={author}
-            label="Autor"
-          >
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
-              <MenuItem key={index} value={ruleAuthor}>
-                {ruleAuthor}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          <MenuItem value="">Todos</MenuItem>
+          {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+            <MenuItem key={index} value={ruleAuthor}>
+              {ruleAuthor}
+            </MenuItem>
+          ))}
+        </FilterSelect>
         <Button
           variant="contained"
           color="secondary"

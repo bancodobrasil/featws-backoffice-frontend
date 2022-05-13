@@ -20,6 +20,7 @@ import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import StatusBullet from '../../../components/StatusBullet';
 import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
+import { FilterSelect } from '../../../components/FilterSelect';
 
 const columns: GridColDef[] = [
   {
@@ -415,84 +416,30 @@ export const ShowRuleSheet = () => {
               Filtros
             </Typography>
             <div>
-              <FormControl
-                variant="outlined"
-                sx={{
-                  minWidth: 320,
-                  marginRight: '38px',
-                  '& .MuiFormLabel-root': {
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    letterSpacing: '0.15px',
-                    color: 'rgba(0, 0, 0, 0.38)',
-                    top: '-9px',
-                  },
-                  '& .MuiInputLabel-shrink': {
-                    color: 'black',
-                    top: '0',
-                  },
-                  '& .MuiSelect-outlined': {
-                    padding: '10px 32px 10px 14px',
-                  },
-                  '& .MuiOutlinedInput-root': {
-                    height: '40px',
-                  },
-                }}
+              <FilterSelect
+                id="filter-status-select"
+                label="Filtrar por status"
+                value={status}
+                onChange={onStatusChangeHandler}
               >
-                <InputLabel id="filter-status-select-input-label">Filtrar por status</InputLabel>
-                <Select
-                  labelId="filter-status-select-label"
-                  id="filter-status-select"
-                  value={status}
-                  onChange={onStatusChangeHandler}
-                  label="Status"
-                >
-                  <MenuItem value="">Todos</MenuItem>
-                  <MenuItem value="Deferida">Deferida</MenuItem>
-                  <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
-                  <MenuItem value="Rascunho">Rascunho</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl
-                variant="outlined"
-                sx={{
-                  minWidth: 320,
-                  marginRight: '38px',
-                  '& .MuiFormLabel-root': {
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    letterSpacing: '0.15px',
-                    color: 'rgba(0, 0, 0, 0.38)',
-                    top: '-9px',
-                  },
-                  '& .MuiInputLabel-shrink': {
-                    color: 'black',
-                    top: '0',
-                  },
-                  '& .MuiSelect-outlined': {
-                    padding: '10px 32px 10px 14px',
-                  },
-                  '& .MuiOutlinedInput-root': {
-                    height: '40px',
-                  },
-                }}
+                <MenuItem value="">Todos</MenuItem>
+                <MenuItem value="Deferida">Deferida</MenuItem>
+                <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
+                <MenuItem value="Rascunho">Rascunho</MenuItem>
+              </FilterSelect>
+              <FilterSelect
+                id="filter-author-select"
+                label="Filtrar por autor"
+                value={author}
+                onChange={onAuthorChangeHandler}
               >
-                <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
-                <Select
-                  labelId="filter-author-select-label"
-                  id="filter-author-select"
-                  value={author}
-                  onChange={onAuthorChangeHandler}
-                  label="Autor"
-                >
-                  <MenuItem value="">Todos</MenuItem>
-                  {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
-                    <MenuItem key={index} value={ruleAuthor}>
-                      {ruleAuthor}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                <MenuItem value="">Todos</MenuItem>
+                {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+                  <MenuItem key={index} value={ruleAuthor}>
+                    {ruleAuthor}
+                  </MenuItem>
+                ))}
+              </FilterSelect>
               <Button
                 variant="contained"
                 color="secondary"
