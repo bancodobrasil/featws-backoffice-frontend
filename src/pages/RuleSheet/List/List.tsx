@@ -178,18 +178,8 @@ export const ListRuleSheet = () => {
       >
         <DataGrid
           sx={{
-            '& .MuiDataGrid-main': {
-              '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
-                '& .MuiDataGrid-columnSeparator': {
-                  display: 'none',
-                },
-              },
-              '& .MuiDataGrid-cell': {
-                cursor: 'pointer',
-                '&:focus-within': {
-                  outline: 'none',
-                },
-              },
+            '& .MuiDataGrid-main .MuiDataGrid-cell': {
+              cursor: 'pointer',
             },
           }}
           rows={rows}

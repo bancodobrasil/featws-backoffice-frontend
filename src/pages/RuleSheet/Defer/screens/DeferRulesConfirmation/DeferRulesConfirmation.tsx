@@ -380,7 +380,7 @@ export const DeferRulesConfirmation = ({
                 variant="contained"
                 color="primary"
                 sx={{
-                  marginLeft: 16,
+                  marginLeft: '16px',
                 }}
                 onClick={handleOpenConfirmationDialog}
               >

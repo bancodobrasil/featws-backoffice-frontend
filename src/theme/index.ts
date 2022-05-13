@@ -117,6 +117,9 @@ const theme = createTheme(
                 lineHeight: '24px',
                 letterSpacing: '0.5px',
                 padding: '0 8px',
+                '&:focus-within': {
+                  outline: 'none',
+                },
               },
             },
           },

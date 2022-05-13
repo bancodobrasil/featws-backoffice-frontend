@@ -215,16 +215,6 @@ export const DeferRulesList = ({
         <DataGrid
           sx={{
             marginTop: '16px',
-            '& .MuiDataGrid-main': {
-              '& .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeader:last-child': {
-                '& .MuiDataGrid-columnSeparator': {
-                  display: 'none',
-                },
-              },
-              '&  .MuiDataGrid-cell:focus-within': {
-                outline: 'none',
-              },
-            },
           }}
           rows={rules}
           columns={columns}
