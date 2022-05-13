@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import {
   CreateRuleSheet,
   DeferRules,
-  EditRuleSheet,
   ListRuleSheet,
   ShowRuleSheet,
 } from '../../../pages/RuleSheet';
@@ -66,14 +65,6 @@ export const AppRoutes = () => {
                     element={
                       <RequireAuth permissions={['admin']}>
                         <CreateRuleSheet />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="edit/:id"
-                    element={
-                      <RequireAuth permissions={['admin']}>
-                        <EditRuleSheet />
                       </RequireAuth>
                     }
                   />
