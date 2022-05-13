@@ -41,6 +41,18 @@ const theme = createTheme(
     palette,
     typography: bbTypography,
     components: {
+      MuiLink: {
+        defaultProps: {
+          underline: 'none',
+        },
+      },
+      MuiBreadcrumbs: {
+        styleOverrides: {
+          separator: {
+            display: 'none',
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {

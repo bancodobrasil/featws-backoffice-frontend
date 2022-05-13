@@ -125,7 +125,7 @@ export const CreateRuleSheet = () => {
           </Link>
           <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
           <Typography component="span" className={classes.breadcrumbActive}>
-            Deferimento
+            Nova Folha de Regras
           </Typography>
         </Breadcrumbs>
       </div>

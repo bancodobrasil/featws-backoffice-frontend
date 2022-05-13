@@ -15,9 +15,6 @@ const Style = makeStyles(theme => ({
     top: '-5px',
   },
   breadcrumbs: {
-    '& .featws-ui-MuiBreadcrumbs-separator': {
-      display: 'none',
-    },
     marginLeft: 5,
     color: '#000000',
     fontWeight: 300,
@@ -35,7 +32,7 @@ const Style = makeStyles(theme => ({
   },
   breadcrumbItem: {},
   breadcrumbActive: {
-    color: '#BFC3CA',
+    color: '#BFC3CA !important',
   },
   gridContainer: {
     paddingTop: 11,
