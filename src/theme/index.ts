@@ -69,6 +69,36 @@ const theme = createTheme(
           message: {
             color: palette.text.primary,
             fontSize: 16,
+            fontWeight: 400,
+          },
+          filled: {
+            '& .MuiAlert-action': {
+              color: 'rgba(0, 0, 0, 0.6)',
+            },
+          },
+          filledSuccess: {
+            backgroundColor: 'rgb(239, 248, 240)',
+            '& .MuiAlert-icon': {
+              color: palette.success.light,
+            },
+          },
+          filledError: {
+            backgroundColor: 'rgb(253, 237, 237)',
+            '& .MuiAlert-icon': {
+              color: palette.error.light,
+            },
+          },
+          filledInfo: {
+            backgroundColor: 'rgb(236, 246, 254)',
+            '& .MuiAlert-icon': {
+              color: palette.info.light,
+            },
+          },
+          filledWarning: {
+            backgroundColor: 'rgb(255, 246, 233)',
+            '& .MuiAlert-icon': {
+              color: palette.warning.light,
+            },
           },
         },
       },
