@@ -1,22 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useState } from 'react';
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Divider,
-  Grid,
-  IconButton,
-  Link,
-  Paper,
-  styled,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Button, Divider, Grid, Paper, styled, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
-import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
+import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 30;
@@ -136,43 +123,10 @@ export const CreateRuleSheet = () => {
         paddingBottom: '16px',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          left: '-5px',
-          top: '-5px',
-        }}
-      >
-        <IconButton onClick={onBackClickHandler} size="small">
-          <ArrowBackIcon fontSize="small" color="primary" />
-        </IconButton>
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          sx={{
-            marginLeft: '5px',
-            color: '#000000',
-            fontWeight: 300,
-            fontSize: '14px',
-            lineHeight: '24px',
-            letterSpacing: '0.1px',
-          }}
-        >
-          <Link color="textPrimary" component={RouterLink} to="/">
-            FeatWS
-          </Link>
-          <BreadcrumbsSeparator last />
-          <Typography
-            component="span"
-            sx={{
-              color: '#BFC3CA',
-            }}
-          >
-            Nova Folha de Regras
-          </Typography>
-        </Breadcrumbs>
-      </Box>
+      <AppBreadcrumbs
+        items={[{ label: 'FeatWS', navigateTo: '/' }, { label: 'Nova Folha de Regras' }]}
+        onBack={onBackClickHandler}
+      />
       <Grid
         container
         sx={{

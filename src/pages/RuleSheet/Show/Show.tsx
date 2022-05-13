@@ -1,23 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Chip,
-  Grid,
-  IconButton,
-  Link,
-  MenuItem,
-  Typography,
-} from '@mui/material';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
+import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import StatusBullet from '../../../components/StatusBullet';
-import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
 import { FilterSelect } from '../../../components/FilterSelect';
+import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 
 const columns: GridColDef[] = [
   {
@@ -249,47 +238,14 @@ export const ShowRuleSheet = () => {
         paddingBottom: '34px',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          left: '-5px',
-          top: '-5px',
-        }}
-      >
-        <IconButton onClick={onBackClickHandler} size="small">
-          <ArrowBackIcon fontSize="small" color="primary" />
-        </IconButton>
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          sx={{
-            marginLeft: '5px',
-            color: '#000000',
-            fontWeight: 300,
-            fontSize: '14px',
-            lineHeight: '24px',
-            letterSpacing: '0.1px',
-          }}
-        >
-          <Link color="textPrimary" component={RouterLink} to="/">
-            FeatWS
-          </Link>
-          <BreadcrumbsSeparator />
-          <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
-            {record?.name}
-          </Link>
-          <BreadcrumbsSeparator last />
-          <Typography
-            component="span"
-            sx={{
-              color: '#BFC3CA',
-            }}
-          >
-            Regras
-          </Typography>
-        </Breadcrumbs>
-      </Box>
+      <AppBreadcrumbs
+        items={[
+          { label: 'FeatWS', navigateTo: '/' },
+          { label: record?.name, navigateTo: `/rulesheets/${id}` },
+          { label: 'Regras' },
+        ]}
+        onBack={onBackClickHandler}
+      />
       <Box
         sx={{
           flex: 1,

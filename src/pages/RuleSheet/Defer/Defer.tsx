@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Breadcrumbs, IconButton, Link, Typography } from '@mui/material';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
 import './Styles.css';
-import { BreadcrumbsSeparator } from '../../../components/BreadcrumbsSeparator';
+import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -236,47 +235,14 @@ export const DeferRules = () => {
         >
           <div ref={screenNode}>
             <div className="transition-root">
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  position: 'relative',
-                  left: '-5px',
-                  top: '-5px',
-                }}
-              >
-                <IconButton onClick={onBackClickHandlerOverride} size="small">
-                  <ArrowBackIcon fontSize="small" color="primary" />
-                </IconButton>
-                <Breadcrumbs
-                  aria-label="breadcrumb"
-                  sx={{
-                    marginLeft: '5px',
-                    color: '#000000',
-                    fontWeight: 300,
-                    fontSize: '14px',
-                    lineHeight: '24px',
-                    letterSpacing: '0.1px',
-                  }}
-                >
-                  <Link color="textPrimary" component={RouterLink} to="/">
-                    FeatWS
-                  </Link>
-                  <BreadcrumbsSeparator />
-                  <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
-                    {record?.name}
-                  </Link>
-                  <BreadcrumbsSeparator last />
-                  <Typography
-                    component="span"
-                    sx={{
-                      color: '#BFC3CA',
-                    }}
-                  >
-                    Deferimento
-                  </Typography>
-                </Breadcrumbs>
-              </Box>
+              <AppBreadcrumbs
+                items={[
+                  { label: 'FeatWS', navigateTo: '/' },
+                  { label: record?.name, navigateTo: `/rulesheets/${id}` },
+                  { label: 'Deferimento' },
+                ]}
+                onBack={onBackClickHandlerOverride}
+              />
               {renderCurrentScreen()}
             </div>
           </div>
