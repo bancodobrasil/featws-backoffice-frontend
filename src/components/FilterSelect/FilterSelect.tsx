@@ -4,8 +4,8 @@ import React from 'react';
 export interface FilterSelectProps {
   id: string;
   label: string;
-  value: any;
-  onChange: (event: SelectChangeEvent<any>, child: React.ReactNode) => void;
+  value: unknown;
+  onChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
   children: React.ReactNode;
 }
 
@@ -37,15 +37,13 @@ export const FilterSelect = ({
   value,
   onChange,
   children,
-}: FilterSelectProps): JSX.Element => {
-  return (
-    <FilterFormControl variant="outlined">
-      <InputLabel sx={{ backgroundColor: '#FFF', px: '4px' }} id={`${id}-label`}>
-        {label}
-      </InputLabel>
-      <Select labelId={`${id}-label`} id={id} value={value} onChange={onChange} label={label}>
-        {children}
-      </Select>
-    </FilterFormControl>
-  );
-};
+}: FilterSelectProps): JSX.Element => (
+  <FilterFormControl variant="outlined">
+    <InputLabel sx={{ backgroundColor: '#FFF', px: '4px' }} id={`${id}-label`}>
+      {label}
+    </InputLabel>
+    <Select labelId={`${id}-label`} id={id} value={value} onChange={onChange} label={label}>
+      {children}
+    </Select>
+  </FilterFormControl>
+);
