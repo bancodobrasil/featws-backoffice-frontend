@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, ButtonProps } from '@material-ui/core';
-import ListIcon from '@material-ui/icons/List';
+import { Button, ButtonProps } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
 import { useNavigate } from 'react-router-dom';
 
 export interface ListButtonProps extends Omit<ButtonProps, 'children'> {

@@ -1,13 +1,4 @@
-import {
-  Button,
-  Chip,
-  Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-} from '@material-ui/core';
+import { Button, Chip, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import React, { useEffect, useRef, useState } from 'react';
 import StatusBullet from '../../../../../components/StatusBullet';
@@ -87,11 +78,6 @@ export const DeferRulesList = ({
   onBackClickHandler,
   setCurrentScreen,
 }: IDeferRulesListProps) => {
-  const codeInputLabel = useRef<HTMLLabelElement>();
-  const authorInputLabel = useRef<HTMLLabelElement>();
-  const [codeLabelWidth, setCodeLabelWidth] = useState<number>(0);
-  const [authorLabelWidth, setAuthorLabelWidth] = useState<number>(0);
-
   const classes = Style();
 
   const onBackClickHandlerOverride = () => {
@@ -134,15 +120,6 @@ export const DeferRulesList = ({
     setRules(listRule);
   };
 
-  useEffect(() => {
-    if (codeInputLabel.current) {
-      setCodeLabelWidth(codeInputLabel.current.offsetWidth);
-    }
-    if (authorInputLabel.current) {
-      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    }
-  }, [codeInputLabel, authorInputLabel]);
-
   const onCodeChangeHandler = event => {
     setCode(event.target.value);
   };
@@ -154,18 +131,13 @@ export const DeferRulesList = ({
     return (
       <div>
         <FormControl variant="outlined" className={classes.filterSelect}>
-          <InputLabel ref={codeInputLabel} id="filter-code-select-input-label">
-            Filtrar por código
-          </InputLabel>
+          <InputLabel id="filter-code-select-input-label">Filtrar por código</InputLabel>
           <Select
             labelId="filter-code-select-label"
             id="filter-code-select"
             value={code}
             onChange={onCodeChangeHandler}
             label="Código"
-            input={
-              <OutlinedInput labelWidth={codeLabelWidth} name="code-input" id="outlined-code" />
-            }
           >
             <MenuItem value="">Todos</MenuItem>
             {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
@@ -176,22 +148,13 @@ export const DeferRulesList = ({
           </Select>
         </FormControl>
         <FormControl variant="outlined" className={classes.filterSelect}>
-          <InputLabel ref={authorInputLabel} id="filter-author-select-input-label">
-            Filtrar por autor
-          </InputLabel>
+          <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
           <Select
             labelId="filter-author-select-label"
             id="filter-author-select"
             onChange={onAuthorChangeHandler}
             value={author}
             label="Autor"
-            input={
-              <OutlinedInput
-                labelWidth={authorLabelWidth}
-                name="author-input"
-                id="outlined-author"
-              />
-            }
           >
             <MenuItem value="">Todos</MenuItem>
             {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (

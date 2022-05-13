@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Breadcrumbs, IconButton, Link, Typography } from '@material-ui/core';
+import { Box, Breadcrumbs, IconButton, Link, Typography } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';

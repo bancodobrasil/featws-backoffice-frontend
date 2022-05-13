@@ -1,6 +1,7 @@
 import React from 'react';
-import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { StylesProvider, createGenerateClassName } from '@mui/styles';
 import theme from '../../theme';
 import './AppStyles.css';
 import { AppRoutes } from './AppRoutes';

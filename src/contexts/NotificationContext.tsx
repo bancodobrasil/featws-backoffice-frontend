@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useEffect, useReducer } from 'react';
-import { Alert, AlertProps, AlertTitle } from '@material-ui/lab';
-import { Snackbar, SnackbarCloseReason, SnackbarProps } from '@material-ui/core';
+import { Alert, AlertProps, AlertTitle } from '@mui/lab';
+import { Snackbar, SnackbarCloseReason, SnackbarProps } from '@mui/material';
 
 type SnackbarOnClose = (
   event: React.SyntheticEvent<unknown, Event>,

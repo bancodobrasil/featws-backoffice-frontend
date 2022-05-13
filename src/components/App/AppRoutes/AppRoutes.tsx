@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Container } from '@material-ui/core';
+import { Box, Container } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Style from './Style';
 import {

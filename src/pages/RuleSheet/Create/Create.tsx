@@ -11,9 +11,9 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Style from './Style';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 

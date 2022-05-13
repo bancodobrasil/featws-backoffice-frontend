@@ -1,5 +1,5 @@
-import { Button, Dialog, Divider, Grid, IconButton, Paper, Typography } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
+import { Button, Dialog, Divider, Grid, IconButton, Paper, Typography } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';

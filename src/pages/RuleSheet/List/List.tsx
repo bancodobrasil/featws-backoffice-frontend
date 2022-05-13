@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, IconButton, Paper } from '@material-ui/core';
+import { Box, Button, IconButton, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import Style from './Style';
 

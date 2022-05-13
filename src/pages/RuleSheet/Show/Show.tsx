@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Breadcrumbs,
@@ -10,13 +10,12 @@ import {
   InputLabel,
   Link,
   MenuItem,
-  OutlinedInput,
   Select,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import Style from './Style';
@@ -71,11 +70,6 @@ export const ShowRuleSheet = () => {
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>([]);
-
-  const statusInputLabel = useRef<HTMLLabelElement>();
-  const authorInputLabel = useRef<HTMLLabelElement>();
-  const [statusLabelWidth, setStatusLabelWidth] = React.useState(0);
-  const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
 
   const classes = Style();
 
@@ -212,15 +206,6 @@ export const ShowRuleSheet = () => {
     setRules(record.rules);
   }, [record, fetchRecord]);
 
-  useEffect(() => {
-    if (statusInputLabel.current) {
-      setStatusLabelWidth(statusInputLabel.current.offsetWidth);
-    }
-    if (authorInputLabel.current) {
-      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    }
-  }, [statusInputLabel, authorInputLabel]);
-
   const renderDescription = () =>
     record?.description.split('\n').map((line, index) => (
       <p key={index} className={classes.description}>
@@ -293,22 +278,13 @@ export const ShowRuleSheet = () => {
             <h3 className={classes.filtersHeading}>Filtros</h3>
             <div>
               <FormControl variant="outlined" className={classes.filterSelect}>
-                <InputLabel ref={statusInputLabel} id="filter-status-select-input-label">
-                  Filtrar por status
-                </InputLabel>
+                <InputLabel id="filter-status-select-input-label">Filtrar por status</InputLabel>
                 <Select
                   labelId="filter-status-select-label"
                   id="filter-status-select"
                   value={status}
                   onChange={onStatusChangeHandler}
                   label="Status"
-                  input={
-                    <OutlinedInput
-                      labelWidth={statusLabelWidth}
-                      name="status-input"
-                      id="outlined-status"
-                    />
-                  }
                 >
                   <MenuItem value="">Todos</MenuItem>
                   <MenuItem value="Deferida">Deferida</MenuItem>
@@ -317,22 +293,13 @@ export const ShowRuleSheet = () => {
                 </Select>
               </FormControl>
               <FormControl variant="outlined" className={classes.filterSelect}>
-                <InputLabel ref={authorInputLabel} id="filter-author-select-input-label">
-                  Filtrar por autor
-                </InputLabel>
+                <InputLabel id="filter-author-select-input-label">Filtrar por autor</InputLabel>
                 <Select
                   labelId="filter-author-select-label"
                   id="filter-author-select"
                   value={author}
                   onChange={onAuthorChangeHandler}
                   label="Autor"
-                  input={
-                    <OutlinedInput
-                      labelWidth={authorLabelWidth}
-                      name="author-input"
-                      id="outlined-author"
-                    />
-                  }
                 >
                   <MenuItem value="">Todos</MenuItem>
                   {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
