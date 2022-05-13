@@ -39,9 +39,7 @@ export const FilterSelect = ({
   children,
 }: FilterSelectProps): JSX.Element => (
   <FilterFormControl variant="outlined">
-    <InputLabel sx={{ backgroundColor: '#FFF', px: '4px' }} id={`${id}-label`}>
-      {label}
-    </InputLabel>
+    <InputLabel id={`${id}-label`}>{label}</InputLabel>
     <Select labelId={`${id}-label`} id={id} value={value} onChange={onChange} label={label}>
       {children}
     </Select>

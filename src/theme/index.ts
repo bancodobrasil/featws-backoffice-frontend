@@ -41,6 +41,14 @@ const theme = createTheme(
     palette,
     typography: bbTypography,
     components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          shrink: {
+            backgroundColor: palette.white,
+            paddingRight: 4,
+          },
+        },
+      },
       MuiLink: {
         defaultProps: {
           underline: 'none',
