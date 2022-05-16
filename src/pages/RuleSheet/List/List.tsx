@@ -1,85 +1,17 @@
-import React from 'react';
-import { Box, Button, IconButton, Paper } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
-
-const rows = [
-  {
-    id: 1,
-    name: 'Internet APF',
-    responsible: 'Onboarding BB',
-    code: '12345678',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 2,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: '23456781',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 3,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 4,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 5,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 6,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 7,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 8,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 9,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-  {
-    id: 10,
-    name: 'EBB Minha Página',
-    responsible: 'Onboarding BB',
-    code: 'Conteúdo',
-    updatedAt: new Date(2022, 0, 20, 10, 55, 30, 500),
-  },
-];
+import { IRuleSheet } from '../../../interfaces';
+import { getAllRuleSheets } from '../../../api/services/RuleSheets';
 
 export const ListRuleSheet = () => {
   const navigate = useNavigate();
+
+  const [records, setRecords] = useState<IRuleSheet[] | undefined>();
+  const [loadingRecords, setLoadingRecords] = useState<boolean>(false);
 
   const columns: GridColDef[] = [
     {
@@ -128,6 +60,26 @@ export const ListRuleSheet = () => {
     },
   ];
 
+  const fetchRecords = useCallback(async () => {
+    if (loadingRecords) {
+      return;
+    }
+    setLoadingRecords(true);
+
+    const data = await getAllRuleSheets();
+
+    setRecords(data);
+
+    setLoadingRecords(false);
+  }, [loadingRecords]);
+
+  useEffect(() => {
+    if (!records) {
+      fetchRecords();
+      return;
+    }
+  }, [records, fetchRecords]);
+
   const handleButtonCreateOnClick = () => {
     navigate('create');
   };
@@ -137,6 +89,22 @@ export const ListRuleSheet = () => {
       navigate(selectionModel[0].toString());
     }
   };
+
+  if (loadingRecords) {
+    return (
+      <Box
+        sx={{
+          marginTop: '24px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="h2" component="p">
+          Carregando lista de Folha de Regras...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -182,7 +150,7 @@ export const ListRuleSheet = () => {
               cursor: 'pointer',
             },
           }}
-          rows={rows}
+          rows={records}
           columns={columns}
           pageSize={10}
           autoHeight
