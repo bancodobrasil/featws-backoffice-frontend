@@ -4,6 +4,7 @@ import { Box, Button, Divider, Grid, Paper, styled, TextField, Typography } from
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
+import { createRuleSheet } from '../../../api/services/RuleSheets';
 
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 30;
@@ -70,45 +71,14 @@ export const CreateRuleSheet = () => {
     // TODO: Implement the API request.
     // The Promise below simulates the loading time of the request, remove it when you implement the request itself.
     try {
-      await new Promise<void>((resolve, reject) => {
-        setTimeout(() => {
-          // const error = { status: 500, message: 'Internal Server Error' };
-          // console.error(error.message, error);
-          // reject(error);
-          resolve();
-        }, 2000);
-      });
+      await createRuleSheet({ name, slug });
       dispatch({
         type: ActionTypes.OPEN_NOTIFICATION,
         message: 'Folha de Regras criada com sucesso!',
       });
       navigate('../');
     } catch (error) {
-      if (error.status) {
-        const title = `Erro (status code: ${error.status})`;
-        if (error.status === 500) {
-          dispatch({
-            type: ActionTypes.OPEN_NOTIFICATION,
-            title,
-            message:
-              'Ocorreu uma falha interna no nosso servidor, por favor tente novamente mais tarde.',
-            alertProps: { severity: 'error' },
-          });
-          return;
-        }
-        dispatch({
-          type: ActionTypes.OPEN_NOTIFICATION,
-          title,
-          message:
-            'Erro ao criar Folha de Regra. Se o problema persistir, entre em contato com um administrador do sistema.',
-          alertProps: { severity: 'error' },
-        });
-      }
-      dispatch({
-        type: ActionTypes.OPEN_NOTIFICATION,
-        message: 'Erro ao criar Folha de Regra.',
-        alertProps: { severity: 'error' },
-      });
+      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
     } finally {
       setLoadingSubmit(false);
     }

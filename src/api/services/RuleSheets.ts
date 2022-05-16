@@ -27,7 +27,7 @@ const getAllRuleSheets = async (): Promise<IRuleSheet[]> => {
   }
 };
 
-type CreateRuleSheetParams = WithRequired<IRuleSheet, 'name' | 'slug'>;
+type CreateRuleSheetParams = Required<Pick<IRuleSheet, 'name' | 'slug'>>;
 type CreateRuleSheetResponse = Pick<IRuleSheet, 'id' | 'name'>;
 
 const createRuleSheet = async (data: CreateRuleSheetParams): Promise<IRuleSheet> => {
