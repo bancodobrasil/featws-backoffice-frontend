@@ -9,6 +9,7 @@ import {
   AlertProps,
   AlertTitle,
 } from '@mui/material';
+import { APIError, UnhandledError } from '../api/errors';
 
 type State = {
   isOpen: boolean;
@@ -24,6 +25,7 @@ enum ActionTypes {
   SET_DEFAULT_PROPS = 'SET_DEFAULT_PROPS',
   OPEN_NOTIFICATION = 'OPEN_NOTIFICATION',
   CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION',
+  OPEN_ERROR_NOTIFICATION = 'OPEN_ERROR_NOTIFICATION',
 }
 
 type Action =
@@ -41,6 +43,10 @@ type Action =
     }
   | {
       type: ActionTypes.CLOSE_NOTIFICATION;
+    }
+  | {
+      type: ActionTypes.OPEN_ERROR_NOTIFICATION;
+      error: Error;
     };
 
 const initialState: State = {
@@ -89,6 +95,29 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         isOpen: false,
+      };
+    case ActionTypes.OPEN_ERROR_NOTIFICATION:
+      const { error } = action;
+      let title;
+      if (error instanceof APIError) {
+        title = `Erro (status code: ${error.statusCode})`;
+      } else if (error instanceof UnhandledError) {
+        title = 'Erro desconhecido';
+      }
+      return {
+        ...initialState,
+        isOpen: true,
+        title,
+        message: error.message,
+        snackbarProps: {
+          ...state.defaultSnackbarProps,
+        },
+        alertProps: {
+          ...state.defaultAlertProps,
+          ...{ severity: 'error' },
+        },
+        defaultSnackbarProps: state.defaultSnackbarProps,
+        defaultAlertProps: state.defaultAlertProps,
       };
     default:
       throw new Error(`NotificationContext: Action not found`);
