@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 class BaseError extends Error {
   constructor(message: string) {
     super(message);
@@ -12,6 +13,7 @@ class BaseError extends Error {
 
 class APIError extends BaseError {
   statusCode: number;
+
   constructor(statusCode: number, message?: string) {
     const defaultMessage = message || 'Ocorreu um problema na requisição.';
     super(defaultMessage);
@@ -21,6 +23,7 @@ class APIError extends BaseError {
 
 class UnhandledError extends BaseError {
   originalError: unknown;
+
   constructor(originalError: unknown, message?: string) {
     const defaultMessage = message || 'Ocorreu um problema inesperado.';
     super(defaultMessage);

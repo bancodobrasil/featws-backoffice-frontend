@@ -4,7 +4,7 @@ import { IRuleSheet } from '../../interfaces';
 type CreateFakeRuleSheetParams = Partial<IRuleSheet>;
 
 const createFakeRuleSheet = (params?: CreateFakeRuleSheetParams): IRuleSheet => {
-  let fields = params || {};
+  const fields = params || {};
   if (!fields.id) {
     fields.id = Math.floor(Math.random() * 10000) + 1;
   }

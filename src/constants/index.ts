@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 const getConfig = varname => {
   if (process.env.NODE_ENV === 'production') {
     return varname;

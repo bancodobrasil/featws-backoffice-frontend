@@ -67,6 +67,7 @@ const NotificationContext = createContext<{
 const { Provider } = NotificationContext;
 
 const reducer = (state: State, action: Action): State => {
+  let title;
   switch (action.type) {
     case ActionTypes.SET_DEFAULT_PROPS:
       return {
@@ -97,18 +98,16 @@ const reducer = (state: State, action: Action): State => {
         isOpen: false,
       };
     case ActionTypes.OPEN_ERROR_NOTIFICATION:
-      const { error } = action;
-      let title;
-      if (error instanceof APIError) {
-        title = `Erro (status code: ${error.statusCode})`;
-      } else if (error instanceof UnhandledError) {
+      if (action.error instanceof APIError) {
+        title = `Erro (status code: ${action.error.statusCode})`;
+      } else if (action.error instanceof UnhandledError) {
         title = 'Erro desconhecido';
       }
       return {
         ...initialState,
         isOpen: true,
         title,
-        message: error.message,
+        message: action.error.message,
         snackbarProps: {
           ...state.defaultSnackbarProps,
         },

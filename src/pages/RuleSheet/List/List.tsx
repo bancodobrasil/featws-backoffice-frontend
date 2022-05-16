@@ -83,7 +83,6 @@ export const ListRuleSheet = () => {
   useEffect(() => {
     if (!finishedLoading) {
       fetchRecords();
-      return;
     }
   }, [finishedLoading, fetchRecords]);
 

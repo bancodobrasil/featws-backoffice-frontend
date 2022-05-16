@@ -3,7 +3,6 @@ import { publicAPI } from '../axios';
 import { IRuleSheet } from '../../interfaces';
 import { createFakeRuleSheet } from '../../utils/factory/FakeRuleSheet';
 import { APIError, UnhandledError } from '../errors';
-import { WithRequired } from '../../types';
 
 type GetAllRuleSheetsResponse = Pick<IRuleSheet, 'id' | 'name'>[];
 
