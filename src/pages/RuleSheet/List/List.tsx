@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import { NotificationContext, ActionTypes } from '../../../contexts/NotificationContext';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { IRuleSheet } from '../../../interfaces';
 import { getAllRuleSheets } from '../../../api/services/RuleSheets';
 
 export const ListRuleSheet = () => {
+  const { dispatch } = useContext(NotificationContext);
   const navigate = useNavigate();
 
   const [records, setRecords] = useState<IRuleSheet[] | undefined>();
   const [loadingRecords, setLoadingRecords] = useState<boolean>(false);
+  const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
 
   const columns: GridColDef[] = [
     {
@@ -66,19 +69,23 @@ export const ListRuleSheet = () => {
     }
     setLoadingRecords(true);
 
-    const data = await getAllRuleSheets();
-
-    setRecords(data);
+    try {
+      const data = await getAllRuleSheets();
+      setRecords(data);
+    } catch (error) {
+      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
+    }
 
     setLoadingRecords(false);
-  }, [loadingRecords]);
+    setFinishedLoading(true);
+  }, [loadingRecords, dispatch]);
 
   useEffect(() => {
-    if (!records) {
+    if (!finishedLoading) {
       fetchRecords();
       return;
     }
-  }, [records, fetchRecords]);
+  }, [finishedLoading, fetchRecords]);
 
   const handleButtonCreateOnClick = () => {
     navigate('create');

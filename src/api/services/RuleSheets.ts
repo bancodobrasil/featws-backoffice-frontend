@@ -17,7 +17,9 @@ const getAllRuleSheets = async () => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       // TODO: check response status code, inspect the response data, and throw the correct error type
-      throw new APIError(error.response.status);
+      if (error.response?.status) {
+        throw new APIError(error.response.status);
+      }
     }
     console.error(error);
     throw new UnhandledError(error);
