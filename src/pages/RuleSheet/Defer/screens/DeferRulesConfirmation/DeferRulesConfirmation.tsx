@@ -1,11 +1,20 @@
-import { Button, Dialog, Divider, Grid, IconButton, Paper, Typography } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+  styled,
+} from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
-import Style from './Style';
 
 export interface IDeferRulesConfirmationProps {
   rulesheet: IRuleSheet;
@@ -13,6 +22,18 @@ export interface IDeferRulesConfirmationProps {
   onBackClickHandler: (action?: () => void) => void;
   setCurrentScreen: (currentScreen: EnumDeferRulesScreens) => void;
 }
+
+const RuleField = styled('div')({
+  margin: 0,
+  paddingTop: 16,
+  '& span': {
+    fontSize: 16,
+  },
+  '& span:first-child': {
+    fontWeight: 700,
+    marginRight: 8,
+  },
+});
 
 export const DeferRulesConfirmation = ({
   rulesheet,
@@ -28,8 +49,6 @@ export const DeferRulesConfirmation = ({
   const [isDialogTimeOpen, setIsDialogTimeOpen] = useState<boolean>(false);
 
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-
-  const classes = Style();
 
   const onBackAction = () => {
     setCurrentScreen(EnumDeferRulesScreens.LIST);
@@ -117,39 +136,65 @@ export const DeferRulesConfirmation = ({
 
   const renderRulesList = () =>
     rules.map((rule, index) => (
-      <div key={index} className={classes.containerRule}>
-        <p className={classes.ruleField}>
+      <Box
+        key={index}
+        sx={{
+          marginLeft: '16px',
+          marginRight: '16px',
+        }}
+      >
+        <RuleField>
           <span>Título:</span>
           <span>{rule.title}</span>
-        </p>
-        <p className={classes.ruleField}>
+        </RuleField>
+        <RuleField>
           <span>Folha de Regras:</span>
           <span>{rulesheet.name}</span>
-        </p>
-        <p className={classes.ruleField}>
+        </RuleField>
+        <RuleField>
           <span>Autor:</span>
           <span>{rule.author}</span>
-        </p>
-        <p className={classes.ruleField}>
+        </RuleField>
+        <RuleField>
           <span>Tag:</span>
           <span>R2D2</span>
-        </p>
-        <p className={classes.ruleField}>
+        </RuleField>
+        <RuleField>
           <span>Tipo de Regra:</span>
           <span>Exibição</span>
-        </p>
-        <div className={classes.containerRuleFilters}>
+        </RuleField>
+        <Box
+          sx={{
+            paddingTop: '16px',
+            paddingBottom: '16px',
+            display: 'flex',
+            '& > span': {
+              fontWeight: 700,
+              fontSize: 16,
+              marginRight: '8px',
+            },
+          }}
+        >
           <span>Filtros:</span>
-          <div className={classes.containerRuleFiltersFields}>
+          <Box
+            sx={{
+              '& span': {
+                fontSize: 16,
+                display: 'list-item',
+                listStyleType: 'disc',
+                listStylePosition: 'inside',
+              },
+            }}
+          >
             <span>MCI &gt; 1532</span>
             <span>Gênero: feminino</span>
             <span>Idade &gt; 24</span>
             <span>Idade &lt; 57</span>
             <span>Estado: Acre</span>
-          </div>
-        </div>
+          </Box>
+        </Box>
         {index < rules.length - 1 ? <Divider /> : null}
-      </div>
+      </Box>
     ));
 
   const renderConfirmationDialog = () => (
@@ -157,19 +202,46 @@ export const DeferRulesConfirmation = ({
       onClose={handleCloseConfirmationDialog}
       aria-labelledby="confirmation-dialog-title"
       open={isDialogConfirmationOpen}
-      className={classes.dialog}
+      sx={{
+        '& .MuiDialog-paper': {
+          padding: '16px',
+        },
+      }}
     >
-      <div id="confirmation-dialog-title" className={classes.dialogTitle}>
+      <Box
+        id="confirmation-dialog-title"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          '& h3': {
+            flex: 1,
+            margin: 0,
+            fontWeight: 700,
+            fontSize: 22,
+          },
+        }}
+      >
         <h3>Você tem certeza que quer deferir essa regra?</h3>
         <IconButton size="small" onClick={handleCloseConfirmationDialog}>
           <CancelIcon fontSize="small" />
         </IconButton>
-      </div>
-      <div className={classes.dialogContent}>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '16px',
+          marginBottom: '32px',
+          fontSize: 16,
+        }}
+      >
         Atenção, após confirmar, a regra será aplicada! Após ser deferida, você poderá deletar a
         regra se quiser.
-      </div>
-      <div className={classes.dialogActions}>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
         <Button
           autoFocus
           onClick={handleCloseConfirmationDialog}
@@ -182,11 +254,13 @@ export const DeferRulesConfirmation = ({
           onClick={handleConfirmationOk}
           color="primary"
           variant="contained"
-          className={classes.dialogButtonConfirm}
+          sx={{
+            marginLeft: '16px',
+          }}
         >
           Confirmar Deferimento
         </Button>
-      </div>
+      </Box>
     </Dialog>
   );
 
@@ -195,18 +269,45 @@ export const DeferRulesConfirmation = ({
       onClose={handleCloseTimeDialog}
       aria-labelledby="time-dialog-title"
       open={isDialogTimeOpen}
-      className={classes.dialog}
+      sx={{
+        '& .MuiDialog-paper': {
+          padding: '16px',
+        },
+      }}
     >
-      <div id="time-dialog-title" className={classes.dialogTitle}>
+      <Box
+        id="time-dialog-title"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          '& h3': {
+            flex: 1,
+            margin: 0,
+            fontWeight: 700,
+            fontSize: 22,
+          },
+        }}
+      >
         <h3>Você tem certeza que quer deferir nesse horário?</h3>
         <IconButton size="small" onClick={handleCloseTimeDialog}>
           <CancelIcon fontSize="small" />
         </IconButton>
-      </div>
-      <div className={classes.dialogContent}>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '16px',
+          marginBottom: '32px',
+          fontSize: 16,
+        }}
+      >
         Atenção! Deferir regras entre 9:00 - 15:30 pode gerar frutrações para os clientes.
-      </div>
-      <div className={classes.dialogActions}>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
         <Button autoFocus onClick={handleCloseTimeDialog} color="secondary" variant="contained">
           Cancelar
         </Button>
@@ -214,21 +315,29 @@ export const DeferRulesConfirmation = ({
           onClick={handleTimeOk}
           color="primary"
           variant="contained"
-          className={classes.dialogButtonConfirm}
+          sx={{
+            marginLeft: '16px',
+          }}
         >
           Deferir mesmo assim
         </Button>
-      </div>
+      </Box>
     </Dialog>
   );
 
   if (loadingSubmit) {
     return (
-      <div className={classes.loadingSubmit}>
+      <Box
+        sx={{
+          marginTop: '24px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Typography variant="h2" component="p">
           Carregando deferimento de {rules.length === 1 ? 'Regra' : 'Regras'}...
         </Typography>
-      </div>
+      </Box>
     );
   }
 
@@ -236,26 +345,48 @@ export const DeferRulesConfirmation = ({
     <div>
       <Grid container>
         <Grid xs={4}>
-          <Paper className={classes.paper}>
-            <h1 className={classes.h1}>
+          <Paper
+            sx={{
+              marginTop: '11px',
+            }}
+          >
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: 700,
+                fontSize: '24px',
+                lineHeight: '24px',
+                letterSpacing: '0.18px',
+                margin: 0,
+                padding: '16px',
+              }}
+            >
               Confirme as informações {rules.length === 1 ? 'da regra' : 'das regras'}
-            </h1>
+            </Typography>
             <Divider />
             {renderRulesList()}
             <Divider />
-            <div className={classes.containerActionButtons}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                padding: '16px',
+              }}
+            >
               <Button variant="contained" color="secondary" onClick={onBackClickHandlerOverride}>
                 Voltar
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                className={classes.buttonDefer}
+                sx={{
+                  marginLeft: '16px',
+                }}
                 onClick={handleOpenConfirmationDialog}
               >
                 Deferir {rules.length <= 1 ? 'Regra' : 'Regras'}
               </Button>
-            </div>
+            </Box>
           </Paper>
         </Grid>
       </Grid>

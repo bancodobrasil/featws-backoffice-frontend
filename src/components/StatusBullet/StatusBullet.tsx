@@ -1,8 +1,7 @@
+import { Box } from '@mui/material';
 import React from 'react';
-import Style from './Style';
 
 export const StatusBullet = ({ status }: { status: string }) => {
-  const classes = Style();
   let color;
   switch (status) {
     case 'Deferida':
@@ -16,9 +15,12 @@ export const StatusBullet = ({ status }: { status: string }) => {
       break;
   }
   return (
-    <div
-      className={classes.bullet}
-      style={{
+    <Box
+      sx={{
+        width: 8,
+        height: 8,
+        borderRadius: 999,
+        marginLeft: '16px',
         backgroundColor: color,
       }}
     />

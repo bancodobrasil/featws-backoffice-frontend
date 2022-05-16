@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Button, IconButton, Paper } from '@material-ui/core';
+import { Box, Button, IconButton, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
-import Style from './Style';
 
 const rows = [
   {
@@ -82,8 +81,6 @@ const rows = [
 export const ListRuleSheet = () => {
   const navigate = useNavigate();
 
-  const classes = Style();
-
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -142,20 +139,49 @@ export const ListRuleSheet = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <div className={classes.headingContainer}>
+    <Box
+      sx={{
+        width: '100%',
+        paddingTop: '16px',
+        paddingBottom: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <h1>Folhas de Regra</h1>
-        <div className={classes.headingButtonsContainer}>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
           <AuthorizedComponent permissions={['admin']}>
             <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
               + Nova Folha de Regras
             </Button>
           </AuthorizedComponent>
-        </div>
-      </div>
-      <Paper className={classes.dataGridContainer} elevation={0}>
+        </Box>
+      </Box>
+      <Paper
+        sx={{
+          marginTop: '16px',
+        }}
+        elevation={0}
+      >
         <DataGrid
-          className={classes.dataGrid}
+          sx={{
+            '& .MuiDataGrid-main .MuiDataGrid-cell': {
+              cursor: 'pointer',
+            },
+          }}
           rows={rows}
           columns={columns}
           pageSize={10}

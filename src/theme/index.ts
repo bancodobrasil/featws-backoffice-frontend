@@ -1,38 +1,37 @@
-import { createTheme, LabelDisplayedRowsArgs } from '@material-ui/core';
-import { GridOptions, ptBR as ptBRDataGrid } from '@mui/x-data-grid';
-import { ptBR } from '@material-ui/core/locale';
+import { createTheme } from '@mui/material/styles';
+import { GridLocaleText, ptBR as ptBRDataGrid } from '@mui/x-data-grid';
+import type {} from '@mui/x-data-grid/themeAugmentation';
+import { ptBR } from '@mui/material/locale';
 
-import { AlertClassKey, AlertTitleClassKey } from '@material-ui/lab';
 import palette from './palette';
 import bbTypography from './bbTypography';
 
-declare module '@material-ui/core/styles/overrides' {
-  export interface ComponentNameToClassKey {
-    MuiAlert: AlertClassKey;
-    MuiAlertTitle: AlertTitleClassKey;
-  }
-}
-
 const ptBRMuiTablePaginationOverride = {
-  ...ptBR.props.MuiTablePagination,
-  labelRowsPerPage: 'Itens por página',
-  labelDisplayedRows: ({ count, page, from, to }: LabelDisplayedRowsArgs) =>
-    `Mostrando ${from}-${to} itens de ${count} itens`,
+  defaultProps: {
+    ...ptBR.components.MuiTablePagination.defaultProps,
+    labelRowsPerPage: 'Itens por página',
+    labelDisplayedRows: ({ count, from, to }) => `Mostrando ${from}-${to} itens de ${count} itens`,
+  },
 };
 
 const ptBRMuiDataGridOverride = {
-  localeText: {
-    ...(ptBRDataGrid as { props: { MuiDataGrid: Pick<GridOptions, 'localeText'> } }).props
-      .MuiDataGrid.localeText,
-    MuiTablePagination: ptBRMuiTablePaginationOverride,
-    footerRowSelected: (count: number) => {
-      if (count === 1) {
-        return '1 item selecionado';
-      }
-      if (count > 1) {
-        return `${count} itens selecionados`;
-      }
-      return '';
+  defaultProps: {
+    localeText: {
+      ...(
+        ptBRDataGrid as {
+          components: { MuiDataGrid: { defaultProps: { localeText: GridLocaleText } } };
+        }
+      ).components.MuiDataGrid.defaultProps.localeText,
+      MuiTablePagination: ptBRMuiTablePaginationOverride,
+      footerRowSelected: (count: number) => {
+        if (count === 1) {
+          return '1 item selecionado';
+        }
+        if (count > 1) {
+          return `${count} itens selecionados`;
+        }
+        return '';
+      },
     },
   },
 };
@@ -41,66 +40,125 @@ const theme = createTheme(
   {
     palette,
     typography: bbTypography,
-    overrides: {
-      MuiButton: {
-        root: {
-          padding: '12px 27.5px',
+    components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          shrink: {
+            backgroundColor: palette.white,
+            paddingRight: 4,
+          },
         },
-        label: {
-          fontWeight: 700,
-          fontSize: '14px',
-          lineHeight: '16px',
-          letterSpacing: '1.25px',
+      },
+      MuiLink: {
+        defaultProps: {
+          underline: 'none',
+        },
+      },
+      MuiBreadcrumbs: {
+        styleOverrides: {
+          separator: {
+            display: 'none',
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            padding: '12px 27.5px',
+            fontWeight: 700,
+            fontSize: '14px',
+            lineHeight: '16px',
+            letterSpacing: '1.25px',
+          },
         },
       },
       MuiAlert: {
-        message: {
-          color: palette.text.primary,
-          fontSize: 16,
+        styleOverrides: {
+          message: {
+            color: palette.text.primary,
+            fontSize: 16,
+            fontWeight: 400,
+          },
+          filled: {
+            '& .MuiAlert-action': {
+              color: 'rgba(0, 0, 0, 0.6)',
+            },
+          },
+          filledSuccess: {
+            backgroundColor: 'rgb(239, 248, 240)',
+            '& .MuiAlert-icon': {
+              color: palette.success.light,
+            },
+          },
+          filledError: {
+            backgroundColor: 'rgb(253, 237, 237)',
+            '& .MuiAlert-icon': {
+              color: palette.error.light,
+            },
+          },
+          filledInfo: {
+            backgroundColor: 'rgb(236, 246, 254)',
+            '& .MuiAlert-icon': {
+              color: palette.info.light,
+            },
+          },
+          filledWarning: {
+            backgroundColor: 'rgb(255, 246, 233)',
+            '& .MuiAlert-icon': {
+              color: palette.warning.light,
+            },
+          },
         },
       },
       MuiAlertTitle: {
-        root: {
-          fontSize: 16,
+        styleOverrides: {
+          root: {
+            fontSize: 16,
+          },
         },
       },
       MuiDataGrid: {
-        root: {
-          border: 'none',
-          '& .MuiDataGrid-main': {
-            '& .MuiDataGrid-columnsContainer': {
-              backgroundColor: 'rgba(0, 0, 0, 0.01)',
-              boxShadow: 'inset 0px -1px 0px #E0E0E0',
-              '& .MuiDataGrid-columnHeader': {
-                padding: '0 10px 0 8px',
-                '&:focus': {
-                  outline: 'none',
-                },
-                '&:focus-within': {
-                  outline: 'none',
-                },
-                '& .MuiDataGrid-columnHeaderTitleContainer': {
-                  padding: 0,
-                  '& .MuiDataGrid-columnHeaderTitle': {
-                    color: 'rgba(0, 0, 0, 0.6);',
-                    fontWeight: 700,
-                    fontSize: '15px',
-                    lineHeight: '24px',
+        styleOverrides: {
+          root: {
+            border: 'none',
+            '& .MuiDataGrid-main': {
+              '& .MuiDataGrid-columnsContainer': {
+                backgroundColor: 'rgba(0, 0, 0, 0.01)',
+                boxShadow: 'inset 0px -1px 0px #E0E0E0',
+                '& .MuiDataGrid-columnHeader': {
+                  padding: '0 10px 0 8px',
+                  '&:focus': {
+                    outline: 'none',
                   },
-                  '& .MuiDataGrid-columnSeparator': {
-                    display: 'none',
+                  '&:focus-within': {
+                    outline: 'none',
+                  },
+                  '& .MuiDataGrid-columnHeaderTitleContainer': {
+                    padding: 0,
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      color: 'rgba(0, 0, 0, 0.6);',
+                      fontWeight: 700,
+                      fontSize: '15px',
+                      lineHeight: '24px',
+                    },
+                    '& .MuiDataGrid-columnSeparator': {
+                      display: 'none',
+                    },
                   },
                 },
               },
-            },
-            '& .MuiDataGrid-cell': {
-              borderColor: '#E0E0E0;',
-              color: 'black',
-              fontWeight: 300,
-              fontSize: '16px',
-              lineHeight: '24px',
-              letterSpacing: '0.5px',
-              padding: '0 8px',
+              '& .MuiDataGrid-cell': {
+                borderColor: '#E0E0E0;',
+                color: 'black',
+                fontWeight: 300,
+                fontSize: '16px',
+                lineHeight: '24px',
+                letterSpacing: '0.5px',
+                padding: '0 8px',
+                '&:focus-within': {
+                  outline: 'none',
+                },
+              },
             },
           },
         },
@@ -109,12 +167,12 @@ const theme = createTheme(
   },
   ptBR,
   {
-    props: {
+    components: {
       MuiTablePagination: ptBRMuiTablePaginationOverride,
     },
   },
   {
-    props: {
+    components: {
       MuiDataGrid: ptBRMuiDataGridOverride,
     },
   },

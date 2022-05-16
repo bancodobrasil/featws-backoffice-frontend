@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Breadcrumbs, IconButton, Link, Typography } from '@material-ui/core';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Box, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
-import Style from './Style';
 import './Styles.css';
+import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -35,8 +34,6 @@ export const DeferRules = () => {
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
   const screenNode = useRef<HTMLDivElement>();
-
-  const classes = Style();
 
   const scrollTop = () => {
     // Workaround for window.scrollTo(0, 0); to work. It is not working with the inherited CSS from APW (body height 100%).
@@ -171,11 +168,17 @@ export const DeferRules = () => {
   }, [record, fetchRecord]);
 
   const renderLoadingRecord = () => (
-    <div className={classes.loadingRecord}>
+    <Box
+      sx={{
+        marginTop: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       <Typography variant="h2" component="p">
         Carregando lista de Regras...
       </Typography>
-    </div>
+    </Box>
   );
 
   if (loadingRecord) {
@@ -215,7 +218,13 @@ export const DeferRules = () => {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box
+      sx={{
+        width: '100%',
+        paddingTop: '34px',
+        paddingBottom: '34px',
+      }}
+    >
       <SwitchTransition>
         <CSSTransition
           key={currentScreen}
@@ -226,24 +235,14 @@ export const DeferRules = () => {
         >
           <div ref={screenNode}>
             <div className="transition-root">
-              <div className={classes.breadcrumbsContainer}>
-                <IconButton onClick={onBackClickHandlerOverride} size="small">
-                  <ArrowBackIcon fontSize="small" color="primary" />
-                </IconButton>
-                <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-                  <Link color="textPrimary" component={RouterLink} to="/">
-                    FeatWS
-                  </Link>
-                  <span className={classes.breadcrumbsSeparator}>/</span>
-                  <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
-                    {record?.name}
-                  </Link>
-                  <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
-                  <Typography component="span" className={classes.breadcrumbActive}>
-                    Deferimento
-                  </Typography>
-                </Breadcrumbs>
-              </div>
+              <AppBreadcrumbs
+                items={[
+                  { label: 'FeatWS', navigateTo: '/' },
+                  { label: record?.name, navigateTo: `/rulesheets/${id}` },
+                  { label: 'Deferimento' },
+                ]}
+                onBack={onBackClickHandlerOverride}
+              />
               {renderCurrentScreen()}
             </div>
           </div>

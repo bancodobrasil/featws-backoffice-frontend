@@ -1,26 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Chip,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  Link,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-} from '@material-ui/core';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
-import Style from './Style';
 import StatusBullet from '../../../components/StatusBullet';
+import { FilterSelect } from '../../../components/FilterSelect';
+import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 
 const columns: GridColDef[] = [
   {
@@ -45,17 +31,22 @@ const columns: GridColDef[] = [
     headerName: 'Status',
     minWidth: 250,
     sortable: false,
-    renderCell: params => {
-      const classes = Style();
-
-      return (
-        <Chip
-          className={classes.chipStatus}
-          avatar={<StatusBullet status={params.value as string} />}
-          label={params.value}
-        />
-      );
-    },
+    renderCell: params => (
+      <Chip
+        sx={{
+          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          fontWeight: 400,
+          fontSize: '14px',
+          lineHeight: '20px',
+          letterSpacing: '0.25px',
+          '& .MuiChip-label': {
+            paddingLeft: '4px',
+          },
+        }}
+        avatar={<StatusBullet status={params.value as string} />}
+        label={params.value}
+      />
+    ),
   },
 ];
 
@@ -71,13 +62,6 @@ export const ShowRuleSheet = () => {
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>([]);
-
-  const statusInputLabel = useRef<HTMLLabelElement>();
-  const authorInputLabel = useRef<HTMLLabelElement>();
-  const [statusLabelWidth, setStatusLabelWidth] = React.useState(0);
-  const [authorLabelWidth, setAuthorLabelWidth] = React.useState(0);
-
-  const classes = Style();
 
   const onDeferRuleClickHandler = () => {
     navigate(`/rulesheets/${id}/defer`);
@@ -212,28 +196,34 @@ export const ShowRuleSheet = () => {
     setRules(record.rules);
   }, [record, fetchRecord]);
 
-  useEffect(() => {
-    if (statusInputLabel.current) {
-      setStatusLabelWidth(statusInputLabel.current.offsetWidth);
-    }
-    if (authorInputLabel.current) {
-      setAuthorLabelWidth(authorInputLabel.current.offsetWidth);
-    }
-  }, [statusInputLabel, authorInputLabel]);
-
   const renderDescription = () =>
     record?.description.split('\n').map((line, index) => (
-      <p key={index} className={classes.description}>
+      <Typography
+        key={index}
+        component="p"
+        sx={{
+          margin: 0,
+          color: '#444444',
+          fontSize: '18px',
+          lineHeight: '25.2px',
+        }}
+      >
         {line}
-      </p>
+      </Typography>
     ));
 
   const renderLoadingRecord = () => (
-    <div className={classes.loadingRecord}>
+    <Box
+      sx={{
+        marginTop: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       <Typography variant="h2" component="p">
         Carregando Folha de Regras...
       </Typography>
-    </div>
+    </Box>
   );
 
   if (loadingRecord) {
@@ -241,111 +231,174 @@ export const ShowRuleSheet = () => {
   }
 
   return (
-    <Box className={classes.root}>
-      <div className={classes.breadcrumbsContainer}>
-        <IconButton onClick={onBackClickHandler} size="small">
-          <ArrowBackIcon fontSize="small" color="primary" />
-        </IconButton>
-        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-          <Link color="textPrimary" component={RouterLink} to="/">
-            FeatWS
-          </Link>
-          <span className={classes.breadcrumbsSeparator}>/</span>
-          <Link color="textPrimary" component={RouterLink} to={`/rulesheets/${id}`}>
-            {record?.name}
-          </Link>
-          <span className={`${classes.breadcrumbsSeparator} last`}>/</span>
-          <Typography component="span" className={classes.breadcrumbActive}>
-            Regras
-          </Typography>
-        </Breadcrumbs>
-      </div>
-      <div className={classes.headingContainer}>
-        <h1 className={classes.h1}>{record?.name}</h1>
-        <div className={classes.headingButtonsContainer}>
+    <Box
+      sx={{
+        width: '100%',
+        paddingTop: '34px',
+        paddingBottom: '34px',
+      }}
+    >
+      <AppBreadcrumbs
+        items={[
+          { label: 'FeatWS', navigateTo: '/' },
+          { label: record?.name, navigateTo: `/rulesheets/${id}` },
+          { label: 'Regras' },
+        ]}
+        onBack={onBackClickHandler}
+      />
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          paddingTop: '11px',
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{
+            fontWeight: 700,
+            fontSize: '24px',
+            lineHeight: '24px',
+            letterSpacing: '0.18px',
+            margin: 0,
+          }}
+        >
+          {record?.name}
+        </Typography>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
           <AuthorizedComponent permissions={['admin']}>
             <Button variant="contained" color="primary">
               + Nova Regra
             </Button>
           </AuthorizedComponent>
-        </div>
-      </div>
-      <Grid container className={classes.gridContainer}>
-        <Grid item xs={3} className={classes.gridLeft}>
-          <Chip className={classes.chipSlug} label={record?.slug} />
-          <div className={classes.descriptionContainer}>{renderDescription()}</div>
-          <div className={classes.code}>Código da folha: {record?.code}</div>
-          <div className={classes.rulesTotal}>Total de regras: 24</div>
+        </Box>
+      </Box>
+      <Grid
+        container
+        sx={{
+          marginTop: '26px',
+        }}
+      >
+        <Grid item xs={3}>
+          <Chip
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+              fontWeight: 500,
+              fontSize: '14px',
+              lineHeight: '20px',
+              letterSpacing: '0.25px',
+            }}
+            label={record?.slug}
+          />
+          <Box
+            sx={{
+              marginTop: '28px',
+              marginBottom: '24px',
+            }}
+          >
+            {renderDescription()}
+          </Box>
+          <Box
+            sx={{
+              fontWeight: 700,
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}
+          >
+            Código da folha: {record?.code}
+          </Box>
+          <Box
+            sx={{
+              fontWeight: 700,
+              fontSize: '14px',
+              marginBottom: '24px',
+            }}
+          >
+            Total de regras: 24
+          </Box>
           <AuthorizedComponent permissions={['admin']}>
             <Button
               variant="contained"
               color="secondary"
-              className={classes.deferRuleButton}
+              sx={{
+                marginBottom: '20px',
+                width: '100%',
+              }}
               onClick={onDeferRuleClickHandler}
             >
               Deferir uma Regra
             </Button>
           </AuthorizedComponent>
         </Grid>
-        <Grid item xs={9} className={classes.gridRight}>
-          <h2 className={classes.rulesHeading}>Regras</h2>
+        <Grid
+          item
+          xs={9}
+          sx={{
+            paddingLeft: '81px',
+          }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              margin: 0,
+              fontWeight: 700,
+              fontSize: '24px',
+              lineHeight: '24px',
+              letterSpacing: '0.18px',
+            }}
+          >
+            Regras
+          </Typography>
           <div>
-            <h3 className={classes.filtersHeading}>Filtros</h3>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 600,
+                fontSize: '16px',
+                lineHeight: '24px',
+                my: '16px',
+              }}
+            >
+              Filtros
+            </Typography>
             <div>
-              <FormControl variant="outlined" className={classes.filterSelect}>
-                <InputLabel ref={statusInputLabel} id="filter-status-select-input-label">
-                  Filtrar por status
-                </InputLabel>
-                <Select
-                  labelId="filter-status-select-label"
-                  id="filter-status-select"
-                  value={status}
-                  onChange={onStatusChangeHandler}
-                  label="Status"
-                  input={
-                    <OutlinedInput
-                      labelWidth={statusLabelWidth}
-                      name="status-input"
-                      id="outlined-status"
-                    />
-                  }
-                >
-                  <MenuItem value="">Todos</MenuItem>
-                  <MenuItem value="Deferida">Deferida</MenuItem>
-                  <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
-                  <MenuItem value="Rascunho">Rascunho</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl variant="outlined" className={classes.filterSelect}>
-                <InputLabel ref={authorInputLabel} id="filter-author-select-input-label">
-                  Filtrar por autor
-                </InputLabel>
-                <Select
-                  labelId="filter-author-select-label"
-                  id="filter-author-select"
-                  value={author}
-                  onChange={onAuthorChangeHandler}
-                  label="Autor"
-                  input={
-                    <OutlinedInput
-                      labelWidth={authorLabelWidth}
-                      name="author-input"
-                      id="outlined-author"
-                    />
-                  }
-                >
-                  <MenuItem value="">Todos</MenuItem>
-                  {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
-                    <MenuItem key={index} value={ruleAuthor}>
-                      {ruleAuthor}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <FilterSelect
+                id="filter-status-select"
+                label="Filtrar por status"
+                value={status}
+                onChange={onStatusChangeHandler}
+              >
+                <MenuItem value="">Todos</MenuItem>
+                <MenuItem value="Deferida">Deferida</MenuItem>
+                <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
+                <MenuItem value="Rascunho">Rascunho</MenuItem>
+              </FilterSelect>
+              <FilterSelect
+                id="filter-author-select"
+                label="Filtrar por autor"
+                value={author}
+                onChange={onAuthorChangeHandler}
+              >
+                <MenuItem value="">Todos</MenuItem>
+                {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+                  <MenuItem key={index} value={ruleAuthor}>
+                    {ruleAuthor}
+                  </MenuItem>
+                ))}
+              </FilterSelect>
               <Button
                 variant="contained"
                 color="secondary"
-                className={classes.buttonSearch}
+                sx={{
+                  width: 169,
+                }}
                 onClick={onSearchClickHandler}
               >
                 Buscar
@@ -353,7 +406,9 @@ export const ShowRuleSheet = () => {
             </div>
           </div>
           <DataGrid
-            className={classes.dataGrid}
+            sx={{
+              marginTop: '16px',
+            }}
             rows={rules}
             columns={columns}
             pageSize={pageSize}
