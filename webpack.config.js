@@ -62,29 +62,17 @@ module.exports = {
       { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'images/',
-            },
-          },
-        ],
-        include: [path.resolve(__dirname, './public/images/')],
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[hash][ext][query]',
+        },
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/',
-            },
-          },
-        ],
-        include: [path.resolve(__dirname, './public/fonts/')],
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[hash][ext][query]',
+        },
       },
       {
         test: /\.css$/,
