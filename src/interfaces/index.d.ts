@@ -4,7 +4,7 @@ export interface IRuleSheetMetadata {
   code?: string;
   responsible?: string;
   rules?: IRule[];
-  updatedAt: Date;
+  updatedAt?: Date;
 }
 
 export interface IRuleSheet extends IRuleSheetMetadata {

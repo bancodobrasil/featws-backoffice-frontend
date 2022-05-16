@@ -70,7 +70,7 @@ export const DeferRules = () => {
     });
     // Remove the next line when the request is implemented.
     setRecord({
-      id,
+      id: Number(id),
       name: 'Internet APF',
       slug: 'internet-apf',
       description:
