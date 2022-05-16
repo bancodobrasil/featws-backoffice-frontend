@@ -19,4 +19,16 @@ class APIError extends BaseError {
   }
 }
 
-export { APIError };
+class UnhandledError extends BaseError {
+  originalError: unknown;
+  constructor(originalError: unknown, message?: string) {
+    const defaultMessage = message || 'Ocorreu um problema inesperado.';
+    super(defaultMessage);
+    this.originalError = originalError;
+    if (originalError instanceof Error) {
+      this.stack = originalError.stack || this.stack;
+    }
+  }
+}
+
+export { APIError, UnhandledError };

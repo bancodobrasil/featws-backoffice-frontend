@@ -1,16 +1,27 @@
+import axios from 'axios';
 import { publicAPI } from '../axios';
 import { IRuleSheet } from '../../interfaces';
 import { createFakeRuleSheet } from '../../utils/factory/FakeRuleSheet';
+import { APIError, UnhandledError } from '../errors';
 
 type GetAllRulesheetsResponse = Pick<IRuleSheet, 'id' | 'name'>[];
 
 const getAllRuleSheets = async () => {
-  const response = await publicAPI.get<GetAllRulesheetsResponse>('/v1/rulesheets');
-  const records: IRuleSheet[] = response.data.map(record => {
-    const fakeData = createFakeRuleSheet();
-    return { ...fakeData, ...record };
-  });
-  return records;
+  try {
+    const response = await publicAPI.get<GetAllRulesheetsResponse>('/v1/rulesheets');
+    const records: IRuleSheet[] = response.data.map(record => {
+      const fakeData = createFakeRuleSheet();
+      return { ...fakeData, ...record };
+    });
+    return records;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // TODO: check response status code, inspect the response data, and throw the correct error type
+      throw new APIError(error.response.status);
+    }
+    console.error(error);
+    throw new UnhandledError(error);
+  }
 };
 
 export { getAllRuleSheets };
