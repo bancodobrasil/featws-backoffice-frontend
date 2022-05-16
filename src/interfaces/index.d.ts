@@ -1,10 +1,15 @@
-export interface IRuleSheet {
-  id: string;
+export interface IRuleSheetMetadata {
+  slug?: string;
+  description?: string;
+  code?: string;
+  responsible?: string;
+  rules?: IRule[];
+  updatedAt: Date;
+}
+
+export interface IRuleSheet extends IRuleSheetMetadata {
+  id: number;
   name: string;
-  slug: string;
-  description: string;
-  code: string;
-  rules: IRule[];
 }
 
 export interface IRule {
