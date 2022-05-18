@@ -19,7 +19,7 @@ ARG EXPORTER_TAR=nginx-prometheus-exporter_0.10.0_linux_amd64.tar.gz
 ARG EXPORTER_FILE=nginx-prometheus-exporter
 ARG VERSION=v0.10.0
 
-RUN curl https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/${VERSION}/${EXPORTER_TAR} \
+RUN curl -L https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/${VERSION}/${EXPORTER_TAR} \
     --output ${EXPORTER_TAR} && tar -xvf ${EXPORTER_TAR} -C /usr/local/bin/ ${EXPORTER_FILE} && rm ${EXPORTER_TAR}
 
 COPY config/docker-start.sh /docker-entrypoint.d
