@@ -1,0 +1,33 @@
+name: Node
+
+on:
+  push:
+  pull_request:
+    branches: [ develop, master ]
+
+jobs:
+
+  test:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: ['14.19.2']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node_version }}
+        cache: 'yarn'
+
+    - name: "Fetch dependencies"
+      run: yarn install --frozen-lockfile
+            
+    - name: "Test"
+      run: yarn test
+
+    - name: "Lint"
+      run: yarn run lint
