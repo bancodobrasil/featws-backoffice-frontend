@@ -42,10 +42,12 @@
     "start": "webpack-cli serve --static",
     "build": "webpack --mode production",
     "serve": "serve dist -p 9001",
-    "test": "echo test",
+    "test": "echo 'test ok!'",
     "clean": "rm -rf dist",
-    "lint": "eslint . --ext .js,.jsx",
-    "lint-fix": "prettier --write . && eslint . --ext .js,.jsx --fix"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx ./ --fix",
+    "prettier": "prettier --check **/*.{tsx,ts,js,jsx,json,css,scss,md,html}",
+    "prettier-fix": "prettier --write **/*.{tsx,ts,js,jsx,json,css,scss,md,html}"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
