@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -51,6 +52,8 @@ const columns: GridColDef[] = [
 ];
 
 export const ShowRuleSheet = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -240,7 +243,7 @@ export const ShowRuleSheet = () => {
     >
       <AppBreadcrumbs
         items={[
-          { label: 'FeatWS', navigateTo: '/' },
+          { label: t('application.title'), navigateTo: '/' },
           { label: record?.name, navigateTo: `/rulesheets/${id}` },
           { label: 'Regras' },
         ]}

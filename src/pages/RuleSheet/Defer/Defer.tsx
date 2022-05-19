@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -14,6 +15,8 @@ export enum EnumDeferRulesScreens {
 }
 
 export const DeferRules = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -237,7 +240,7 @@ export const DeferRules = () => {
             <div className="transition-root">
               <AppBreadcrumbs
                 items={[
-                  { label: 'FeatWS', navigateTo: '/' },
+                  { label: t('application.title'), navigateTo: '/' },
                   { label: record?.name, navigateTo: `/rulesheets/${id}` },
                   { label: 'Deferimento' },
                 ]}
