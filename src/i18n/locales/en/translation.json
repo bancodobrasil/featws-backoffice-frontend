@@ -2,8 +2,12 @@
   "application": {
     "title": "FeatWS"
   },
+  "common": {
+    "totalOf": "Total of {{field}}"
+  },
   "buttons": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "search": "Search"
   },
   "form": {
     "optional": "{{field}} (optional)",
@@ -14,6 +18,11 @@
     "helperText": {
       "charactersLeft": "{{count}} characters left"
     }
+  },
+  "filter": {
+    "title": "Filters",
+    "by": "Filter by {{field}}",
+    "all": "All"
   },
   "notification": {
     "error": {
@@ -57,7 +66,27 @@
       "list": "$t(rulesheet.name, {\"count\": 2})",
       "show": "Show $t(rulesheet.name)"
     },
+    "buttons": {
+      "deferRule": "Defer a $t(rule.name)"
+    },
     "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
     "new": "New $t(rulesheet.name)"
+  },
+  "rule": {
+    "name": "Rule",
+    "name_other": "Rules",
+    "fields": {
+      "id": "ID",
+      "title": "Title",
+      "date": "Date",
+      "author": "Author",
+      "status": {
+        "name": "Status",
+        "deferred": "Deferred",
+        "awaiting": "Awaiting approval",
+        "draft": "Draft"
+      }
+    },
+    "new": "New $t(rule.name)"
   }
 }
