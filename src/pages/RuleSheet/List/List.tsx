@@ -121,7 +121,7 @@ export const ListRuleSheet = () => {
           alignItems: 'center',
         }}
       >
-        <h1>{t('rulesheet.title', { count: 2 })}</h1>
+        <h1>{t('rulesheet.titles.list')}</h1>
         <Box
           sx={{
             flex: 1,

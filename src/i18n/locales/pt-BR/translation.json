@@ -2,9 +2,31 @@
   "application": {
     "title": "FeatWS"
   },
+  "buttons": {
+    "cancel": "Cancelar"
+  },
+  "form": {
+    "optional": "{{field}} (opcional)",
+    "validation": {
+      "min": "{{field}} deve ter no mínimo {{min}} caracteres.",
+      "max": "{{field}} deve ter no máximo {{max}} caracteres."
+    },
+    "helperText": {
+      "charactersLeft": "{{count}} caracteres restantes"
+    }
+  },
+  "notification": {
+    "error": "Erro (status code: {{statusCode}})",
+    "createSuccess_male": "{{resource}} criado com sucesso",
+    "createSuccess_female": "{{resource}} criada com sucesso",
+    "deleteSuccess_male": "{{resource}} deletado com sucesso",
+    "deleteSuccess_female": "{{resource}} deletada com sucesso",
+    "editSuccess_male": "{{resource}} editado com sucesso",
+    "editSuccess_female": "{{resource}} editada com sucesso"
+  },
   "rulesheet": {
-    "title": "Folha de Regras",
-    "title_other": "Folhas de Regras",
+    "name": "Folha de Regras",
+    "name_other": "Folhas de Regras",
     "fields": {
       "id": "ID",
       "name": "Nome",
@@ -15,7 +37,18 @@
       "updatedAt": "Última atualização",
       "rules": "Regras"
     },
+    "placeholders": {
+      "name": "Defina um nome",
+      "slug": "slug-da-folha-de-regras",
+      "description": "Digite sua descrição..."
+    },
+    "titles": {
+      "create": "Criar $t(rulesheet.name)",
+      "edit": "Editar $t(rulesheet.name)",
+      "list": "$t(rulesheet.name, {\"count\": 2})",
+      "show": "Exibir $t(rulesheet.name)"
+    },
     "of": "$t(rulesheet.fields.{{field}}) da Folha",
-    "new": "Nova $t(rulesheet.title)"
+    "new": "Nova $t(rulesheet.name)"
   }
 }

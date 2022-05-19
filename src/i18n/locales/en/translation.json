@@ -2,9 +2,31 @@
   "application": {
     "title": "FeatWS"
   },
+  "buttons": {
+    "cancel": "Cancel"
+  },
+  "form": {
+    "optional": "{{field}} (optional)",
+    "validation": {
+      "min": "{{field}} must be at least {{min}} characters long.",
+      "max": "{{field}} must have a maximum of {{max}} characters."
+    },
+    "helperText": {
+      "charactersLeft": "{{count}} characters left"
+    }
+  },
+  "notification": {
+    "error": "Error (status code: {{statusCode}})",
+    "createSuccess_male": "{{resource}} created successfully",
+    "createSuccess_female": "{{resource}} created successfully",
+    "deleteSuccess_male": "{{resource}} deleted successfully",
+    "deleteSuccess_female": "{{resource}} deleted successfully",
+    "editSuccess_male": "{{resource}} edited successfully",
+    "editSuccess_female": "{{resource}} edited successfully"
+  },
   "rulesheet": {
-    "title": "Rule Sheet",
-    "title_other": "Rule Sheets",
+    "name": "Rule Sheet",
+    "name_other": "Rule Sheets",
     "fields": {
       "id": "ID",
       "name": "Name",
@@ -15,7 +37,18 @@
       "updatedAt": "Last update",
       "rules": "Rules"
     },
+    "placeholders": {
+      "name": "Set a name",
+      "slug": "slug-of-the-rule-sheet",
+      "description": "Enter your description..."
+    },
+    "titles": {
+      "create": "Create $t(rulesheet.name)",
+      "edit": "Edit $t(rulesheet.name)",
+      "list": "$t(rulesheet.name, {\"count\": 2})",
+      "show": "Show $t(rulesheet.name)"
+    },
     "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
-    "new": "New $t(rulesheet.title)"
+    "new": "New $t(rulesheet.name)"
   }
 }

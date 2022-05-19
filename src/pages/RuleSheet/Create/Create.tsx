@@ -2,6 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { Box, Button, Divider, Grid, Paper, styled, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import { createRuleSheet } from '../../../api/services/RuleSheets';
@@ -27,6 +28,8 @@ const InputContainer = styled('div')({
 });
 
 export const CreateRuleSheet = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const { dispatch } = useContext(NotificationContext);
@@ -52,14 +55,26 @@ export const CreateRuleSheet = () => {
     let _nameError = '';
     let _slugError = '';
     if (name.length < NAME_MIN_LENGTH) {
-      _nameError = `Nome deve ter no mínimo ${NAME_MIN_LENGTH} caracteres.`;
+      _nameError = t('form.validation.min', {
+        field: t('rulesheet.fields.name'),
+        min: NAME_MIN_LENGTH,
+      });
     } else if (name.length > NAME_MAX_LENGTH) {
-      _nameError = `Nome deve ter no máximo ${NAME_MAX_LENGTH} caracteres.`;
+      _nameError = t('form.validation.max', {
+        field: t('rulesheet.fields.name'),
+        max: NAME_MAX_LENGTH,
+      });
     }
     if (slug.length < SLUG_MIN_LENGTH) {
-      _slugError = `Slug deve ter no mínimo ${SLUG_MIN_LENGTH} caracteres.`;
+      _slugError = t('form.validation.min', {
+        field: t('rulesheet.fields.slug'),
+        min: SLUG_MIN_LENGTH,
+      });
     } else if (slug.length > SLUG_MAX_LENGTH) {
-      _slugError = `Slug deve ter no máximo ${SLUG_MAX_LENGTH} caracteres.`;
+      _slugError = t('form.validation.max', {
+        field: t('rulesheet.fields.slug'),
+        min: SLUG_MAX_LENGTH,
+      });
     }
     if (!!_nameError || !!_slugError) {
       setNameError(_nameError);
@@ -74,7 +89,10 @@ export const CreateRuleSheet = () => {
       await createRuleSheet({ name, slug });
       dispatch({
         type: ActionTypes.OPEN_NOTIFICATION,
-        message: 'Folha de Regras criada com sucesso!',
+        message: `${t('notification.createSuccess', {
+          resource: t('rulesheet.name'),
+          context: 'female',
+        })}!`,
       });
       navigate('../');
     } catch (error) {
@@ -94,7 +112,7 @@ export const CreateRuleSheet = () => {
       }}
     >
       <AppBreadcrumbs
-        items={[{ label: 'FeatWS', navigateTo: '/' }, { label: 'Nova Folha de Regras' }]}
+        items={[{ label: 'FeatWS', navigateTo: '/' }, { label: t('rulesheet.new') }]}
         onBack={onBackClickHandler}
       />
       <Grid
@@ -122,15 +140,15 @@ export const CreateRuleSheet = () => {
                 padding: '16px',
               }}
             >
-              Criar Nova Folha de Regras
+              {t('rulesheet.titles.create')}
             </Typography>
             <Divider />
             <Form onSubmit={handleFormSubmit}>
               <InputContainer>
                 <TextField
                   id="name"
-                  label="Nome da Folha de Regras"
-                  placeholder="Defina um nome"
+                  label={t('rulesheet.of', { field: 'name' })}
+                  placeholder={t('rulesheet.placeholders.name')}
                   fullWidth
                   required
                   value={name}
@@ -164,8 +182,8 @@ export const CreateRuleSheet = () => {
               <InputContainer>
                 <TextField
                   id="slug"
-                  label="Slug da Folha de Regras"
-                  placeholder="slug-da-folha-de-regras"
+                  label={t('rulesheet.of', { field: 'slug' })}
+                  placeholder={t('rulesheet.placeholders.slug')}
                   fullWidth
                   required
                   value={slug}
@@ -196,10 +214,12 @@ export const CreateRuleSheet = () => {
               <InputContainer>
                 <TextField
                   id="description"
-                  label="Descrição (opcional)"
-                  placeholder="Digite sua descrição..."
+                  label={t('form.optional', { field: t('rulesheet.fields.description') })}
+                  placeholder={t('rulesheet.placeholders.description')}
                   fullWidth
-                  helperText={`${500 - description.length} caracteres restantes`}
+                  helperText={t('form.helperText.charactersLeft', {
+                    count: 500 - description.length,
+                  })}
                   multiline
                   rows={3}
                   value={description}
@@ -246,7 +266,7 @@ export const CreateRuleSheet = () => {
                     disabled={loadingSubmit}
                     onClick={onBackClickHandler}
                   >
-                    Cancelar
+                    {t('buttons.cancel')}
                   </Button>
                   <Button
                     variant="contained"
@@ -257,7 +277,7 @@ export const CreateRuleSheet = () => {
                       marginLeft: '16px',
                     }}
                   >
-                    Criar Folha de Regras
+                    {t('rulesheet.titles.create')}
                   </Button>
                 </Box>
               </Box>
