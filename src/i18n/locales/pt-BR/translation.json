@@ -1,5 +1,21 @@
 {
   "application": {
     "title": "FeatWS"
+  },
+  "rulesheet": {
+    "title": "Folha de Regras",
+    "title_other": "Folhas de Regras",
+    "fields": {
+      "id": "ID",
+      "name": "Nome",
+      "slug": "Slug",
+      "description": "Descrição",
+      "code": "Código",
+      "responsible": "Responsável",
+      "updatedAt": "Última atualização",
+      "rules": "Regras"
+    },
+    "of": "$t(rulesheet.fields.{{field}}) da Folha",
+    "new": "Nova $t(rulesheet.title)"
   }
 }

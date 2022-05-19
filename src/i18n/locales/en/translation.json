@@ -1,5 +1,21 @@
 {
   "application": {
     "title": "FeatWS"
+  },
+  "rulesheet": {
+    "title": "Rule Sheet",
+    "title_other": "Rule Sheets",
+    "fields": {
+      "id": "ID",
+      "name": "Name",
+      "slug": "Slug",
+      "description": "Description",
+      "code": "Code",
+      "responsible": "Responsible",
+      "updatedAt": "Last update",
+      "rules": "Rules"
+    },
+    "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
+    "new": "New $t(rulesheet.title)"
   }
 }

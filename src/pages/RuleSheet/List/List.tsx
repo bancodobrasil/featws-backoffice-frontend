@@ -3,6 +3,7 @@ import { Box, Button, IconButton, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import { useTranslation } from 'react-i18next';
 import { NotificationContext, ActionTypes } from '../../../contexts/NotificationContext';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { IRuleSheet } from '../../../interfaces';
@@ -10,6 +11,8 @@ import { getAllRuleSheets } from '../../../api/services/RuleSheets';
 import Loading from '../../../components/Loading';
 
 export const ListRuleSheet = () => {
+  const { t } = useTranslation();
+
   const { dispatch } = useContext(NotificationContext);
   const navigate = useNavigate();
 
@@ -20,23 +23,23 @@ export const ListRuleSheet = () => {
   const columns: GridColDef[] = [
     {
       field: 'name',
-      headerName: 'Nome da Folha',
+      headerName: t('rulesheet.of', { field: 'name' }),
       minWidth: 300,
     },
     {
       field: 'responsible',
-      headerName: 'Responsável',
+      headerName: t('rulesheet.fields.responsible'),
       minWidth: 200,
     },
     {
       field: 'code',
-      headerName: 'Código',
+      headerName: t('rulesheet.fields.code'),
       minWidth: 150,
     },
     {
       field: 'updatedAt',
       type: 'date',
-      headerName: 'Última atualização',
+      headerName: t('rulesheet.fields.updatedAt'),
       minWidth: 220,
     },
     {
@@ -118,7 +121,7 @@ export const ListRuleSheet = () => {
           alignItems: 'center',
         }}
       >
-        <h1>Folhas de Regra</h1>
+        <h1>{t('rulesheet.title', { count: 2 })}</h1>
         <Box
           sx={{
             flex: 1,
@@ -128,7 +131,7 @@ export const ListRuleSheet = () => {
         >
           <AuthorizedComponent permissions={['admin']}>
             <Button variant="contained" color="primary" onClick={handleButtonCreateOnClick}>
-              + Nova Folha de Regras
+              + {t('rulesheet.new')}
             </Button>
           </AuthorizedComponent>
         </Box>
