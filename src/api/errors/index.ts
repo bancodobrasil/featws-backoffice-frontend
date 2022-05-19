@@ -2,8 +2,11 @@
 import i18n from '../../i18n';
 
 class BaseError extends Error {
-  constructor(message: string) {
+  title: string;
+
+  constructor(message: string, title: string) {
     super(message);
+    this.title = title;
     this.name = this.constructor.name;
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
@@ -16,9 +19,10 @@ class BaseError extends Error {
 class APIError extends BaseError {
   statusCode: number;
 
-  constructor(statusCode: number, message?: string) {
+  constructor(statusCode: number, message?: string, title?: string) {
     const defaultMessage = message || i18n.t(`notification.error.APIError.message`);
-    super(defaultMessage);
+    const defaultTitle = title || i18n.t(`notification.error.APIError.title`, { statusCode });
+    super(defaultMessage, defaultTitle);
     this.statusCode = statusCode;
   }
 }
@@ -26,9 +30,10 @@ class APIError extends BaseError {
 class UnhandledError extends BaseError {
   originalError: unknown;
 
-  constructor(originalError: unknown, message?: string) {
+  constructor(originalError: unknown, message?: string, title?: string) {
     const defaultMessage = message || i18n.t(`notification.error.UnhandledError.message`);
-    super(defaultMessage);
+    const defaultTitle = title || i18n.t(`notification.error.UnhandledError.title`);
+    super(defaultMessage, defaultTitle);
     this.originalError = originalError;
     if (originalError instanceof Error) {
       this.stack = originalError.stack || this.stack;
@@ -36,4 +41,4 @@ class UnhandledError extends BaseError {
   }
 }
 
-export { APIError, UnhandledError };
+export { BaseError, APIError, UnhandledError };
