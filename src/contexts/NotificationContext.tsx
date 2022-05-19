@@ -9,6 +9,7 @@ import {
   AlertProps,
   AlertTitle,
 } from '@mui/material';
+import i18n from '../i18n';
 import { APIError, UnhandledError } from '../api/errors';
 
 type State = {
@@ -98,11 +99,7 @@ const reducer = (state: State, action: Action): State => {
         isOpen: false,
       };
     case ActionTypes.OPEN_ERROR_NOTIFICATION:
-      if (action.error instanceof APIError) {
-        title = `Erro (status code: ${action.error.statusCode})`;
-      } else if (action.error instanceof UnhandledError) {
-        title = 'Erro desconhecido';
-      }
+      title = i18n.t(`notification.error.${action.error.name}.title`);
       return {
         ...initialState,
         isOpen: true,

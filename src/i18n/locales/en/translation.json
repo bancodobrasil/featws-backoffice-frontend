@@ -16,7 +16,16 @@
     }
   },
   "notification": {
-    "error": "Error (status code: {{statusCode}})",
+    "error": {
+      "APIError":{ 
+        "title": "Error (status code: {{statusCode}})",
+        "message": "There was a problem with the request."
+      },
+      "UnhandledError":{ 
+        "title": "Unknown error",
+        "message": "An unexpected problem has occurred."
+      }
+    },
     "createSuccess_male": "{{resource}} created successfully",
     "createSuccess_female": "{{resource}} created successfully",
     "deleteSuccess_male": "{{resource}} deleted successfully",

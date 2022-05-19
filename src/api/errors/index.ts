@@ -1,4 +1,6 @@
 /* eslint-disable max-classes-per-file */
+import i18n from '../../i18n';
+
 class BaseError extends Error {
   constructor(message: string) {
     super(message);
@@ -15,7 +17,7 @@ class APIError extends BaseError {
   statusCode: number;
 
   constructor(statusCode: number, message?: string) {
-    const defaultMessage = message || 'Ocorreu um problema na requisição.';
+    const defaultMessage = message || i18n.t(`notification.error.APIError.message`);
     super(defaultMessage);
     this.statusCode = statusCode;
   }
@@ -25,7 +27,7 @@ class UnhandledError extends BaseError {
   originalError: unknown;
 
   constructor(originalError: unknown, message?: string) {
-    const defaultMessage = message || 'Ocorreu um problema inesperado.';
+    const defaultMessage = message || i18n.t(`notification.error.UnhandledError.message`);
     super(defaultMessage);
     this.originalError = originalError;
     if (originalError instanceof Error) {
