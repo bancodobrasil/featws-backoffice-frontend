@@ -230,7 +230,7 @@ export const DeferRules = () => {
                 items={[
                   { label: t('application.title'), navigateTo: '/' },
                   { label: record?.name, navigateTo: `/rulesheets/${id}` },
-                  { label: 'Deferimento' },
+                  { label: t('rulesheet.defer') },
                 ]}
                 onBack={onBackClickHandlerOverride}
               />

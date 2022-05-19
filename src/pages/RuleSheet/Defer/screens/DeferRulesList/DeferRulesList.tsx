@@ -1,52 +1,11 @@
 import { Box, Button, Chip, Divider, MenuItem, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FilterSelect } from '../../../../../components/FilterSelect';
 import StatusBullet from '../../../../../components/StatusBullet';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
-
-const columns: GridColDef[] = [
-  {
-    field: 'title',
-    headerName: 'Título',
-    minWidth: 200,
-  },
-  {
-    field: 'date',
-    headerName: 'Data',
-    minWidth: 150,
-    type: 'date',
-  },
-  {
-    field: 'author',
-    headerName: 'Autor',
-    minWidth: 250,
-    sortable: false,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    minWidth: 230,
-    sortable: false,
-    renderCell: params => (
-      <Chip
-        sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.08)',
-          fontWeight: 400,
-          fontSize: '14px',
-          lineHeight: '20px',
-          letterSpacing: '0.25px',
-          '& .MuiChip-label': {
-            paddingLeft: '4px',
-          },
-        }}
-        avatar={<StatusBullet status={params.value as string} />}
-        label={params.value}
-      />
-    ),
-  },
-];
 
 export interface IDeferRulesListProps {
   record: IRuleSheet;
@@ -83,6 +42,53 @@ export const DeferRulesList = ({
   onBackClickHandler,
   setCurrentScreen,
 }: IDeferRulesListProps) => {
+  const { t } = useTranslation();
+
+  const columns: GridColDef[] = useMemo(
+    () => [
+      {
+        field: 'title',
+        headerName: t('rule.fields.title'),
+        minWidth: 200,
+      },
+      {
+        field: 'date',
+        headerName: t('rule.fields.date'),
+        minWidth: 150,
+        type: 'date',
+      },
+      {
+        field: 'author',
+        headerName: t('rule.fields.author'),
+        minWidth: 250,
+        sortable: false,
+      },
+      {
+        field: 'status',
+        headerName: t('rule.fields.status.name'),
+        minWidth: 230,
+        sortable: false,
+        renderCell: params => (
+          <Chip
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+              fontWeight: 400,
+              fontSize: '14px',
+              lineHeight: '20px',
+              letterSpacing: '0.25px',
+              '& .MuiChip-label': {
+                paddingLeft: '4px',
+              },
+            }}
+            avatar={<StatusBullet status={params.value as string} />}
+            label={t(`rule.fields.status.${params.value}`)}
+          />
+        ),
+      },
+    ],
+    [t],
+  );
+
   const onBackClickHandlerOverride = () => {
     onBackClickHandler();
   };
@@ -135,11 +141,11 @@ export const DeferRulesList = ({
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <FilterSelect
           id="filter-code-select"
-          label="Filtrar por código"
+          label={t('filter.by', { field: t('rule.fields.id') })}
           value={code}
           onChange={onCodeChangeHandler}
         >
-          <MenuItem value="">Todos</MenuItem>
+          <MenuItem value="">{t('filter.all')}</MenuItem>
           {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
             <MenuItem key={index} value={id}>
               {id}
@@ -148,11 +154,11 @@ export const DeferRulesList = ({
         </FilterSelect>
         <FilterSelect
           id="filter-author-select"
-          label="Filtrar por autor"
+          label={t('filter.by', { field: t('rule.fields.author').toLowerCase() })}
           value={author}
           onChange={onAuthorChangeHandler}
         >
-          <MenuItem value="">Todos</MenuItem>
+          <MenuItem value="">{t('filter.all')}</MenuItem>
           {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
             <MenuItem key={index} value={ruleAuthor}>
               {ruleAuthor}
@@ -167,7 +173,7 @@ export const DeferRulesList = ({
           }}
           onClick={onSearchClickHandler}
         >
-          Buscar
+          {t('buttons.search')}
         </Button>
       </Box>
     );
@@ -193,7 +199,7 @@ export const DeferRulesList = ({
             margin: 0,
           }}
         >
-          Quais regras você quer deferir?
+          {t('rulesheet.titles.defer.list')}
         </Typography>
       </Box>
       <Box
@@ -230,7 +236,7 @@ export const DeferRulesList = ({
           }}
         >
           <Button variant="contained" color="secondary" onClick={onBackClickHandlerOverride}>
-            Voltar
+            {t('buttons.back')}
           </Button>
           <Button
             variant="contained"
@@ -241,7 +247,7 @@ export const DeferRulesList = ({
             disabled={listSelectionId?.length <= 0}
             onClick={onAdvanceClickHandler}
           >
-            Avançar
+            {t('buttons.forward')}
           </Button>
         </Box>
       </Box>

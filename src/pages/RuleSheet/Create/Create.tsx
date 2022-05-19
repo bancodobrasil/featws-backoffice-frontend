@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import { createRuleSheet } from '../../../api/services/RuleSheets';
-import { APIError } from '../../../api/errors';
 
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 30;
@@ -97,8 +96,7 @@ export const CreateRuleSheet = () => {
       });
       navigate('../');
     } catch (error) {
-      const e = new APIError(400);
-      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error: e });
+      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
     } finally {
       setLoadingSubmit(false);
     }

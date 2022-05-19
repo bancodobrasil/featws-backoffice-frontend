@@ -7,7 +7,9 @@
   },
   "buttons": {
     "cancel": "Cancel",
-    "search": "Search"
+    "search": "Search",
+    "forward": "Forward",
+    "back": "Back"
   },
   "form": {
     "optional": "{{field}} (optional)",
@@ -64,11 +66,39 @@
       "create": "Create $t(rulesheet.name)",
       "edit": "Edit $t(rulesheet.name)",
       "list": "$t(rulesheet.name, {\"count\": 2})",
-      "show": "Show $t(rulesheet.name)"
+      "show": "Show $t(rulesheet.name)",
+      "defer": {
+        "list": "Which rules do you want to defer?",
+        "confirmation": "Confirm the rule information",
+        "confirmation_other": "Confirm the rules information"
+      }
+    },
+    "messages": {
+      "defer": {
+        "success": "Rule deferred successfully",
+        "success_other": "Rules deferred successfully"
+      }
+    },
+    "dialogs": {
+      "defer": {
+        "confirmation": {
+          "title": "Are you sure you want to defer this rule?",
+          "message": "Attention, after confirming, the rule will be applied! After being deferred, you can delete the rule if you want."
+        },
+        "time": {
+          "title": "Are you sure you want to defer at this time?",
+          "message": "Attention! Deferring rules between 9:00 am - 03:30 pm can generate frustration for customers."
+        }
+      }
     },
     "buttons": {
-      "deferRule": "Defer a $t(rule.name)"
+      "deferRule": "Defer a $t(rule.name)",
+      "defer": "Defer Rule",
+      "defer_other": "Defer Rules",
+      "confirmDefer": "Confirm Deferral",
+      "deferAnyway": "Defer anyway"
     },
+    "defer": "Defer",
     "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
     "new": "New $t(rulesheet.name)"
   },
@@ -80,6 +110,12 @@
       "title": "Title",
       "date": "Date",
       "author": "Author",
+      "tag": "Tag",
+      "filters": "Filters",
+      "type": {
+        "name": "Rule Type",
+        "display": "Display"
+      },
       "status": {
         "name": "Status",
         "deferred": "Deferred",
