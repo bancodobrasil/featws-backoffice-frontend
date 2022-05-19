@@ -36,19 +36,25 @@ const ptBRMuiDataGridOverride = {
   },
 };
 
-const ptBRTheme = [
-  ptBR,
-  {
-    components: {
-      MuiTablePagination: ptBRMuiTablePaginationOverride,
-    },
-  },
-  {
-    components: {
-      MuiDataGrid: ptBRMuiDataGridOverride,
-    },
-  },
-];
+const localizedTheme = language => {
+  if (language === 'pt-BR') {
+    return [
+      ptBR,
+      {
+        components: {
+          MuiTablePagination: ptBRMuiTablePaginationOverride,
+        },
+      },
+      {
+        components: {
+          MuiDataGrid: ptBRMuiDataGridOverride,
+        },
+      },
+    ];
+  }
+  // Default localization for Material UI components is "en-US"
+  return [];
+};
 
 const theme = language =>
   createTheme(
@@ -180,7 +186,7 @@ const theme = language =>
         },
       },
     },
-    ...(language === 'pt-BR' ? ptBRTheme : []),
+    ...localizedTheme(language),
   );
 
 export default theme;
