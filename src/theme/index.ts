@@ -122,7 +122,7 @@ const theme = createTheme(
           root: {
             border: 'none',
             '& .MuiDataGrid-main': {
-              '& .MuiDataGrid-columnsContainer': {
+              '& .MuiDataGrid-columnHeaders': {
                 backgroundColor: 'rgba(0, 0, 0, 0.01)',
                 boxShadow: 'inset 0px -1px 0px #E0E0E0',
                 '& .MuiDataGrid-columnHeader': {
