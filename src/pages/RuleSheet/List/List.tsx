@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Button, IconButton, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -7,6 +7,7 @@ import { NotificationContext, ActionTypes } from '../../../contexts/Notification
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { IRuleSheet } from '../../../interfaces';
 import { getAllRuleSheets } from '../../../api/services/RuleSheets';
+import Loading from '../../../components/Loading';
 
 export const ListRuleSheet = () => {
   const { dispatch } = useContext(NotificationContext);
@@ -97,19 +98,7 @@ export const ListRuleSheet = () => {
   };
 
   if (loadingRecords) {
-    return (
-      <Box
-        sx={{
-          marginTop: '24px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="h2" component="p">
-          Carregando lista de Folha de Regras...
-        </Typography>
-      </Box>
-    );
+    return <Loading />;
   }
 
   return (

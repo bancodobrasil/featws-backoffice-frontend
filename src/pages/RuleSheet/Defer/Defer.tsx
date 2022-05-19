@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
 import './Styles.css';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
+import Loading from '../../../components/Loading';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -170,22 +171,8 @@ export const DeferRules = () => {
     setRules(record.rules);
   }, [record, fetchRecord]);
 
-  const renderLoadingRecord = () => (
-    <Box
-      sx={{
-        marginTop: '24px',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography variant="h2" component="p">
-        Carregando lista de Regras...
-      </Typography>
-    </Box>
-  );
-
   if (loadingRecord) {
-    return renderLoadingRecord();
+    return <Loading />;
   }
 
   const renderCurrentScreen = () => {

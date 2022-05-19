@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
+import Loading from '../../../../../components/Loading';
 
 export interface IDeferRulesConfirmationProps {
   rulesheet: IRuleSheet;
@@ -326,19 +327,7 @@ export const DeferRulesConfirmation = ({
   );
 
   if (loadingSubmit) {
-    return (
-      <Box
-        sx={{
-          marginTop: '24px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="h2" component="p">
-          Carregando deferimento de {rules.length === 1 ? 'Regra' : 'Regras'}...
-        </Typography>
-      </Box>
-    );
+    return <Loading />;
   }
 
   return (

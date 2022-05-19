@@ -1,29 +1,16 @@
 import React, { Suspense } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, CssBaseline, Typography } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import theme from '../../theme';
 import './AppStyles.css';
 import { AppRoutes } from './AppRoutes';
 import '../../i18n';
-
-const Loader = () => (
-  <Box
-    sx={{
-      marginTop: '24px',
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    <Typography variant="h2" component="p">
-      Carregando...
-    </Typography>
-  </Box>
-);
+import Loading from '../Loading';
 
 const App = () => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loading />}>
       <AppRoutes />
     </Suspense>
   </ThemeProvider>

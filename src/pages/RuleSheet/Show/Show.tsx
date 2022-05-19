@@ -8,6 +8,7 @@ import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import StatusBullet from '../../../components/StatusBullet';
 import { FilterSelect } from '../../../components/FilterSelect';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
+import Loading from '../../../components/Loading';
 
 const columns: GridColDef[] = [
   {
@@ -215,22 +216,8 @@ export const ShowRuleSheet = () => {
       </Typography>
     ));
 
-  const renderLoadingRecord = () => (
-    <Box
-      sx={{
-        marginTop: '24px',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography variant="h2" component="p">
-        Carregando Folha de Regras...
-      </Typography>
-    </Box>
-  );
-
   if (loadingRecord) {
-    return renderLoadingRecord();
+    return <Loading />;
   }
 
   return (
