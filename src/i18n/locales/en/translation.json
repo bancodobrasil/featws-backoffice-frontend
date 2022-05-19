@@ -2,6 +2,9 @@
   "application": {
     "title": "FeatWS"
   },
+  "language": {
+    "title": "Language"
+  },
   "common": {
     "totalOf": "Total of {{field}}"
   },

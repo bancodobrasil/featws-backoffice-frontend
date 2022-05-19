@@ -1,5 +1,13 @@
-import React, { useEffect } from 'react';
-import { Box, Container } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import {
   CreateRuleSheet,
@@ -9,14 +17,43 @@ import {
 } from '../../../pages/RuleSheet';
 import RequireAuth from '../../Auth/RequireAuth';
 import { NotificationProvider } from '../../../contexts/NotificationContext';
+import i18n from '../../../i18n';
 
 export const AppRoutes = () => {
-  /* TODO: Remove Auth testing code below */
+  const [language, setLanguage] = useState<string>(i18n.resolvedLanguage);
 
+  /* TODO: Remove Auth testing code below */
   useEffect(() => {
     localStorage.setItem('auth-token', 'test');
     localStorage.setItem('auth-permissions', JSON.stringify(['user', 'admin']));
   }, []);
+
+  const handleLanguageChange = (event: SelectChangeEvent) => {
+    const lng = event.target.value as string;
+    i18n.changeLanguage(lng);
+    setLanguage(lng);
+    // Reload the page (workaround for resetting the Material UI theme)
+    document.location.reload();
+  };
+
+  const renderLanguageSwitcher = () => (
+    <Box sx={{ pt: '32px', display: 'flex', justifyContent: 'center' }}>
+      <FormControl sx={{ minWidth: 160 }}>
+        <InputLabel id="demo-simple-select-label">{i18n.t('language.title')}</InputLabel>
+        <Select
+          variant="standard"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={language}
+          label={i18n.t('language.title')}
+          onChange={handleLanguageChange}
+        >
+          <MenuItem value="en">English</MenuItem>
+          <MenuItem value="pt-BR">Português Brasileiro</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  );
 
   return (
     <Box
@@ -47,6 +84,7 @@ export const AppRoutes = () => {
             paddingRight: '32px',
           }}
         >
+          {renderLanguageSwitcher()}
           <Router>
             <NotificationProvider>
               <Routes>
