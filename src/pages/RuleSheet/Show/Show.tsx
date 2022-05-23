@@ -1,56 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IRule, IRuleSheet } from '../../../interfaces';
+import { RuleStatusEnum } from '../../../types';
 import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import StatusBullet from '../../../components/StatusBullet';
 import { FilterSelect } from '../../../components/FilterSelect';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
-
-const columns: GridColDef[] = [
-  {
-    field: 'title',
-    headerName: 'Título',
-    minWidth: 200,
-  },
-  {
-    field: 'date',
-    headerName: 'Data',
-    minWidth: 150,
-    type: 'date',
-  },
-  {
-    field: 'author',
-    headerName: 'Autor',
-    minWidth: 250,
-    sortable: false,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    minWidth: 250,
-    sortable: false,
-    renderCell: params => (
-      <Chip
-        sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.08)',
-          fontWeight: 400,
-          fontSize: '14px',
-          lineHeight: '20px',
-          letterSpacing: '0.25px',
-          '& .MuiChip-label': {
-            paddingLeft: '4px',
-          },
-        }}
-        avatar={<StatusBullet status={params.value as string} />}
-        label={params.value}
-      />
-    ),
-  },
-];
+import Loading from '../../../components/Loading';
 
 export const ShowRuleSheet = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -62,6 +25,51 @@ export const ShowRuleSheet = () => {
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>([]);
+
+  const columns: GridColDef[] = useMemo(
+    () => [
+      {
+        field: 'title',
+        headerName: t('rule.fields.title'),
+        minWidth: 200,
+      },
+      {
+        field: 'date',
+        headerName: t('rule.fields.date'),
+        minWidth: 150,
+        type: 'date',
+      },
+      {
+        field: 'author',
+        headerName: t('rule.fields.author'),
+        minWidth: 250,
+        sortable: false,
+      },
+      {
+        field: 'status',
+        headerName: t('rule.fields.status.name'),
+        minWidth: 250,
+        sortable: false,
+        renderCell: params => (
+          <Chip
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+              fontWeight: 400,
+              fontSize: '14px',
+              lineHeight: '20px',
+              letterSpacing: '0.25px',
+              '& .MuiChip-label': {
+                paddingLeft: '4px',
+              },
+            }}
+            avatar={<StatusBullet status={params.value as string} />}
+            label={t(`rule.fields.status.${params.value as string}`)}
+          />
+        ),
+      },
+    ],
+    [t],
+  );
 
   const onDeferRuleClickHandler = () => {
     navigate(`/rulesheets/${id}/defer`);
@@ -125,63 +133,63 @@ export const ShowRuleSheet = () => {
           title: 'Alteração no Bundle',
           date: new Date(2021, 11, 20, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '2',
           title: 'Alteração no Bundle',
           date: new Date(2022, 2, 5, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '3',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Rascunho',
+          status: RuleStatusEnum.DRAFT,
         },
         {
           id: '4',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '5',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '6',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '7',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '8',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
         {
           id: '9',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Deferida',
+          status: RuleStatusEnum.DEFERRED,
         },
       ],
     });
@@ -212,22 +220,8 @@ export const ShowRuleSheet = () => {
       </Typography>
     ));
 
-  const renderLoadingRecord = () => (
-    <Box
-      sx={{
-        marginTop: '24px',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography variant="h2" component="p">
-        Carregando Folha de Regras...
-      </Typography>
-    </Box>
-  );
-
   if (loadingRecord) {
-    return renderLoadingRecord();
+    return <Loading />;
   }
 
   return (
@@ -240,9 +234,9 @@ export const ShowRuleSheet = () => {
     >
       <AppBreadcrumbs
         items={[
-          { label: 'FeatWS', navigateTo: '/' },
+          { label: t('application.title'), navigateTo: '/' },
           { label: record?.name, navigateTo: `/rulesheets/${id}` },
-          { label: 'Regras' },
+          { label: t('rule.name', { count: 2 }) },
         ]}
         onBack={onBackClickHandler}
       />
@@ -275,7 +269,7 @@ export const ShowRuleSheet = () => {
         >
           <AuthorizedComponent permissions={['admin']}>
             <Button variant="contained" color="primary">
-              + Nova Regra
+              + {t('rule.new')}
             </Button>
           </AuthorizedComponent>
         </Box>
@@ -312,7 +306,7 @@ export const ShowRuleSheet = () => {
               marginBottom: '8px',
             }}
           >
-            Código da folha: {record?.code}
+            {t('rulesheet.of', { field: 'code' })}: {record?.code}
           </Box>
           <Box
             sx={{
@@ -321,7 +315,7 @@ export const ShowRuleSheet = () => {
               marginBottom: '24px',
             }}
           >
-            Total de regras: 24
+            {t('common.totalOf', { field: t('rule.name', { count: 2 }).toLowerCase() })}: 24
           </Box>
           <AuthorizedComponent permissions={['admin']}>
             <Button
@@ -333,7 +327,7 @@ export const ShowRuleSheet = () => {
               }}
               onClick={onDeferRuleClickHandler}
             >
-              Deferir uma Regra
+              {t('rulesheet.buttons.deferRule')}
             </Button>
           </AuthorizedComponent>
         </Grid>
@@ -354,7 +348,7 @@ export const ShowRuleSheet = () => {
               letterSpacing: '0.18px',
             }}
           >
-            Regras
+            {t('rule.name', { count: 2 })}
           </Typography>
           <div>
             <Typography
@@ -366,27 +360,33 @@ export const ShowRuleSheet = () => {
                 my: '16px',
               }}
             >
-              Filtros
+              {t('filter.title')}
             </Typography>
             <div>
               <FilterSelect
                 id="filter-status-select"
-                label="Filtrar por status"
+                label={t('filter.by', { field: t('rule.fields.status.name').toLowerCase() })}
                 value={status}
                 onChange={onStatusChangeHandler}
               >
-                <MenuItem value="">Todos</MenuItem>
-                <MenuItem value="Deferida">Deferida</MenuItem>
-                <MenuItem value="Aguardando deferimento">Aguardando deferimento</MenuItem>
-                <MenuItem value="Rascunho">Rascunho</MenuItem>
+                <MenuItem value="">{t('filter.all')}</MenuItem>
+                <MenuItem value={RuleStatusEnum.DEFERRED}>
+                  {t(`rule.fields.status.${RuleStatusEnum.DEFERRED}`)}
+                </MenuItem>
+                <MenuItem value={RuleStatusEnum.AWAITING}>
+                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING}`)}
+                </MenuItem>
+                <MenuItem value={RuleStatusEnum.DRAFT}>
+                  {t(`rule.fields.status.${RuleStatusEnum.DRAFT}`)}
+                </MenuItem>
               </FilterSelect>
               <FilterSelect
                 id="filter-author-select"
-                label="Filtrar por autor"
+                label={t('filter.by', { field: t('rule.fields.author').toLowerCase() })}
                 value={author}
                 onChange={onAuthorChangeHandler}
               >
-                <MenuItem value="">Todos</MenuItem>
+                <MenuItem value="">{t('filter.all')}</MenuItem>
                 {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
                   <MenuItem key={index} value={ruleAuthor}>
                     {ruleAuthor}
@@ -401,7 +401,7 @@ export const ShowRuleSheet = () => {
                 }}
                 onClick={onSearchClickHandler}
               >
-                Buscar
+                {t('buttons.search')}
               </Button>
             </div>
           </div>

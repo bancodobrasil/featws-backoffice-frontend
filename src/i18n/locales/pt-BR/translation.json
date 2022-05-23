@@ -1,0 +1,131 @@
+{
+  "application": {
+    "title": "FeatWS"
+  },
+  "language": {
+    "title": "Linguagem"
+  },
+  "common": {
+    "totalOf": "Total de {{field}}"
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "search": "Buscar",
+    "forward": "Avançar",
+    "back": "Voltar"
+  },
+  "form": {
+    "optional": "{{field}} (opcional)",
+    "validation": {
+      "min": "{{field}} deve ter no mínimo {{min}} caracteres.",
+      "max": "{{field}} deve ter no máximo {{max}} caracteres."
+    },
+    "helperText": {
+      "charactersLeft": "{{count}} caracteres restantes"
+    }
+  },
+  "filter": {
+    "title": "Filtros",
+    "by": "Filtrar por {{field}}",
+    "all": "Todos"
+  },
+  "notification": {
+    "error": {
+      "APIError":{ 
+        "title": "Erro (status code: {{statusCode}})",
+        "message": "Ocorreu um problema na requisição."
+      },
+      "UnhandledError":{ 
+        "title": "Erro desconhecido",
+        "message": "Ocorreu um problema inesperado."
+      }
+    },
+    "createSuccess_male": "{{resource}} criado com sucesso",
+    "createSuccess_female": "{{resource}} criada com sucesso",
+    "deleteSuccess_male": "{{resource}} deletado com sucesso",
+    "deleteSuccess_female": "{{resource}} deletada com sucesso",
+    "editSuccess_male": "{{resource}} editado com sucesso",
+    "editSuccess_female": "{{resource}} editada com sucesso"
+  },
+  "rulesheet": {
+    "name": "Folha de Regras",
+    "name_other": "Folhas de Regras",
+    "fields": {
+      "id": "ID",
+      "name": "Nome",
+      "slug": "Slug",
+      "description": "Descrição",
+      "code": "Código",
+      "responsible": "Responsável",
+      "updatedAt": "Última atualização",
+      "rules": "Regras"
+    },
+    "placeholders": {
+      "name": "Defina um nome",
+      "slug": "slug-da-folha-de-regras",
+      "description": "Digite sua descrição..."
+    },
+    "titles": {
+      "create": "Criar $t(rulesheet.name)",
+      "edit": "Editar $t(rulesheet.name)",
+      "list": "$t(rulesheet.name, {\"count\": 2})",
+      "show": "Exibir $t(rulesheet.name)",
+      "defer": {
+        "list": "Quais regras você quer deferir?",
+        "confirmation": "Confirme as informações da regra",
+        "confirmation_other": "Confirme as informações das regras"
+      }
+    },
+    "messages": {
+      "defer": {
+        "success": "Regra deferida com sucesso",
+        "success_other": "Regras deferidas com sucesso"
+      }
+    },
+    "dialogs": {
+      "defer": {
+        "confirmation": {
+          "title": "Você tem certeza que quer deferir essa regra?",
+          "message": "Atenção, após confirmar, a regra será aplicada! Após ser deferida, você poderá deletar a regra se quiser."
+        },
+        "time": {
+          "title": "Você tem certeza que quer deferir nesse horário?",
+          "message": "Atenção! Deferir regras entre 9:00 - 15:30 pode gerar frutrações para os clientes."
+        }
+      }
+    },
+    "buttons": {
+      "deferRule": "Deferir uma $t(rule.name)",
+      "defer": "Deferir Regra",
+      "defer_other": "Deferir Regras",
+      "confirmDefer": "Confirmar Deferimento",
+      "deferAnyway": "Deferir mesmo assim"
+    },
+    "defer": "Deferimento",
+    "of": "$t(rulesheet.fields.{{field}}) da Folha",
+    "new": "Nova $t(rulesheet.name)"
+  },
+  "rule": {
+    "name": "Regra",
+    "name_other": "Regras",
+    "fields": {
+      "id": "ID",
+      "title": "Título",
+      "date": "Data",
+      "author": "Autor",
+      "tag": "Tag",
+      "filters": "Filtros",
+      "type": {
+        "name": "Tipo de Regra",
+        "display": "Exibição"
+      },
+      "status": {
+        "name": "Status",
+        "deferred": "Deferida",
+        "awaiting": "Aguardando deferimento",
+        "draft": "Rascunho"
+      }
+    },
+    "new": "Nova $t(rule.name)"
+  }
+}

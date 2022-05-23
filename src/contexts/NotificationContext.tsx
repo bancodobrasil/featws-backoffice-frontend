@@ -9,7 +9,7 @@ import {
   AlertProps,
   AlertTitle,
 } from '@mui/material';
-import { APIError, UnhandledError } from '../api/errors';
+import { BaseError } from '../api/errors';
 
 type State = {
   isOpen: boolean;
@@ -46,7 +46,7 @@ type Action =
     }
   | {
       type: ActionTypes.OPEN_ERROR_NOTIFICATION;
-      error: Error;
+      error: BaseError;
     };
 
 const initialState: State = {
@@ -67,7 +67,6 @@ const NotificationContext = createContext<{
 const { Provider } = NotificationContext;
 
 const reducer = (state: State, action: Action): State => {
-  let title;
   switch (action.type) {
     case ActionTypes.SET_DEFAULT_PROPS:
       return {
@@ -98,15 +97,10 @@ const reducer = (state: State, action: Action): State => {
         isOpen: false,
       };
     case ActionTypes.OPEN_ERROR_NOTIFICATION:
-      if (action.error instanceof APIError) {
-        title = `Erro (status code: ${action.error.statusCode})`;
-      } else if (action.error instanceof UnhandledError) {
-        title = 'Erro desconhecido';
-      }
       return {
         ...initialState,
         isOpen: true,
-        title,
+        title: action.error.title,
         message: action.error.message,
         snackbarProps: {
           ...state.defaultSnackbarProps,

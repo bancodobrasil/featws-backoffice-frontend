@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
+import { RuleStatusEnum } from '../../../types';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
 import './Styles.css';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
+import Loading from '../../../components/Loading';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
@@ -14,6 +17,8 @@ export enum EnumDeferRulesScreens {
 }
 
 export const DeferRules = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -82,77 +87,77 @@ export const DeferRules = () => {
           title: 'Alteração no Bundle',
           date: new Date(2021, 11, 20, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '2',
           title: 'Alteração no Bundle',
           date: new Date(2022, 2, 5, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '3',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '4',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '5',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '6',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '7',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '8',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '9',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '10',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
         {
           id: '11',
           title: 'Alteração no Bundle',
           date: new Date(2022, 1, 2, 10, 55, 30, 500),
           author: 'C1313233 Rhuan Queiroz',
-          status: 'Aguardando deferimento',
+          status: RuleStatusEnum.AWAITING,
         },
       ],
     });
@@ -167,22 +172,8 @@ export const DeferRules = () => {
     setRules(record.rules);
   }, [record, fetchRecord]);
 
-  const renderLoadingRecord = () => (
-    <Box
-      sx={{
-        marginTop: '24px',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography variant="h2" component="p">
-        Carregando lista de Regras...
-      </Typography>
-    </Box>
-  );
-
   if (loadingRecord) {
-    return renderLoadingRecord();
+    return <Loading />;
   }
 
   const renderCurrentScreen = () => {
@@ -237,9 +228,9 @@ export const DeferRules = () => {
             <div className="transition-root">
               <AppBreadcrumbs
                 items={[
-                  { label: 'FeatWS', navigateTo: '/' },
+                  { label: t('application.title'), navigateTo: '/' },
                   { label: record?.name, navigateTo: `/rulesheets/${id}` },
-                  { label: 'Deferimento' },
+                  { label: t('rulesheet.defer') },
                 ]}
                 onBack={onBackClickHandlerOverride}
               />

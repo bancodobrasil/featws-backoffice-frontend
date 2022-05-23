@@ -12,9 +12,11 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
+import Loading from '../../../../../components/Loading';
 
 export interface IDeferRulesConfirmationProps {
   rulesheet: IRuleSheet;
@@ -41,6 +43,7 @@ export const DeferRulesConfirmation = ({
   setCurrentScreen,
   onBackClickHandler,
 }: IDeferRulesConfirmationProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { dispatch } = useContext(NotificationContext);
@@ -92,43 +95,17 @@ export const DeferRulesConfirmation = ({
     try {
       await new Promise<void>((resolve, reject) => {
         setTimeout(() => {
-          // const error = { status: 500, message: 'Internal Server Error' };
-          // console.error(error.message, error);
-          // reject(error);
+          // reject(new APIError(500));
           resolve();
         }, 2000);
       });
       dispatch({
         type: ActionTypes.OPEN_NOTIFICATION,
-        message: `${rules.length === 1 ? 'Regra deferida' : 'Regras deferidas'} com sucesso!`,
+        message: `${t('rulesheet.messages.defer.success', { count: rules.length })}!`,
       });
       navigate('../');
     } catch (error) {
-      if (error.status) {
-        const title = `Erro (status code: ${error.status})`;
-        if (error.status === 500) {
-          dispatch({
-            type: ActionTypes.OPEN_NOTIFICATION,
-            title,
-            message:
-              'Ocorreu uma falha interna no nosso servidor, por favor tente novamente mais tarde.',
-            alertProps: { severity: 'error' },
-          });
-          return;
-        }
-        dispatch({
-          type: ActionTypes.OPEN_NOTIFICATION,
-          title,
-          message:
-            'Erro ao deferir Regra. Se o problema persistir, entre em contato com um administrador do sistema.',
-          alertProps: { severity: 'error' },
-        });
-      }
-      dispatch({
-        type: ActionTypes.OPEN_NOTIFICATION,
-        message: 'Erro ao deferir Regra.',
-        alertProps: { severity: 'error' },
-      });
+      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
     } finally {
       setLoadingSubmit(false);
     }
@@ -144,24 +121,24 @@ export const DeferRulesConfirmation = ({
         }}
       >
         <RuleField>
-          <span>Título:</span>
+          <span>{t('rule.fields.title')}:</span>
           <span>{rule.title}</span>
         </RuleField>
         <RuleField>
-          <span>Folha de Regras:</span>
+          <span>{t('rulesheet.name')}:</span>
           <span>{rulesheet.name}</span>
         </RuleField>
         <RuleField>
-          <span>Autor:</span>
+          <span>{t('rule.fields.author')}:</span>
           <span>{rule.author}</span>
         </RuleField>
         <RuleField>
-          <span>Tag:</span>
+          <span>{t('rule.fields.tag')}:</span>
           <span>R2D2</span>
         </RuleField>
         <RuleField>
-          <span>Tipo de Regra:</span>
-          <span>Exibição</span>
+          <span>{t('rule.fields.type.name')}:</span>
+          <span>{t('rule.fields.type.display')}</span>
         </RuleField>
         <Box
           sx={{
@@ -175,7 +152,7 @@ export const DeferRulesConfirmation = ({
             },
           }}
         >
-          <span>Filtros:</span>
+          <span>{t('rule.fields.filters')}:</span>
           <Box
             sx={{
               '& span': {
@@ -221,7 +198,7 @@ export const DeferRulesConfirmation = ({
           },
         }}
       >
-        <h3>Você tem certeza que quer deferir essa regra?</h3>
+        <h3>{t('rulesheet.dialogs.defer.confirmation.title')}</h3>
         <IconButton size="small" onClick={handleCloseConfirmationDialog}>
           <CancelIcon fontSize="small" />
         </IconButton>
@@ -233,8 +210,7 @@ export const DeferRulesConfirmation = ({
           fontSize: 16,
         }}
       >
-        Atenção, após confirmar, a regra será aplicada! Após ser deferida, você poderá deletar a
-        regra se quiser.
+        {t('rulesheet.dialogs.defer.confirmation.message')}
       </Box>
       <Box
         sx={{
@@ -248,7 +224,7 @@ export const DeferRulesConfirmation = ({
           color="secondary"
           variant="contained"
         >
-          Cancelar
+          {t('buttons.cancel')}
         </Button>
         <Button
           onClick={handleConfirmationOk}
@@ -258,7 +234,7 @@ export const DeferRulesConfirmation = ({
             marginLeft: '16px',
           }}
         >
-          Confirmar Deferimento
+          {t('rulesheet.buttons.confirmDefer')}
         </Button>
       </Box>
     </Dialog>
@@ -288,7 +264,7 @@ export const DeferRulesConfirmation = ({
           },
         }}
       >
-        <h3>Você tem certeza que quer deferir nesse horário?</h3>
+        <h3>{t('rulesheet.dialogs.defer.time.title')}</h3>
         <IconButton size="small" onClick={handleCloseTimeDialog}>
           <CancelIcon fontSize="small" />
         </IconButton>
@@ -300,7 +276,7 @@ export const DeferRulesConfirmation = ({
           fontSize: 16,
         }}
       >
-        Atenção! Deferir regras entre 9:00 - 15:30 pode gerar frutrações para os clientes.
+        {t('rulesheet.dialogs.defer.time.message')}
       </Box>
       <Box
         sx={{
@@ -309,7 +285,7 @@ export const DeferRulesConfirmation = ({
         }}
       >
         <Button autoFocus onClick={handleCloseTimeDialog} color="secondary" variant="contained">
-          Cancelar
+          {t('buttons.cancel')}
         </Button>
         <Button
           onClick={handleTimeOk}
@@ -319,26 +295,14 @@ export const DeferRulesConfirmation = ({
             marginLeft: '16px',
           }}
         >
-          Deferir mesmo assim
+          {t('rulesheet.buttons.deferAnyway')}
         </Button>
       </Box>
     </Dialog>
   );
 
   if (loadingSubmit) {
-    return (
-      <Box
-        sx={{
-          marginTop: '24px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="h2" component="p">
-          Carregando deferimento de {rules.length === 1 ? 'Regra' : 'Regras'}...
-        </Typography>
-      </Box>
-    );
+    return <Loading />;
   }
 
   return (
@@ -361,7 +325,7 @@ export const DeferRulesConfirmation = ({
                 padding: '16px',
               }}
             >
-              Confirme as informações {rules.length === 1 ? 'da regra' : 'das regras'}
+              {t('rulesheet.titles.defer.confirmation', { count: rules.length })}
             </Typography>
             <Divider />
             {renderRulesList()}
@@ -374,7 +338,7 @@ export const DeferRulesConfirmation = ({
               }}
             >
               <Button variant="contained" color="secondary" onClick={onBackClickHandlerOverride}>
-                Voltar
+                {t('buttons.back')}
               </Button>
               <Button
                 variant="contained"
@@ -384,7 +348,7 @@ export const DeferRulesConfirmation = ({
                 }}
                 onClick={handleOpenConfirmationDialog}
               >
-                Deferir {rules.length <= 1 ? 'Regra' : 'Regras'}
+                {t('rulesheet.buttons.defer', { count: rules.length })}
               </Button>
             </Box>
           </Paper>

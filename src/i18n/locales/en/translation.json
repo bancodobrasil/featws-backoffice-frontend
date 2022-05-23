@@ -1,0 +1,131 @@
+{
+  "application": {
+    "title": "FeatWS"
+  },
+  "language": {
+    "title": "Language"
+  },
+  "common": {
+    "totalOf": "Total of {{field}}"
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "search": "Search",
+    "forward": "Forward",
+    "back": "Back"
+  },
+  "form": {
+    "optional": "{{field}} (optional)",
+    "validation": {
+      "min": "{{field}} must be at least {{min}} characters long.",
+      "max": "{{field}} must have a maximum of {{max}} characters."
+    },
+    "helperText": {
+      "charactersLeft": "{{count}} characters left"
+    }
+  },
+  "filter": {
+    "title": "Filters",
+    "by": "Filter by {{field}}",
+    "all": "All"
+  },
+  "notification": {
+    "error": {
+      "APIError":{ 
+        "title": "Error (status code: {{statusCode}})",
+        "message": "There was a problem with the request."
+      },
+      "UnhandledError":{ 
+        "title": "Unknown error",
+        "message": "An unexpected problem has occurred."
+      }
+    },
+    "createSuccess_male": "{{resource}} created successfully",
+    "createSuccess_female": "{{resource}} created successfully",
+    "deleteSuccess_male": "{{resource}} deleted successfully",
+    "deleteSuccess_female": "{{resource}} deleted successfully",
+    "editSuccess_male": "{{resource}} edited successfully",
+    "editSuccess_female": "{{resource}} edited successfully"
+  },
+  "rulesheet": {
+    "name": "Rule Sheet",
+    "name_other": "Rule Sheets",
+    "fields": {
+      "id": "ID",
+      "name": "Name",
+      "slug": "Slug",
+      "description": "Description",
+      "code": "Code",
+      "responsible": "Responsible",
+      "updatedAt": "Last update",
+      "rules": "Rules"
+    },
+    "placeholders": {
+      "name": "Set a name",
+      "slug": "slug-of-the-rule-sheet",
+      "description": "Enter your description..."
+    },
+    "titles": {
+      "create": "Create $t(rulesheet.name)",
+      "edit": "Edit $t(rulesheet.name)",
+      "list": "$t(rulesheet.name, {\"count\": 2})",
+      "show": "Show $t(rulesheet.name)",
+      "defer": {
+        "list": "Which rules do you want to defer?",
+        "confirmation": "Confirm the rule information",
+        "confirmation_other": "Confirm the rules information"
+      }
+    },
+    "messages": {
+      "defer": {
+        "success": "Rule deferred successfully",
+        "success_other": "Rules deferred successfully"
+      }
+    },
+    "dialogs": {
+      "defer": {
+        "confirmation": {
+          "title": "Are you sure you want to defer this rule?",
+          "message": "Attention, after confirming, the rule will be applied! After being deferred, you can delete the rule if you want."
+        },
+        "time": {
+          "title": "Are you sure you want to defer at this time?",
+          "message": "Attention! Deferring rules between 9:00 am - 03:30 pm can generate frustration for customers."
+        }
+      }
+    },
+    "buttons": {
+      "deferRule": "Defer a $t(rule.name)",
+      "defer": "Defer Rule",
+      "defer_other": "Defer Rules",
+      "confirmDefer": "Confirm Deferral",
+      "deferAnyway": "Defer anyway"
+    },
+    "defer": "Defer",
+    "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
+    "new": "New $t(rulesheet.name)"
+  },
+  "rule": {
+    "name": "Rule",
+    "name_other": "Rules",
+    "fields": {
+      "id": "ID",
+      "title": "Title",
+      "date": "Date",
+      "author": "Author",
+      "tag": "Tag",
+      "filters": "Filters",
+      "type": {
+        "name": "Rule Type",
+        "display": "Display"
+      },
+      "status": {
+        "name": "Status",
+        "deferred": "Deferred",
+        "awaiting": "Awaiting approval",
+        "draft": "Draft"
+      }
+    },
+    "new": "New $t(rule.name)"
+  }
+}

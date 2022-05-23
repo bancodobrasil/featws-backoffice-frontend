@@ -1,3 +1,5 @@
+import { TRuleStatus } from '../types';
+
 export interface IRuleSheetMetadata {
   slug?: string;
   description?: string;
@@ -17,5 +19,5 @@ export interface IRule {
   title: string;
   date: Date;
   author: string;
-  status: 'Deferida' | 'Aguardando deferimento' | 'Rascunho';
+  status: TRuleStatus;
 }
