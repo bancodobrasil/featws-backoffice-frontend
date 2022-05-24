@@ -4,7 +4,7 @@ import type {} from '@mui/x-data-grid/themeAugmentation';
 import { ptBR } from '@mui/material/locale';
 
 import palette from './palette';
-import bbTypography from './bbTypography';
+import typography from './typography';
 
 const ptBRMuiTablePaginationOverride = {
   defaultProps: {
@@ -60,7 +60,7 @@ const theme = language =>
   createTheme(
     {
       palette,
-      typography: bbTypography,
+      typography,
       components: {
         MuiInputLabel: {
           styleOverrides: {
