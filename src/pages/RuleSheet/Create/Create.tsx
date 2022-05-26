@@ -3,7 +3,11 @@ import React, { useContext, useState } from 'react';
 import { Box, Button, Divider, Grid, Paper, styled, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ActionTypes, NotificationContext } from '../../../contexts/NotificationContext';
+import {
+  ActionTypes,
+  NotificationContext,
+  openDefaultErrorNotification,
+} from '../../../contexts/NotificationContext';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import { createRuleSheet } from '../../../api/services/RuleSheets';
 
@@ -96,7 +100,7 @@ export const CreateRuleSheet = () => {
       });
       navigate('../');
     } catch (error) {
-      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
+      openDefaultErrorNotification(error, dispatch);
     } finally {
       setLoadingSubmit(false);
     }
