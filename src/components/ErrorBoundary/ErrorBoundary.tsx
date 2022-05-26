@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import { APIError, UnhandledError } from '../../api/errors';
-import { ActionTypes, NotificationContext } from '../../contexts/NotificationContext';
+import {
+  NotificationContext,
+  openDefaultErrorNotification,
+} from '../../contexts/NotificationContext';
 import { ErrorFallback } from './ErrorFallback';
 
 interface ErrorBoundaryProps {
@@ -24,15 +25,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error, errorInfo) {
-    let processedError;
-    if (axios.isAxiosError(error)) {
-      processedError = new APIError(error.response.status);
-    } else {
-      console.error(error);
-      processedError = new UnhandledError(error);
-    }
     const { dispatch } = this.context;
-    dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error: processedError });
+    openDefaultErrorNotification(error, dispatch);
   }
 
   render() {
