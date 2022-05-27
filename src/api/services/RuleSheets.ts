@@ -1,5 +1,5 @@
 import { publicAPI } from '../axios';
-import { IRuleSheet } from '../../interfaces';
+import { IRule, IRuleSheet } from '../../interfaces';
 import { createFakeRuleSheet } from '../../utils/factory/FakeRuleSheet';
 import wrapPromise, { WrapPromise } from '../../utils/suspense/WrapPromise';
 import { RuleStatusEnum } from '../../types';
@@ -112,4 +112,13 @@ const createRuleSheet = async (data: CreateRuleSheetParams): Promise<IRuleSheet>
   return { ...fakeData, ...response.data };
 };
 
-export { getAllRuleSheets, getRuleSheet, createRuleSheet };
+const deferRules = (rules: IRule[]): Promise<void> =>
+  // TODO: Implement API request for defer rules
+  new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      // reject(new Error('Error deferring Rule'));
+      resolve();
+    }, 2000);
+  });
+
+export { getAllRuleSheets, getRuleSheet, createRuleSheet, deferRules };
