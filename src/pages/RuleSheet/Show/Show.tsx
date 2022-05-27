@@ -10,7 +10,7 @@ import StatusBullet from '../../../components/StatusBullet';
 import { FilterSelect } from '../../../components/FilterSelect';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import Loading from '../../../components/Loading';
-import ErrorBoundary, { ErrorFallback } from '../../../components/ErrorBoundary';
+import ErrorBoundary, { ErrorFallbackWithBreadcrumbs } from '../../../components/ErrorBoundary';
 import { getRuleSheet } from '../../../api/services/RuleSheets';
 import { WrapPromise } from '../../../utils/suspense/WrapPromise';
 
@@ -324,37 +324,6 @@ const PageWrapper = ({
   );
 };
 
-const CustomErrorFallback = ({
-  t,
-  onBackClickHandler,
-}: {
-  t: TFunction;
-  onBackClickHandler: () => void;
-}): JSX.Element => (
-  <Box
-    sx={{
-      width: '100%',
-      paddingTop: '34px',
-      paddingBottom: '34px',
-    }}
-  >
-    <AppBreadcrumbs
-      items={[{ label: t('application.title'), navigateTo: '/' }, { label: t('rulesheet.name') }]}
-      onBack={onBackClickHandler}
-    />
-    <Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        paddingTop: '11px',
-      }}
-    >
-      <ErrorFallback message={t('common.error.service.get', { resource: t('rulesheet.name') })} />
-    </Box>
-  </Box>
-);
-
 export const ShowRuleSheet = () => {
   const { t } = useTranslation();
 
@@ -368,7 +337,20 @@ export const ShowRuleSheet = () => {
   };
 
   return (
-    <ErrorBoundary fallback={<CustomErrorFallback t={t} onBackClickHandler={onBackClickHandler} />}>
+    <ErrorBoundary
+      fallback={
+        <ErrorFallbackWithBreadcrumbs
+          message={t('common.error.service.get', { resource: t('rulesheet.name') })}
+          appBreadcrumbsProps={{
+            items: [
+              { label: t('application.title'), navigateTo: '/' },
+              { label: t('rulesheet.name') },
+            ],
+            onBack: onBackClickHandler,
+          }}
+        />
+      }
+    >
       <Suspense fallback={<Loading />}>
         <PageWrapper
           id={id}
