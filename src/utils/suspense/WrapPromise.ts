@@ -4,8 +4,10 @@ enum Status {
   ERROR = 'ERROR',
 }
 
+export type WrapPromise<T> = { read: () => T };
+
 // Helper method to be used with React.Suspense
-const wrapPromise = <T>(promise: Promise<T>): { read: () => T } => {
+const wrapPromise = <T>(promise: Promise<T>): WrapPromise<T> => {
   let status = Status.PENDING;
   let response;
 
