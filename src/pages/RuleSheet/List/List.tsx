@@ -8,13 +8,15 @@ import AuthorizedComponent from '../../../components/Auth/AuthorizedComponent';
 import { getAllRuleSheets } from '../../../api/services/RuleSheets';
 import Loading from '../../../components/Loading';
 import ErrorBoundary from '../../../components/ErrorBoundary';
-
-const resource = getAllRuleSheets();
+import { WrapPromise } from '../../../utils/suspense/WrapPromise';
+import { IRuleSheet } from '../../../interfaces';
 
 const DataGridWrapper = ({
+  resource,
   columns,
   navigate,
 }: {
+  resource: WrapPromise<IRuleSheet[]>;
   columns: GridColDef[];
   navigate: NavigateFunction;
 }): JSX.Element => {
@@ -43,6 +45,7 @@ const DataGridWrapper = ({
 };
 
 export const ListRuleSheet = () => {
+  const resource = getAllRuleSheets();
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -140,10 +143,12 @@ export const ListRuleSheet = () => {
         elevation={0}
       >
         <ErrorBoundary
-          fallback={t('common.error.service.getAll', { resource: t('rulesheet.name') })}
+          fallback={t('common.error.service.getAll', {
+            resource: t('rulesheet.name', { count: 2 }),
+          })}
         >
           <Suspense fallback={<Loading />}>
-            <DataGridWrapper columns={columns} navigate={navigate} />
+            <DataGridWrapper resource={resource} columns={columns} navigate={navigate} />
           </Suspense>
         </ErrorBoundary>
       </Paper>
