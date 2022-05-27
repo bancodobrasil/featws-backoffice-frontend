@@ -10,7 +10,8 @@
     "error": {
       "default": "Ocorreu um erro ao carregar a página.",
       "service": {
-        "getAll": "Falha ao carregar {{resource}}."
+        "getAll": "Falha ao carregar {{resource}}.",
+        "get": "Falha ao carregar {{resource}}."
       }
     }
   },

@@ -10,7 +10,8 @@
     "error": {
       "default": "An error occurred while loading the page.",
       "service": {
-        "getAll": "Failed to load {{resource}}."
+        "getAll": "Failed to load {{resource}}.",
+        "get": "Failed to load {{resource}}."
       }
     }
   },
