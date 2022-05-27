@@ -146,7 +146,7 @@ export const DeferRulesList = ({
           onChange={onCodeChangeHandler}
         >
           <MenuItem value="">{t('filter.all')}</MenuItem>
-          {[...new Set(record?.rules.map(rule => rule.id))].map((id, index) => (
+          {[...new Set(record.rules.map(rule => rule.id))].map((id, index) => (
             <MenuItem key={index} value={id}>
               {id}
             </MenuItem>
@@ -159,7 +159,7 @@ export const DeferRulesList = ({
           onChange={onAuthorChangeHandler}
         >
           <MenuItem value="">{t('filter.all')}</MenuItem>
-          {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+          {[...new Set(record.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
             <MenuItem key={index} value={ruleAuthor}>
               {ruleAuthor}
             </MenuItem>

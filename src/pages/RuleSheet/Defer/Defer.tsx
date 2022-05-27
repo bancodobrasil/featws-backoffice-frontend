@@ -1,29 +1,36 @@
 /* eslint-disable no-console */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { Suspense, useRef, useState } from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 import { Box } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
-import { RuleStatusEnum } from '../../../types';
 import { DeferRulesConfirmation, DeferRulesList } from './screens';
 import './Styles.css';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import Loading from '../../../components/Loading';
+import ErrorBoundary, { ErrorFallbackWithBreadcrumbs } from '../../../components/ErrorBoundary';
+import { WrapPromise } from '../../../utils/suspense/WrapPromise';
+import { getRuleSheet } from '../../../api/services/RuleSheets';
+import { RuleStatusEnum } from '../../../types';
 
 export enum EnumDeferRulesScreens {
   LIST = 'LIST',
   CONFIRMATION = 'CONFIRMATION',
 }
 
-export const DeferRules = () => {
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const [record, setRecord] = useState<IRuleSheet | undefined>();
-  const [loadingRecord, setLoadingRecord] = useState<boolean>(false);
+const PageWrapper = ({
+  id,
+  resource,
+  t,
+  navigate,
+}: {
+  id: string;
+  resource: WrapPromise<IRuleSheet>;
+  t: TFunction;
+  navigate: NavigateFunction;
+}): JSX.Element => {
+  const record = resource.read();
 
   const [currentScreen, setCurrentScreen] = useState<EnumDeferRulesScreens>(
     EnumDeferRulesScreens.LIST,
@@ -35,7 +42,9 @@ export const DeferRules = () => {
 
   const [code, setCode] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
-  const [rules, setRules] = useState<IRule[]>([]);
+  const [rules, setRules] = useState<IRule[]>(
+    record.rules.filter(rule => rule.status === RuleStatusEnum.AWAITING),
+  );
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
   const screenNode = useRef<HTMLDivElement>();
@@ -60,121 +69,6 @@ export const DeferRules = () => {
   const onBackClickHandlerOverride = () => {
     onBackClickHandler();
   };
-
-  const fetchRecord = useCallback(async () => {
-    if (loadingRecord) {
-      return;
-    }
-    setLoadingRecord(true);
-    // TODO: Implement the API request
-    // The Promise below simulates the loading time of the request, remove it when you implement the request itself.
-    await new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-    // Remove the next line when the request is implemented.
-    setRecord({
-      id: Number(id),
-      name: 'Internet APF',
-      slug: 'internet-apf',
-      description:
-        'É uma plataforma de onboarding para não correntistas e correntistas PF/PJ e GOV. \nO objetivo é que cada cliente acesse uma página que reflita, de maneira personalizada, os seus interesses e serviços do Banco do Brasil',
-      code: '12345678',
-      rules: [
-        {
-          id: '1',
-          title: 'Alteração no Bundle',
-          date: new Date(2021, 11, 20, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '2',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 2, 5, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '3',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '4',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '5',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '6',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '7',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '8',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '9',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '10',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '11',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-      ],
-    });
-    setLoadingRecord(false);
-  }, [id, loadingRecord]);
-
-  useEffect(() => {
-    if (!record) {
-      fetchRecord();
-      return;
-    }
-    setRules(record.rules);
-  }, [record, fetchRecord]);
-
-  if (loadingRecord) {
-    return <Loading />;
-  }
 
   const renderCurrentScreen = () => {
     if (currentScreen === EnumDeferRulesScreens.LIST) {
@@ -229,7 +123,7 @@ export const DeferRules = () => {
               <AppBreadcrumbs
                 items={[
                   { label: t('application.title'), navigateTo: '/' },
-                  { label: record?.name, navigateTo: `/rulesheets/${id}` },
+                  { label: record.name, navigateTo: `/rulesheets/${id}` },
                   { label: t('rulesheet.defer') },
                 ]}
                 onBack={onBackClickHandlerOverride}
@@ -240,5 +134,36 @@ export const DeferRules = () => {
         </CSSTransition>
       </SwitchTransition>
     </Box>
+  );
+};
+
+export const DeferRules = () => {
+  const { t } = useTranslation();
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const resource = getRuleSheet(id);
+
+  return (
+    <ErrorBoundary
+      fallback={
+        <ErrorFallbackWithBreadcrumbs
+          message={t('common.error.service.get', { resource: t('rulesheet.name') })}
+          appBreadcrumbsProps={{
+            items: [
+              { label: t('application.title'), navigateTo: '/' },
+              { label: t('rulesheet.name') },
+              { label: t('rulesheet.defer') },
+            ],
+            onBack: () => navigate(`/rulesheets/${id}`),
+          }}
+        />
+      }
+    >
+      <Suspense fallback={<Loading />}>
+        <PageWrapper id={id} resource={resource} t={t} navigate={navigate} />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
