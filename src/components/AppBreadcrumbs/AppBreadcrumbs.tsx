@@ -8,11 +8,11 @@ export interface AppBreadcrumbsProps {
   onBack?: () => void;
 }
 
-const BreadcrumbsSeparator = ({ last = false }: { last?: boolean }): JSX.Element => (
+const BreadcrumbsSeparator = ({ disabled = false }: { disabled?: boolean }): JSX.Element => (
   <Box
     component="span"
     sx={{
-      color: last ? '#BFC3CA' : 'black',
+      color: disabled ? '#BFC3CA' : 'black',
       marginRight: '8px',
       marginLeft: '8px',
     }}
@@ -26,16 +26,17 @@ export const AppBreadcrumbs = ({ items, onBack }: AppBreadcrumbsProps): JSX.Elem
   const onBackClickHandler = () => {
     navigate('../');
   };
-  const renderItems = () =>
-    items.map(({ label, navigateTo }, index) => {
+  const renderItems = () => {
+    const disabledColor = '#BFC3CA';
+    return items.map(({ label, navigateTo }, index) => {
       if (index === items.length - 1) {
         return (
           <div key={index}>
-            <BreadcrumbsSeparator last />
+            <BreadcrumbsSeparator disabled />
             <Typography
               component="span"
               sx={{
-                color: '#BFC3CA',
+                color: disabledColor,
               }}
             >
               {label}
@@ -48,16 +49,19 @@ export const AppBreadcrumbs = ({ items, onBack }: AppBreadcrumbsProps): JSX.Elem
           {label}
         </Link>
       ) : (
-        <Typography component="span">{label}</Typography>
+        <Typography component="span" sx={{ color: disabledColor }}>
+          {label}
+        </Typography>
       );
 
       return (
         <div key={index}>
-          {index !== 0 && <BreadcrumbsSeparator />}
+          {index !== 0 && <BreadcrumbsSeparator disabled={!navigateTo} />}
           {labelComponent}
         </div>
       );
     });
+  };
   return (
     <Box
       sx={{

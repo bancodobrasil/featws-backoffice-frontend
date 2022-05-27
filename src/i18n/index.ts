@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Translation files
@@ -18,13 +17,13 @@ const resources = {
 };
 
 i18n
-  // TODO: fetch translation files from server (static json files)
-  // .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'en',
+    supportedLngs: ['en', 'pt-BR'],
+    load: 'currentOnly',
     // debug: true,
   });
 

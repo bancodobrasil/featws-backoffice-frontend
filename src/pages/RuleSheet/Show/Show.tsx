@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { Suspense, useMemo, useState } from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { RuleStatusEnum } from '../../../types';
@@ -10,21 +10,30 @@ import StatusBullet from '../../../components/StatusBullet';
 import { FilterSelect } from '../../../components/FilterSelect';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import Loading from '../../../components/Loading';
+import ErrorBoundary, { ErrorFallbackWithBreadcrumbs } from '../../../components/ErrorBoundary';
+import { getRuleSheet } from '../../../api/services/RuleSheets';
+import { WrapPromise } from '../../../utils/suspense/WrapPromise';
 
-export const ShowRuleSheet = () => {
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const [record, setRecord] = useState<IRuleSheet | undefined>();
-  const [loadingRecord, setLoadingRecord] = useState<boolean>(false);
+const PageWrapper = ({
+  id,
+  resource,
+  onBackClickHandler,
+  t,
+  navigate,
+}: {
+  id: string;
+  resource: WrapPromise<IRuleSheet>;
+  onBackClickHandler: () => void;
+  t: TFunction;
+  navigate: NavigateFunction;
+}): JSX.Element => {
+  const record = resource.read();
 
   const [pageSize, setPageSize] = useState<number>(10);
 
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
-  const [rules, setRules] = useState<IRule[]>([]);
+  const [rules, setRules] = useState<IRule[]>(record.rules);
 
   const columns: GridColDef[] = useMemo(
     () => [
@@ -75,10 +84,6 @@ export const ShowRuleSheet = () => {
     navigate(`/rulesheets/${id}/defer`);
   };
 
-  const onBackClickHandler = () => {
-    navigate('/rulesheets');
-  };
-
   const onStatusChangeHandler = event => {
     setStatus(event.target.value);
   };
@@ -90,9 +95,6 @@ export const ShowRuleSheet = () => {
   const onSearchClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
-    if (!record) {
-      return;
-    }
     let listRule = record.rules;
     if (status) {
       listRule = listRule.filter(rule => rule.status === status);
@@ -103,109 +105,8 @@ export const ShowRuleSheet = () => {
     setRules(listRule);
   };
 
-  const onPageSizeChangeHandler = (newPageSize: number) => {
-    setPageSize(newPageSize);
-  };
-
-  const fetchRecord = useCallback(async () => {
-    if (loadingRecord) {
-      return;
-    }
-    setLoadingRecord(true);
-    // TODO: Implement the API request
-    // The Promise below simulates the loading time of the request, remove it when you implement the request itself.
-    await new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-    // Remove the next line when the request is implemented.
-    setRecord({
-      id: Number(id),
-      name: 'Internet APF',
-      slug: 'internet-apf',
-      description:
-        'É uma plataforma de onboarding para não correntistas e correntistas PF/PJ e GOV. \nO objetivo é que cada cliente acesse uma página que reflita, de maneira personalizada, os seus interesses e serviços do Banco do Brasil',
-      code: '12345678',
-      rules: [
-        {
-          id: '1',
-          title: 'Alteração no Bundle',
-          date: new Date(2021, 11, 20, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '2',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 2, 5, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.AWAITING,
-        },
-        {
-          id: '3',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DRAFT,
-        },
-        {
-          id: '4',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '5',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '6',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '7',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '8',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-        {
-          id: '9',
-          title: 'Alteração no Bundle',
-          date: new Date(2022, 1, 2, 10, 55, 30, 500),
-          author: 'C1313233 Rhuan Queiroz',
-          status: RuleStatusEnum.DEFERRED,
-        },
-      ],
-    });
-    setLoadingRecord(false);
-  }, [id, loadingRecord]);
-
-  useEffect(() => {
-    if (!record) {
-      fetchRecord();
-      return;
-    }
-    setRules(record.rules);
-  }, [record, fetchRecord]);
-
   const renderDescription = () =>
-    record?.description.split('\n').map((line, index) => (
+    record.description.split('\n').map((line, index) => (
       <Typography
         key={index}
         component="p"
@@ -220,9 +121,9 @@ export const ShowRuleSheet = () => {
       </Typography>
     ));
 
-  if (loadingRecord) {
-    return <Loading />;
-  }
+  const onPageSizeChangeHandler = (newPageSize: number) => {
+    setPageSize(newPageSize);
+  };
 
   return (
     <Box
@@ -235,7 +136,7 @@ export const ShowRuleSheet = () => {
       <AppBreadcrumbs
         items={[
           { label: t('application.title'), navigateTo: '/' },
-          { label: record?.name, navigateTo: `/rulesheets/${id}` },
+          { label: record.name, navigateTo: `/rulesheets/${id}` },
           { label: t('rule.name', { count: 2 }) },
         ]}
         onBack={onBackClickHandler}
@@ -258,7 +159,7 @@ export const ShowRuleSheet = () => {
             margin: 0,
           }}
         >
-          {record?.name}
+          {record.name}
         </Typography>
         <Box
           sx={{
@@ -289,7 +190,7 @@ export const ShowRuleSheet = () => {
               lineHeight: '20px',
               letterSpacing: '0.25px',
             }}
-            label={record?.slug}
+            label={record.slug}
           />
           <Box
             sx={{
@@ -306,7 +207,7 @@ export const ShowRuleSheet = () => {
               marginBottom: '8px',
             }}
           >
-            {t('rulesheet.of', { field: 'code' })}: {record?.code}
+            {t('rulesheet.of', { field: 'code' })}: {record.code}
           </Box>
           <Box
             sx={{
@@ -387,7 +288,7 @@ export const ShowRuleSheet = () => {
                 onChange={onAuthorChangeHandler}
               >
                 <MenuItem value="">{t('filter.all')}</MenuItem>
-                {[...new Set(record?.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
+                {[...new Set(record.rules.map(rule => rule.author))].map((ruleAuthor, index) => (
                   <MenuItem key={index} value={ruleAuthor}>
                     {ruleAuthor}
                   </MenuItem>
@@ -420,5 +321,45 @@ export const ShowRuleSheet = () => {
         </Grid>
       </Grid>
     </Box>
+  );
+};
+
+export const ShowRuleSheet = () => {
+  const { t } = useTranslation();
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const resource = getRuleSheet(id);
+
+  const onBackClickHandler = () => {
+    navigate('/rulesheets');
+  };
+
+  return (
+    <ErrorBoundary
+      fallback={
+        <ErrorFallbackWithBreadcrumbs
+          message={t('common.error.service.get', { resource: t('rulesheet.name') })}
+          appBreadcrumbsProps={{
+            items: [
+              { label: t('application.title'), navigateTo: '/' },
+              { label: t('rulesheet.name') },
+            ],
+            onBack: onBackClickHandler,
+          }}
+        />
+      }
+    >
+      <Suspense fallback={<Loading />}>
+        <PageWrapper
+          id={id}
+          resource={resource}
+          onBackClickHandler={onBackClickHandler}
+          t={t}
+          navigate={navigate}
+        />
+      </Suspense>
+    </ErrorBoundary>
   );
 };

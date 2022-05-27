@@ -13,10 +13,15 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ActionTypes, NotificationContext } from '../../../../../contexts/NotificationContext';
+import {
+  ActionTypes,
+  NotificationContext,
+  openDefaultErrorNotification,
+} from '../../../../../contexts/NotificationContext';
 import { IRule, IRuleSheet } from '../../../../../interfaces';
 import { EnumDeferRulesScreens } from '../../Defer';
 import Loading from '../../../../../components/Loading';
+import { deferRules } from '../../../../../api/services/RuleSheets';
 
 export interface IDeferRulesConfirmationProps {
   rulesheet: IRuleSheet;
@@ -82,30 +87,24 @@ export const DeferRulesConfirmation = ({
     //   handleOpenTimeDialog();
     //   return;
     // }
-    deferRules();
+    callDeferRules();
   };
   const handleTimeOk = () => {
     handleCloseTimeDialog();
-    deferRules();
+    callDeferRules();
   };
 
-  const deferRules = async () => {
+  const callDeferRules = async () => {
     setLoadingSubmit(true);
-    // TODO: Implement API request for defer rules
     try {
-      await new Promise<void>((resolve, reject) => {
-        setTimeout(() => {
-          // reject(new APIError(500));
-          resolve();
-        }, 2000);
-      });
+      await deferRules(rules);
       dispatch({
         type: ActionTypes.OPEN_NOTIFICATION,
         message: `${t('rulesheet.messages.defer.success', { count: rules.length })}!`,
       });
       navigate('../');
     } catch (error) {
-      dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error });
+      openDefaultErrorNotification(error, dispatch);
     } finally {
       setLoadingSubmit(false);
     }

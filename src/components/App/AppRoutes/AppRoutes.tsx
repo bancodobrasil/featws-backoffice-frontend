@@ -9,6 +9,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   CreateRuleSheet,
   DeferRules,
@@ -17,9 +18,9 @@ import {
 } from '../../../pages/RuleSheet';
 import RequireAuth from '../../Auth/RequireAuth';
 import { NotificationProvider } from '../../../contexts/NotificationContext';
-import i18n from '../../../i18n';
 
 export const AppRoutes = () => {
+  const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState<string>(i18n.resolvedLanguage);
 
   /* TODO: Remove Auth testing code below */
@@ -32,20 +33,18 @@ export const AppRoutes = () => {
     const lng = event.target.value as string;
     i18n.changeLanguage(lng);
     setLanguage(lng);
-    // Reload the page (workaround for resetting the Material UI theme)
-    document.location.reload();
   };
 
   const renderLanguageSwitcher = () => (
     <Box sx={{ pt: '32px', display: 'flex', justifyContent: 'center' }}>
       <FormControl sx={{ minWidth: 160 }}>
-        <InputLabel id="demo-simple-select-label">{i18n.t('language.title')}</InputLabel>
+        <InputLabel id="demo-simple-select-label">{t('language.title')}</InputLabel>
         <Select
           variant="standard"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={language}
-          label={i18n.t('language.title')}
+          label={t('language.title')}
           onChange={handleLanguageChange}
         >
           <MenuItem value="en">English</MenuItem>

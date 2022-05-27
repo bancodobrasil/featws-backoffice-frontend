@@ -6,7 +6,14 @@
     "title": "Language"
   },
   "common": {
-    "totalOf": "Total of {{field}}"
+    "totalOf": "Total of {{field}}",
+    "error": {
+      "default": "An error occurred while loading the page.",
+      "service": {
+        "getAll": "Failed to load {{resource}}.",
+        "get": "Failed to load {{resource}}."
+      }
+    }
   },
   "buttons": {
     "cancel": "Cancel",

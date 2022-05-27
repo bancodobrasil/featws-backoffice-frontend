@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useCallback, useEffect, useReducer, useState } from 'react';
+import axios from 'axios';
 import {
   Snackbar,
   SnackbarCloseReason,
@@ -9,7 +10,7 @@ import {
   AlertProps,
   AlertTitle,
 } from '@mui/material';
-import { BaseError } from '../api/errors';
+import { BaseError, APIError, UnhandledError } from '../api/errors';
 
 type State = {
   isOpen: boolean;
@@ -185,4 +186,15 @@ const NotificationProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-export { NotificationContext, NotificationProvider, ActionTypes };
+const openDefaultErrorNotification = (error: unknown, dispatch: React.Dispatch<Action>) => {
+  let processedError;
+  if (axios.isAxiosError(error)) {
+    processedError = new APIError(error.response.status);
+  } else {
+    console.error(error);
+    processedError = new UnhandledError(error);
+  }
+  dispatch({ type: ActionTypes.OPEN_ERROR_NOTIFICATION, error: processedError });
+};
+
+export { NotificationContext, NotificationProvider, ActionTypes, openDefaultErrorNotification };
