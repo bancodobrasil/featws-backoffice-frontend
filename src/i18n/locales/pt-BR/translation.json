@@ -128,9 +128,11 @@
       },
       "status": {
         "name": "Status",
-        "deferred": "Deferida",
+        "draft": "Rascunho",
         "awaiting_deferral": "Aguardando deferimento",
-        "draft": "Rascunho"
+        "deferred": "Deferida",
+        "awaiting_cancellation": "Aguardando cancelamento",
+        "canceled": "Cancelada"
       }
     },
     "new": "Nova $t(rule.name)"

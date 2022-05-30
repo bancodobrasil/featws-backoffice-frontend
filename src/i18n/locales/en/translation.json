@@ -128,9 +128,11 @@
       },
       "status": {
         "name": "Status",
+        "draft": "Draft",
+        "awaiting_deferral": "Awaiting deferral",
         "deferred": "Deferred",
-        "awaiting_deferral": "Awaiting approval",
-        "draft": "Draft"
+        "awaiting_cancellation": "Awaiting cancellation",
+        "canceled": "Canceled"
       }
     },
     "new": "New $t(rule.name)"
