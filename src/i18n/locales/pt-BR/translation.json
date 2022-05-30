@@ -108,6 +108,10 @@
       "confirmDefer": "Confirmar Deferimento",
       "deferAnyway": "Deferir mesmo assim"
     },
+    "links": {
+      "cancel": "Cancelar Regra",
+      "cancel_other": "Cancelar Regras"
+    },
     "defer": "Deferimento",
     "of": "$t(rulesheet.fields.{{field}}) da Folha",
     "new": "Nova $t(rulesheet.name)"

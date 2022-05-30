@@ -108,6 +108,10 @@
       "confirmDefer": "Confirm Deferral",
       "deferAnyway": "Defer anyway"
     },
+    "links": {
+      "cancel": "Cancel Rule",
+      "cancel_other": "Cancel Rules"
+    },
     "defer": "Defer",
     "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
     "new": "New $t(rulesheet.name)"

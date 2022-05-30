@@ -1,7 +1,7 @@
 import React, { Suspense, useMemo, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import { Box, Button, Chip, Grid, Link, MenuItem, Typography } from '@mui/material';
+import { NavigateFunction, useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { RuleStatusEnum } from '../../../types';
@@ -223,13 +223,23 @@ const PageWrapper = ({
               variant="contained"
               color="secondary"
               sx={{
-                marginBottom: '20px',
+                marginBottom: '16px',
                 width: '100%',
               }}
               onClick={onDeferRuleClickHandler}
             >
               {t('rulesheet.buttons.deferRule')}
             </Button>
+          </AuthorizedComponent>
+          <AuthorizedComponent permissions={['admin']}>
+            <Link
+              color="link.main"
+              component={RouterLink}
+              to={`/rulesheets/${id}/cancel`}
+              sx={{ fontSize: '16px', letterSpacing: '0.5px' }}
+            >
+              {t('rulesheet.links.cancel', { count: 2 })}
+            </Link>
           </AuthorizedComponent>
         </Grid>
         <Grid
