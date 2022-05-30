@@ -18,6 +18,7 @@ import {
 } from '../../../pages/RuleSheet';
 import RequireAuth from '../../Auth/RequireAuth';
 import { NotificationProvider } from '../../../contexts/NotificationContext';
+import { CancelRules } from '../../../pages/RuleSheet/Cancel';
 
 export const AppRoutes = () => {
   const { t, i18n } = useTranslation();
@@ -119,6 +120,14 @@ export const AppRoutes = () => {
                       element={
                         <RequireAuth permissions={['admin']}>
                           <DeferRules />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="cancel"
+                      element={
+                        <RequireAuth permissions={['admin']}>
+                          <CancelRules />
                         </RequireAuth>
                       }
                     />

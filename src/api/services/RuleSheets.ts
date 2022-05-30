@@ -66,14 +66,14 @@ const getRuleSheet = (id: string): WrapPromise<IRuleSheet> => {
             title: 'Alteração no Bundle',
             date: new Date(2022, 1, 2, 10, 55, 30, 500),
             author: 'C1313233 Rhuan Queiroz',
-            status: RuleStatusEnum.CANCELED,
+            status: RuleStatusEnum.AWAITING_CANCELLATION,
           },
           {
             id: '6',
             title: 'Alteração no Bundle',
             date: new Date(2022, 1, 2, 10, 55, 30, 500),
             author: 'C1313233 Rhuan Queiroz',
-            status: RuleStatusEnum.DEFERRED,
+            status: RuleStatusEnum.AWAITING_DEFERRAL,
           },
           {
             id: '7',
@@ -121,4 +121,13 @@ const deferRules = (rules: IRule[]): Promise<void> =>
     }, 2000);
   });
 
-export { getAllRuleSheets, getRuleSheet, createRuleSheet, deferRules };
+const cancelRules = (rules: IRule[]): Promise<void> =>
+  // TODO: Implement API request for defer rules
+  new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      // reject(new Error('Error cancelling Rule'));
+      resolve();
+    }, 2000);
+  });
+
+export { getAllRuleSheets, getRuleSheet, createRuleSheet, deferRules, cancelRules };

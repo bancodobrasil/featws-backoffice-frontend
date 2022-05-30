@@ -81,12 +81,20 @@
         "list": "Which rules do you want to defer?",
         "confirmation": "Confirm the rule information",
         "confirmation_other": "Confirm the rules information"
+      },
+      "cancel": {
+        "list": "Which rules do you want to cancel?",
+        "confirmation": "Confirm the rule information",
+        "confirmation_other": "Confirm the rules information"
       }
     },
     "messages": {
       "defer": {
         "success": "Rule deferred successfully",
         "success_other": "Rules deferred successfully"
+      },
+      "cancel": {
+         "success": "Cancellation requested successfully"
       }
     },
     "dialogs": {
@@ -99,6 +107,12 @@
           "title": "Are you sure you want to defer at this time?",
           "message": "Attention! Deferring rules between 9:00 am - 03:30 pm can generate frustration for customers."
         }
+      },
+      "cancel": {
+        "confirmation": {
+          "title": "Do you confirm the request to cancel these rules?",
+          "message": "Once cancelled, rules cannot be reactivated. If you want, you can just query and duplicate them."
+        }
       }
     },
     "buttons": {
@@ -106,13 +120,18 @@
       "defer": "Defer Rule",
       "defer_other": "Defer Rules",
       "confirmDefer": "Confirm Deferral",
-      "deferAnyway": "Defer anyway"
+      "deferAnyway": "Defer anyway",
+      "cancel": "Cancel Rule",
+      "cancel_other": "Cancel Rules",
+      "requestCancellation": "Request cancellation",
+      "confirmCancel": "Confirm"
     },
     "links": {
       "cancel": "Cancel Rule",
       "cancel_other": "Cancel Rules"
     },
     "defer": "Defer",
+    "cancel": "Cancel",
     "of": "$t(rulesheet.fields.{{field}}) of the Sheet",
     "new": "New $t(rulesheet.name)"
   },
