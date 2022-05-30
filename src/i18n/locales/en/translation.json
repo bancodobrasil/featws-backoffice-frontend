@@ -129,7 +129,7 @@
       "status": {
         "name": "Status",
         "deferred": "Deferred",
-        "awaiting": "Awaiting approval",
+        "awaiting_deferral": "Awaiting approval",
         "draft": "Draft"
       }
     },

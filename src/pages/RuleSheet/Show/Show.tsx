@@ -274,8 +274,8 @@ const PageWrapper = ({
                 <MenuItem value={RuleStatusEnum.DEFERRED}>
                   {t(`rule.fields.status.${RuleStatusEnum.DEFERRED}`)}
                 </MenuItem>
-                <MenuItem value={RuleStatusEnum.AWAITING}>
-                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING}`)}
+                <MenuItem value={RuleStatusEnum.AWAITING_DEFERRAL}>
+                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING_DEFERRAL}`)}
                 </MenuItem>
                 <MenuItem value={RuleStatusEnum.DRAFT}>
                   {t(`rule.fields.status.${RuleStatusEnum.DRAFT}`)}

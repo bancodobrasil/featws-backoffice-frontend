@@ -45,7 +45,7 @@ const getRuleSheet = (id: string): WrapPromise<IRuleSheet> => {
             title: 'Alteração no Bundle',
             date: new Date(2022, 2, 5, 10, 55, 30, 500),
             author: 'C1313233 Rhuan Queiroz',
-            status: RuleStatusEnum.AWAITING,
+            status: RuleStatusEnum.AWAITING_DEFERRAL,
           },
           {
             id: '3',

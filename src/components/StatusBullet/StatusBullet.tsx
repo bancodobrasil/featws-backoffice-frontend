@@ -8,7 +8,7 @@ export const StatusBullet = ({ status }: { status: string }) => {
     case RuleStatusEnum.DEFERRED:
       color = '#16C559';
       break;
-    case RuleStatusEnum.AWAITING:
+    case RuleStatusEnum.AWAITING_DEFERRAL:
       color = '#07B4F2';
       break;
     case RuleStatusEnum.DRAFT:

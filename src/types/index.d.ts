@@ -1,6 +1,6 @@
 export const enum RuleStatusEnum {
   DEFERRED = 'deferred',
-  AWAITING = 'awaiting',
+  AWAITING_DEFERRAL = 'awaiting_deferral',
   DRAFT = 'draft',
 }
 
