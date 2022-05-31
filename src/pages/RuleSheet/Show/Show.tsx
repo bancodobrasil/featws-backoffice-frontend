@@ -1,7 +1,7 @@
 import React, { Suspense, useMemo, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { Box, Button, Chip, Grid, MenuItem, Typography } from '@mui/material';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import { Box, Button, Chip, Grid, Link, MenuItem, Typography } from '@mui/material';
+import { NavigateFunction, useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IRule, IRuleSheet } from '../../../interfaces';
 import { RuleStatusEnum } from '../../../types';
@@ -223,13 +223,23 @@ const PageWrapper = ({
               variant="contained"
               color="secondary"
               sx={{
-                marginBottom: '20px',
+                marginBottom: '16px',
                 width: '100%',
               }}
               onClick={onDeferRuleClickHandler}
             >
               {t('rulesheet.buttons.deferRule')}
             </Button>
+          </AuthorizedComponent>
+          <AuthorizedComponent permissions={['admin']}>
+            <Link
+              color="link.main"
+              component={RouterLink}
+              to={`/rulesheets/${id}/cancel`}
+              sx={{ fontSize: '16px', letterSpacing: '0.5px' }}
+            >
+              {t('rulesheet.links.cancel', { count: 2 })}
+            </Link>
           </AuthorizedComponent>
         </Grid>
         <Grid
@@ -271,14 +281,20 @@ const PageWrapper = ({
                 onChange={onStatusChangeHandler}
               >
                 <MenuItem value="">{t('filter.all')}</MenuItem>
+                <MenuItem value={RuleStatusEnum.DRAFT}>
+                  {t(`rule.fields.status.${RuleStatusEnum.DRAFT}`)}
+                </MenuItem>
+                <MenuItem value={RuleStatusEnum.AWAITING_DEFERRAL}>
+                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING_DEFERRAL}`)}
+                </MenuItem>
                 <MenuItem value={RuleStatusEnum.DEFERRED}>
                   {t(`rule.fields.status.${RuleStatusEnum.DEFERRED}`)}
                 </MenuItem>
-                <MenuItem value={RuleStatusEnum.AWAITING}>
-                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING}`)}
+                <MenuItem value={RuleStatusEnum.AWAITING_CANCELLATION}>
+                  {t(`rule.fields.status.${RuleStatusEnum.AWAITING_CANCELLATION}`)}
                 </MenuItem>
-                <MenuItem value={RuleStatusEnum.DRAFT}>
-                  {t(`rule.fields.status.${RuleStatusEnum.DRAFT}`)}
+                <MenuItem value={RuleStatusEnum.CANCELED}>
+                  {t(`rule.fields.status.${RuleStatusEnum.CANCELED}`)}
                 </MenuItem>
               </FilterSelect>
               <FilterSelect

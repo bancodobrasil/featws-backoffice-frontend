@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { IRule, IRuleSheet } from '../../../interfaces';
-import { DeferRulesConfirmation, DeferRulesList } from './screens';
+import { CancelRulesConfirmation, CancelRulesList } from './screens';
 import './Styles.css';
 import { AppBreadcrumbs } from '../../../components/AppBreadcrumbs';
 import Loading from '../../../components/Loading';
@@ -14,7 +14,7 @@ import { WrapPromise } from '../../../utils/suspense/WrapPromise';
 import { getRuleSheet } from '../../../api/services/RuleSheets';
 import { RuleStatusEnum } from '../../../types';
 
-export enum EnumDeferRulesScreens {
+export enum EnumCancelRulesScreens {
   LIST = 'LIST',
   CONFIRMATION = 'CONFIRMATION',
 }
@@ -32,8 +32,8 @@ const PageWrapper = ({
 }): JSX.Element => {
   const record = resource.read();
 
-  const [currentScreen, setCurrentScreen] = useState<EnumDeferRulesScreens>(
-    EnumDeferRulesScreens.LIST,
+  const [currentScreen, setCurrentScreen] = useState<EnumCancelRulesScreens>(
+    EnumCancelRulesScreens.LIST,
   );
 
   const [pageSize, setPageSize] = useState<number>(10);
@@ -43,7 +43,7 @@ const PageWrapper = ({
   const [code, setCode] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>(
-    record.rules.filter(rule => rule.status === RuleStatusEnum.AWAITING_DEFERRAL),
+    record.rules.filter(rule => rule.status === RuleStatusEnum.AWAITING_CANCELLATION),
   );
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
@@ -59,8 +59,8 @@ const PageWrapper = ({
       action();
       return;
     }
-    if (currentScreen === EnumDeferRulesScreens.CONFIRMATION) {
-      setCurrentScreen(EnumDeferRulesScreens.LIST);
+    if (currentScreen === EnumCancelRulesScreens.CONFIRMATION) {
+      setCurrentScreen(EnumCancelRulesScreens.LIST);
       return;
     }
     navigate(`/rulesheets/${id}`);
@@ -71,9 +71,9 @@ const PageWrapper = ({
   };
 
   const renderCurrentScreen = () => {
-    if (currentScreen === EnumDeferRulesScreens.LIST) {
+    if (currentScreen === EnumCancelRulesScreens.LIST) {
       return (
-        <DeferRulesList
+        <CancelRulesList
           record={record}
           pageSize={pageSize}
           listSelectionId={listSelectionId}
@@ -93,7 +93,7 @@ const PageWrapper = ({
       );
     }
     return (
-      <DeferRulesConfirmation
+      <CancelRulesConfirmation
         rulesheet={record}
         rules={rules.filter(rule => listSelectionId.includes(rule.id))}
         onBackClickHandler={onBackClickHandler}
@@ -124,7 +124,7 @@ const PageWrapper = ({
                 items={[
                   { label: t('application.title'), navigateTo: '/' },
                   { label: record.name, navigateTo: `/rulesheets/${id}` },
-                  { label: t('rulesheet.defer') },
+                  { label: t('rulesheet.cancel') },
                 ]}
                 onBack={onBackClickHandlerOverride}
               />
@@ -137,7 +137,7 @@ const PageWrapper = ({
   );
 };
 
-export const DeferRules = () => {
+export const CancelRules = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -154,7 +154,7 @@ export const DeferRules = () => {
             items: [
               { label: t('application.title'), navigateTo: '/' },
               { label: t('rulesheet.name') },
-              { label: t('rulesheet.defer') },
+              { label: t('rulesheet.cancel') },
             ],
             onBack: () => navigate(`/rulesheets/${id}`),
           }}

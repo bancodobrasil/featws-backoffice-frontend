@@ -81,12 +81,20 @@
         "list": "Quais regras você quer deferir?",
         "confirmation": "Confirme as informações da regra",
         "confirmation_other": "Confirme as informações das regras"
+      },
+      "cancel": {
+        "list": "Quais regras você quer cancelar?",
+        "confirmation": "Confirme as informações da regra",
+        "confirmation_other": "Confirme as informações das regras"
       }
     },
     "messages": {
       "defer": {
         "success": "Regra deferida com sucesso",
         "success_other": "Regras deferidas com sucesso"
+      },
+      "cancel": {
+         "success": "Cancelamento solicitado com sucesso"
       }
     },
     "dialogs": {
@@ -99,6 +107,12 @@
           "title": "Você tem certeza que quer deferir nesse horário?",
           "message": "Atenção! Deferir regras entre 9:00 - 15:30 pode gerar frutrações para os clientes."
         }
+      },
+      "cancel": {
+        "confirmation": {
+          "title": "Você confirma a solicitação do cancelamento dessas regras?",
+          "message": "Após canceladas, as regras não podem ser reativadas. Se quiser, você pode apenas consultá-las e duplicá-las."
+        }
       }
     },
     "buttons": {
@@ -106,9 +120,18 @@
       "defer": "Deferir Regra",
       "defer_other": "Deferir Regras",
       "confirmDefer": "Confirmar Deferimento",
-      "deferAnyway": "Deferir mesmo assim"
+      "deferAnyway": "Deferir mesmo assim",
+      "cancel": "Cancelar Regra",
+      "cancel_other": "Cancelar Regras",
+      "requestCancellation": "Solicitar cancelamento",
+      "confirmCancel": "Confirmo"
+    },
+    "links": {
+      "cancel": "Cancelar Regra",
+      "cancel_other": "Cancelar Regras"
     },
     "defer": "Deferimento",
+    "cancel": "Cancelamento",
     "of": "$t(rulesheet.fields.{{field}}) da Folha",
     "new": "Nova $t(rulesheet.name)"
   },
@@ -128,9 +151,11 @@
       },
       "status": {
         "name": "Status",
+        "draft": "Rascunho",
+        "awaiting_deferral": "Aguardando deferimento",
         "deferred": "Deferida",
-        "awaiting": "Aguardando deferimento",
-        "draft": "Rascunho"
+        "awaiting_cancellation": "Aguardando cancelamento",
+        "canceled": "Cancelada"
       }
     },
     "new": "Nova $t(rule.name)"

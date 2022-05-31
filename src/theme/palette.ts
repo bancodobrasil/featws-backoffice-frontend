@@ -44,6 +44,9 @@ export default {
     main: colors.red[600],
     light: colors.red[400],
   },
+  link: {
+    main: '#3354FD',
+  },
   text: {
     primary: black,
     secondary: colors.blueGrey[600],

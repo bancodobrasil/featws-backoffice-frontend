@@ -1,7 +1,9 @@
 export const enum RuleStatusEnum {
-  DEFERRED = 'deferred',
-  AWAITING = 'awaiting',
   DRAFT = 'draft',
+  AWAITING_DEFERRAL = 'awaiting_deferral',
+  DEFERRED = 'deferred',
+  AWAITING_CANCELLATION = 'awaiting_cancellation',
+  CANCELED = 'canceled',
 }
 
 export type TRuleStatus = `${RuleStatusEnum}`;
