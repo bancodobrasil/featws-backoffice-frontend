@@ -74,7 +74,8 @@
     "react-router": "6.0.0-beta.0",
     "react-router-dom": "^6.3.0",
     "react-transition-group": "^4.4.2",
-    "style-loader": "^3.2.1"
+    "style-loader": "^3.2.1",
+    "universal-cookie": "^4.0.4"
   },
   "resolutions": {
     "@types/react": "^17.0.2",
