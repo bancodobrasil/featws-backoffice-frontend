@@ -45,7 +45,10 @@ export default {
     light: colors.red[400],
   },
   link: {
+    contrastText: white,
+    dark: '#3354FD',
     main: '#3354FD',
+    light: '#3354FD',
   },
   text: {
     primary: black,
