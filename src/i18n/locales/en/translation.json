@@ -159,7 +159,7 @@
     "name_other": "Rules",
     "fields": {
       "id": "ID",
-      "title": "Title",
+      "title": "Name",
       "date": "Date",
       "author": "Author",
       "tag": "Tag",
@@ -175,13 +175,25 @@
         "deferred": "Deferred",
         "awaiting_cancellation": "Awaiting cancellation",
         "canceled": "Canceled"
+      },
+      "meta": {
+        "defaultURL": "Default URL",
+        "redirectURL": "Redirect URL"
       }
     },
     "titles": {
       "create": "New $t(rule.name)"
     },
     "placeholders": {
-      "name": "Set a name"
+      "name": "Set a name",
+      "meta": {
+        "defaultURL": "Set a default URL",
+        "redirectURL": "Set a redirect URL"
+      }
+    },
+    "buttons": {
+      "sendCreateRequest": "Send Rule request",
+      "saveDraft": "Send draft"
     },
     "of": "$t(rule.fields.{{field}}) of the Rule",
     "new": "New $t(rule.name)"

@@ -97,7 +97,7 @@ const PageWrapper = ({
     () => [
       {
         field: 'title',
-        headerName: t('rule.fields.title'),
+        headerName: t('rule.fields.name'),
         minWidth: 200,
       },
       {
@@ -173,6 +173,7 @@ const PageWrapper = ({
 
   const handleCreateRuleOk = () => {
     handleCloseCreateRuleDialog();
+    navigate(`/rulesheets/${id}/rules/create`, { state: { rulesheet: record } });
   };
 
   const handleCreateRuleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {

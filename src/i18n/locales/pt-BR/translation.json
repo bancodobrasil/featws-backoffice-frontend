@@ -159,7 +159,7 @@
     "name_other": "Regras",
     "fields": {
       "id": "ID",
-      "title": "Título",
+      "title": "Nome",
       "date": "Data",
       "author": "Autor",
       "tag": "Tag",
@@ -175,13 +175,25 @@
         "deferred": "Deferida",
         "awaiting_cancellation": "Aguardando cancelamento",
         "canceled": "Cancelada"
+      },
+      "meta": {
+        "defaultURL": "URL Padrão",
+        "redirectURL": "URL Desvio"
       }
     },
     "titles": {
       "create": "Nova $t(rule.name)"
     },
     "placeholders": {
-      "name": "Defina um nome"
+      "name": "Defina um nome",
+      "meta": {
+        "defaultURL": "Defina uma URL padrão",
+        "redirectURL": "Defina uma URL de desvio"
+      }
+    },
+    "buttons": {
+      "sendCreateRequest": "Enviar solicitação de Regra",
+      "saveDraft": "Salvar rascunho"
     },
     "of": "$t(rule.fields.{{field}}) da Regra",
     "new": "Nova $t(rule.name)"
