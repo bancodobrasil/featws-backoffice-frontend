@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,6 +11,7 @@ import {
 import RequireAuth from '../../Auth/RequireAuth';
 import { NotificationProvider } from '../../../contexts/NotificationContext';
 import { CancelRules } from '../../../pages/RuleSheet/Cancel';
+import { CreateRule } from '../../../pages/Rule/Create';
 
 export const AppRoutes = () => {
   const { t, i18n } = useTranslation();
@@ -65,79 +58,78 @@ export const AppRoutes = () => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <Container
-        maxWidth="xl"
+      <Box
         sx={{
-          display: 'flex',
+          width: '100%',
           flex: 1,
-          flexDirection: 'column',
-          backgroundColor: '#FFFFFF',
+          boxSizing: 'border-box',
+          paddingLeft: '32px',
+          paddingRight: '32px',
         }}
-        disableGutters
       >
-        <Box
-          sx={{
-            width: '100%',
-            flex: 1,
-            boxSizing: 'border-box',
-            paddingLeft: '32px',
-            paddingRight: '32px',
-          }}
-        >
-          {renderLanguageSwitcher()}
-          <Router>
-            <NotificationProvider>
-              <Routes>
-                <Route index element={<Navigate to="/rulesheets" replace />} />
-                <Route path="rulesheets">
+        {renderLanguageSwitcher()}
+        <Router>
+          <NotificationProvider>
+            <Routes>
+              <Route index element={<Navigate to="/rulesheets" replace />} />
+              <Route path="rulesheets">
+                <Route
+                  index
+                  element={
+                    <RequireAuth>
+                      <ListRuleSheet />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="create"
+                  element={
+                    <RequireAuth permissions={['admin']}>
+                      <CreateRuleSheet />
+                    </RequireAuth>
+                  }
+                />
+                <Route path=":id">
                   <Route
                     index
                     element={
                       <RequireAuth>
-                        <ListRuleSheet />
+                        <ShowRuleSheet />
                       </RequireAuth>
                     }
                   />
                   <Route
-                    path="create"
+                    path="defer"
                     element={
                       <RequireAuth permissions={['admin']}>
-                        <CreateRuleSheet />
+                        <DeferRules />
                       </RequireAuth>
                     }
                   />
-                  <Route path=":id">
+                  <Route
+                    path="cancel"
+                    element={
+                      <RequireAuth permissions={['admin']}>
+                        <CancelRules />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route path="rules">
                     <Route
-                      index
-                      element={
-                        <RequireAuth>
-                          <ShowRuleSheet />
-                        </RequireAuth>
-                      }
-                    />
-                    <Route
-                      path="defer"
-                      element={
-                        <RequireAuth permissions={['admin']}>
-                          <DeferRules />
-                        </RequireAuth>
-                      }
-                    />
-                    <Route
-                      path="cancel"
+                      path="create"
                       element={
                         <RequireAuth permissions={['admin']}>
-                          <CancelRules />
+                          <CreateRule />
                         </RequireAuth>
                       }
                     />
                   </Route>
                 </Route>
-              </Routes>
-            </NotificationProvider>
-          </Router>
-        </Box>
-      </Container>
+              </Route>
+            </Routes>
+          </NotificationProvider>
+        </Router>
+      </Box>
     </Box>
   );
 };
