@@ -9,8 +9,10 @@ export const StatusBullet = ({ status }: { status: string }) => {
       color = '#FFDD64';
       break;
     case RuleStatusEnum.AWAITING_DEFERRAL:
-    case RuleStatusEnum.AWAITING_CANCELLATION:
       color = '#07B4F2';
+      break;
+    case RuleStatusEnum.AWAITING_CANCELLATION:
+      color = '#B414FF';
       break;
     case RuleStatusEnum.DEFERRED:
       color = '#16C559';
