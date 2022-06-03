@@ -16,7 +16,7 @@ export interface IRuleSheet extends IRuleSheetMetadata {
 
 export interface IRule {
   id: string;
-  title: string;
+  name: string;
   date: Date;
   author: string;
   status: TRuleStatus;

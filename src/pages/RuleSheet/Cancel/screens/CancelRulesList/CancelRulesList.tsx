@@ -48,7 +48,7 @@ export const CancelRulesList = ({
     () => [
       {
         field: 'title',
-        headerName: t('rule.fields.title'),
+        headerName: t('rule.fields.name'),
         minWidth: 200,
       },
       {

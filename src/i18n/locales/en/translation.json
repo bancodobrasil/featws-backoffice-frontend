@@ -177,6 +177,13 @@
         "canceled": "Canceled"
       }
     },
+    "titles": {
+      "create": "New $t(rule.name)"
+    },
+    "placeholders": {
+      "name": "Set a name"
+    },
+    "of": "$t(rule.fields.{{field}}) of the Rule",
     "new": "New $t(rule.name)"
   }
 }

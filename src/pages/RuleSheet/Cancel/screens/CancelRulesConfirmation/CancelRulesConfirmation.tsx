@@ -104,8 +104,8 @@ export const CancelRulesConfirmation = ({
         }}
       >
         <RuleField>
-          <span>{t('rule.fields.title')}:</span>
-          <span>{rule.title}</span>
+          <span>{t('rule.fields.name')}:</span>
+          <span>{rule.name}</span>
         </RuleField>
         <RuleField>
           <span>{t('rulesheet.name')}:</span>

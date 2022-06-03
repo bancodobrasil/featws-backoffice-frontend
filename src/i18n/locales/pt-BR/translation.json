@@ -177,6 +177,13 @@
         "canceled": "Cancelada"
       }
     },
+    "titles": {
+      "create": "Nova $t(rule.name)"
+    },
+    "placeholders": {
+      "name": "Defina um nome"
+    },
+    "of": "$t(rule.fields.{{field}}) da Regra",
     "new": "Nova $t(rule.name)"
   }
 }
