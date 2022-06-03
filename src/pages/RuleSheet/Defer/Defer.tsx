@@ -43,7 +43,11 @@ const PageWrapper = ({
   const [code, setCode] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>(
-    record.rules.filter(rule => rule.status === RuleStatusEnum.AWAITING_DEFERRAL),
+    record.rules.filter(
+      rule =>
+        rule.status === RuleStatusEnum.AWAITING_DEFERRAL ||
+        rule.status === RuleStatusEnum.AWAITING_CANCELLATION,
+    ),
   );
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
