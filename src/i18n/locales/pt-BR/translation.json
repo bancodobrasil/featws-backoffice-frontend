@@ -98,6 +98,24 @@
       }
     },
     "dialogs": {
+      "createRule": {
+        "title": "Em qual formato você quer criar sua regra?",
+        "message": "Após escolher o formato, ele não pode ser alterado",
+        "types": {
+          "blueprint": {
+            "title": "Blueprint",
+            "message": "Aqui você pode usar operações lógicas e tem mais liberdade de ação"
+          },
+          "apf": {
+            "title": "APF Mainframe",
+            "message": "Formulário seguindo o formato do APF Mainframe"
+          },
+          "text": {
+            "title": "Editor de texto",
+            "message": "Texto de apoio"
+          }
+        }
+      },
       "defer": {
         "confirmation": {
           "title": "Você tem certeza que quer deferir essa regra?",
@@ -116,6 +134,7 @@
       }
     },
     "buttons": {
+      "createRule": "Criar Regra",
       "deferRule": "Deferir uma $t(rule.name)",
       "defer": "Deferir Regra",
       "defer_other": "Deferir Regras",

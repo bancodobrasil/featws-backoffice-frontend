@@ -1,6 +1,23 @@
 import React, { Suspense, useMemo, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { Box, Button, Chip, Grid, Link, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  FormControl,
+  Grid,
+  IconButton,
+  Link,
+  MenuItem,
+  Paper,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { NavigateFunction, useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IRule, IRuleSheet } from '../../../interfaces';
@@ -13,6 +30,44 @@ import Loading from '../../../components/Loading';
 import ErrorBoundary, { ErrorFallbackWithBreadcrumbs } from '../../../components/ErrorBoundary';
 import { getRuleSheet } from '../../../api/services/RuleSheets';
 import { WrapPromise } from '../../../utils/suspense/WrapPromise';
+
+const CustomRadio = ({
+  value,
+  disabled,
+  title,
+  message,
+}: {
+  value: string;
+  disabled?: boolean;
+  title: string;
+  message: string;
+}): JSX.Element => (
+  <Box sx={{ pt: '14px', pb: '12px', pl: '18px', pr: '16px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Radio
+        value={value}
+        disabled={disabled}
+        icon={<RadioButtonUncheckedIcon color={disabled ? 'disabled' : 'primary'} />}
+        checkedIcon={<RadioButtonCheckedIcon sx={{ color: '#3354FD' }} />}
+        sx={{ p: '0' }}
+      />
+      <Typography
+        variant="h5"
+        component="p"
+        sx={{ ml: '9px', height: '24px', color: disabled ? 'rgba(0, 0, 0, 0.26)' : 'text.primary' }}
+      >
+        {title}
+      </Typography>
+    </Box>
+    <Typography
+      variant="body1"
+      component="p"
+      sx={{ ml: '31px', color: disabled ? 'rgba(0, 0, 0, 0.26)' : '#6C7077' }}
+    >
+      {message}
+    </Typography>
+  </Box>
+);
 
 const PageWrapper = ({
   id,
@@ -34,6 +89,9 @@ const PageWrapper = ({
   const [status, setStatus] = useState<string | undefined>('');
   const [author, setAuthor] = useState<string | undefined>('');
   const [rules, setRules] = useState<IRule[]>(record.rules);
+
+  const [isDialogCreateRuleOpen, setIsDialogCreateRuleOpen] = useState<boolean>(false);
+  const [createRuleType, setCreateRuleType] = useState<string>('apf');
 
   const columns: GridColDef[] = useMemo(
     () => [
@@ -105,6 +163,22 @@ const PageWrapper = ({
     setRules(listRule);
   };
 
+  const handleOpenCreateRuleDialog = () => {
+    setIsDialogCreateRuleOpen(true);
+  };
+
+  const handleCloseCreateRuleDialog = () => {
+    setIsDialogCreateRuleOpen(false);
+  };
+
+  const handleCreateRuleOk = () => {
+    handleCloseCreateRuleDialog();
+  };
+
+  const handleCreateRuleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCreateRuleType(event.target.value);
+  };
+
   const renderDescription = () =>
     record.description.split('\n').map((line, index) => (
       <Typography
@@ -120,6 +194,129 @@ const PageWrapper = ({
         {line}
       </Typography>
     ));
+
+  const renderCreateRuleDialog = () => (
+    <Dialog
+      onClose={handleCloseCreateRuleDialog}
+      aria-labelledby="confirmation-dialog-title"
+      open={isDialogCreateRuleOpen}
+      sx={{
+        '& .MuiDialog-paper': {
+          padding: '16px',
+        },
+      }}
+    >
+      <Box
+        id="confirmation-dialog-title"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          '& h3': {
+            flex: 1,
+            margin: 0,
+            fontWeight: 700,
+            fontSize: 22,
+          },
+        }}
+      >
+        <h3>{t('rulesheet.dialogs.createRule.title')}</h3>
+        <IconButton size="small" onClick={handleCloseCreateRuleDialog} sx={{ ml: '16px' }}>
+          <CancelIcon fontSize="small" />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '16px',
+          marginBottom: '32px',
+          fontSize: 16,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {t('rulesheet.dialogs.createRule.message')}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="female"
+            name="radio-buttons-group"
+            value={createRuleType}
+            onChange={handleCreateRuleTypeChange}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                mt: '32px',
+                mb: '8px',
+                border: `1px solid ${createRuleType === 'blueprint' ? '#3354FD' : '#B4B9C1'}`,
+                borderRadius: '4px',
+              }}
+            >
+              <CustomRadio
+                value="blueprint"
+                disabled
+                title={t('rulesheet.dialogs.createRule.types.blueprint.title')}
+                message={t('rulesheet.dialogs.createRule.types.blueprint.message')}
+              />
+            </Paper>
+            <Paper
+              elevation={0}
+              sx={{
+                mb: '8px',
+                border: `1px solid ${createRuleType === 'apf' ? '#3354FD' : '#B4B9C1'}`,
+                borderRadius: '4px',
+              }}
+            >
+              <CustomRadio
+                value="apf"
+                title={t('rulesheet.dialogs.createRule.types.apf.title')}
+                message={t('rulesheet.dialogs.createRule.types.apf.message')}
+              />
+            </Paper>
+            <Paper
+              elevation={0}
+              sx={{
+                mb: '8px',
+                border: `1px solid ${createRuleType === 'text' ? '#3354FD' : '#B4B9C1'}`,
+                borderRadius: '4px',
+              }}
+            >
+              <CustomRadio
+                value="text"
+                disabled
+                title={t('rulesheet.dialogs.createRule.types.text.title')}
+                message={t('rulesheet.dialogs.createRule.types.text.message')}
+              />
+            </Paper>
+          </RadioGroup>
+        </FormControl>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Button
+          autoFocus
+          onClick={handleCloseCreateRuleDialog}
+          color="secondary"
+          variant="contained"
+        >
+          {t('buttons.cancel')}
+        </Button>
+        <Button
+          onClick={handleCreateRuleOk}
+          color="primary"
+          variant="contained"
+          sx={{
+            marginLeft: '16px',
+          }}
+        >
+          {t('rulesheet.buttons.createRule')}
+        </Button>
+      </Box>
+    </Dialog>
+  );
 
   const onPageSizeChangeHandler = (newPageSize: number) => {
     setPageSize(newPageSize);
@@ -169,7 +366,7 @@ const PageWrapper = ({
           }}
         >
           <AuthorizedComponent permissions={['admin']}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleOpenCreateRuleDialog}>
               + {t('rule.new')}
             </Button>
           </AuthorizedComponent>
@@ -336,6 +533,7 @@ const PageWrapper = ({
           />
         </Grid>
       </Grid>
+      {renderCreateRuleDialog()}
     </Box>
   );
 };

@@ -98,6 +98,24 @@
       }
     },
     "dialogs": {
+      "createRule": {
+        "title": "In what format do you want to create your rule?",
+        "message": "After choosing the format, it cannot be changed",
+        "types": {
+          "blueprint": {
+            "title": "Blueprint",
+            "message": "Here you can use logical operations and have more freedom of action"
+          },
+          "apf": {
+            "title": "APF Mainframe",
+            "message": "Form following the APF Mainframe format"
+          },
+          "text": {
+            "title": "Text editor",
+            "message": "Supporting text"
+          }
+        }
+      },
       "defer": {
         "confirmation": {
           "title": "Are you sure you want to defer this rule?",
@@ -116,6 +134,7 @@
       }
     },
     "buttons": {
+      "createRule": "Create Rule",
       "deferRule": "Defer a $t(rule.name)",
       "defer": "Defer Rule",
       "defer_other": "Defer Rules",
